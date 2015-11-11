@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<title>|sname| |title|</title>
+	<link href="|site|theme/|theme|/images/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+	<link rel="stylesheet" href="|site|theme/|theme|/css/template.css" type="text/css">
+	<link rel="stylesheet" href="|site|theme/|theme|/css/items.css" type="text/css">
+	<!--[if lt IE 9]>
+		<script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<style>
+			#username, .inputbox
+			{
+				padding-top:8px;
+			}
+		</style>		
+	<![endif]-->
+
+	<style type="text/css">
+
+		|global_css|
+
+	</style>
+
+	<script src="|site|theme/|theme|/js/jquery.tools.min.js"></script>
+	<script src="|site|theme/|theme|/js/script.js"></script>
+	<script src="|site|theme/scripts/mwcapi.js"></script>
+	<script type="text/javascript" language="javascript" src="|site|theme/scripts/apprise-v2.js"></script>
+	<link rel="stylesheet" type="text/css" href="|site|theme/css/apprise-v2.css">
+
+
+	<script type="text/javascript" language="javascript" src="|site|theme/scripts/jquery.qtip.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="|site|theme/css/jquery.qtip.css">
+	<link rel="stylesheet" type="text/css" href="|site|theme/css/jquery-ui.css">
+
+
+</head>
+<body>
+<div class="main">
+	<header>
+		<!--<div class="header-wrapp">
+			<div class="banner">
+				ГОЛОСУЙ НА L2TOP
+				<img src="none" alt="l2top">
+			</div>
+		</div>-->
+	</header>
+	<div class="wrappers">
+	<div class="wrapper">
+	<div class="wrapp">
+	<section>
+		<aside class="left">
+			<nav class="menu-nav">
+				<ul class="menu">
+					|plugin_mainmenu|
+				</ul>
+			</nav>
+			<div class="server-top">|plugin_servertop|</div>
+			<div class="discus">
+				<ul>|plugin_discus|</ul>
+			</div>
+
+		</aside>
+		<aside class="right">
+			<div class="login-block">|plugin_login|</div>
+			<div class="status-block">|plugin_qinfo|</div>
+			<div class="action-block">|plugin_acblock|</div>
+			<div class="copyleft">
+			<a href="http://dkarts.ru/" target="_blank"><img src="|site|theme/|theme|/images/dkarts.png" alt="Design by Dkarts"></a>
+			</div>
+		</aside>
+		<article>
+		|plugin_eventblock|
+		    |page|
+
+<!--<div class="page-navi">
+				<a class="navi-left" href="#!">&lt; Назад</a>
+				<ul>
+					<li><a href="#!">1</a></li>
+					<li><a href="#!">2</a></li>
+					<li><a href="#!">3</a></li>
+					<li><a href="#!">4</a></li>
+					<li><a href="#!">5</a></li>
+					<li><a href="#!">6</a></li>
+					<li><a href="#!">7</a></li>
+				</ul>
+				<a class="navi-right" href="#!">Далее &gt;</a>
+			</div> -->
+		</article>
+	</section>
+	</div>
+	</div>
+	</div>
+	<footer>
+		<div class="wrapp-footer">
+			<div class="copyright">
+				<span>&copy; 2012</span> - <a href="/">Thanatos.pro.</a><br>
+				<i>Все права защищены.</i>
+			</div>
+		</div>
+	</footer>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		$('.itemshows').qtip({
+			content: {
+				text: function(event, api) {
+					$.ajax({
+						url: api.elements.target.attr('rel') // Use data-url attribute for the URL
+					})
+							.then(function(content) {
+								// Set the tooltip content upon successful retrieval
+								api.set('content.text', content);
+							}, function(xhr, status, error) {
+								// Upon failure... set the tooltip content to the status and error value
+								api.set('content.text', status + ': ' + error);
+							});
+
+					return 'Loading...'; // Set some initial text
+				}
+			},
+			style:{
+				def: false
+			},
+			position:{
+				viewport: $(window)//,
+				//target: 'mouse' // Track the mouse as the positioning target
+
+			}
+		});
+	});
+</script>
+</body>
+</html>

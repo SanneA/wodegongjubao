@@ -1,0 +1,36 @@
+.top100Head{
+    display: inline-block;
+    text-align: center;
+    padding: 3px 1px;
+    border: 1px solid black
+}
+
+.top100Head:hover{
+    color: rgba(255, 221, 74, 0.63);
+    background-color: rgba(0,88,105,0.55);
+    cursor: pointer;
+}
+.charstoptable{
+    width: 100%;
+
+}
+.charstoptable th{
+    background-color: #002b36;
+    height:17px;
+    border: 1px solid #00131d;
+}
+
+.charstoptable tbody tr{
+    text-align: center;
+
+}
+
+.charstoptable tbody td {
+    border: 1px solid rgb(0, 12, 24);
+    height:17px;
+}
+
+.charstoptable tbody tr:hover{
+    color: rgba(255, 221, 74, 0.63);
+    background-color: rgba(0,88,105,0.55);
+}

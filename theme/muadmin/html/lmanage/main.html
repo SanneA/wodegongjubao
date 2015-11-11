@@ -1,0 +1,69 @@
+<table class="table table-striped table-bordered table-hover" style="min-width: 80%;margin: 0 auto;">
+    <thead>
+    <tr>
+        <th colspan="3">|l_filelist| |langfileslist| <input type="button" class="button add" value="|l_btadd|" onclick="lmanInfo(document.getElementById('selFolder').value,'-')"> </th>
+    </tr>
+    <tr>
+        <th>|l_constname|</th>
+        <th>|l_constval|</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody id="langcontent"></tbody>
+</table>
+<script type="text/javascript">
+    $(document).ready(function(){
+        lmanfilter();
+    });
+
+    function lmanfilter()
+    {
+        genIn({
+            element:"langcontent",
+            address:"|site|control.php?p=lmanage&a=genvals&bg=1&fid="+document.getElementById("selFolder").value
+        });
+    }
+
+    function lmanInfo(fid,name)
+    {
+
+        $("#alldialogbox").dialog({
+            open: function(){
+                genIn({
+                    element:"alldialogbox",
+                    address:"|site|control.php?p=lmanage&a=edit&bg=1&fid="+fid+"&pname="+name
+                });
+            },
+            modal:true,
+            width:480,
+            buttons:{
+                "|l_btsave|":function(){
+                    genIn({
+                        noresponse:true,
+                        address:"|site|control.php?p=lmanage&a=applyed&bg=1&fid="+fid,
+                        type:'POST',
+                        data:$("#aedit_"+fid).serialize(),
+                        callback: function(){
+                            lmanfilter();
+                        }
+                    });
+                    $(this).dialog('close');
+                },
+                "|l_btclose|":function(){
+                    $(this).dialog('close');
+                }
+            }
+        })
+    }
+
+    function dellpos(fid,name)
+    {
+        genIn({
+            element:"alldialogbox",
+            address:"|site|control.php?p=lmanage&a=del&bg=1&fid="+fid+"&pname="+name,
+            callback: function(){
+                lmanfilter();
+            }
+        });
+    }
+</script>

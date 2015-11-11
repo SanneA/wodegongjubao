@@ -1,0 +1,1 @@
+<?php $lang["globalAdmin"]="Глобальный Администратор"; $lang["g_admins"]="Администратор"; $lang["g_user"]="Пользователь"; $lang["g_all"]="Все"; $lang["g_guest"]="Гость";  

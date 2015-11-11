@@ -1,0 +1,147 @@
+<table class="table table-striped table-bordered table-hover" style="min-width: 80%;margin: 0 auto;">
+    <thead>
+    <tr>
+        <td colspan="3" style="text-align: center">
+            <form id="registerplgs">
+                |lnonpl| |nrlist| <input type="button" class="button add" value="|regplug|" onclick="registerPlugin();">
+                <input type="button" class="button close" value="|l_btapplch|" onclick="clearcache();">
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <th>|l_hname|</th>
+        <th>|l_hstate|</th>
+        <th>|l_cache|</th>
+    </tr>
+    </thead>
+    <tbody id="pluginscontent"></tbody>
+</table>
+
+<div id="pluginBox_" style="display: none;"></div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        genIn({
+            element: "pluginscontent",
+            address: "|site|control.php?p=apman&a=getlist&bg=1"
+        });
+    });
+
+    function clearcache()
+    {
+        genIn({
+            noresponse:true,
+            address:"|site|control.php?p=apman&a=clearcache&bg=1",
+            callback:function(){
+                Apprise('|l_allsv|');
+            }
+        });
+    }
+
+    function registerPlugin()
+    {
+        genIn({
+            noresponse:true,
+            data: $("#registerplgs").serialize(),
+            address: "|site|control.php?p=apman&a=register&bg=1",
+            callback: function(response){
+
+                var seler  = document.getElementById("newplgns").options[document.getElementById('newplgns').selectedIndex];
+                document.getElementById("newplgns").removeChild(seler);
+
+                genIn({
+                    element: "pluginscontent",
+                    address: "|site|control.php?p=apman&a=getlist&bg=1"
+                });
+            }
+        });
+    }
+
+    function showGroups(id)
+    {
+        genIn({
+            element: "inplgroup_"+id,
+            address: "|site|control.php?p=apman&a=showgroup&id="+id+"&bg=1"
+        });
+    }
+
+    function addToPlugin(obj,id)
+    {
+        genIn({
+            address:"|site|control.php?p=apman&a=addgrp&bg=1&id="+id+"&gp="+obj.value,
+            noresponse:true,
+            callback:function(response)
+            {
+                showGroups(id);
+                var seler  = obj.options[obj.selectedIndex];
+                obj.removeChild(seler);
+                obj.options[obj.options.length-1].selected=true;
+            }
+        });
+    }
+
+    function pluginInfo(id)
+    {
+        $("#alldialogbox").dialog({
+            open: function(){
+                genIn({
+                    element:"alldialogbox",
+                    address:"|site|control.php?p=apman&a=info&bg=1&id="+id
+                });
+            },
+            modal:true,
+            width:600,
+            height:350,
+            buttons:{
+                "|l_btadd|":function(){
+                    genIn({
+                        address:"|site|control.php?p=apman&a=applyinfo&bg=1&id="+id,
+                        noresponse:true,
+                        data:$("#editplugin_"+id).serialize(),
+                        type:'POST',
+                        callback: function(response)
+                        {
+                            genIn({
+                                element: "pluginscontent",
+                                address: "|site|control.php?p=apman&a=getlist&bg=1"
+                            });
+                            $("#alldialogbox").dialog('close');
+                        }
+                    });
+                },
+                "|l_btdel|":function(){
+                    $( "#pluginBox_").empty();
+                    $( "#pluginBox_").append("|l_pdel|");
+                    $( "#pluginBox_" ).dialog({
+                        resizable: false,
+                        height:180,
+                        modal: true,
+                        buttons: {
+                            "|l_y|": function() {
+                                genIn({
+                                    noresponse:true,
+                                    address:"|site|control.php?p=apman&a=delplugin&bg=1&id="+id,
+                                    callback:function(response){
+                                        console.log(response);
+                                        genIn({
+                                            element:"pluginscontent",
+                                            address: "|site|control.php?p=apman&a=getlist&bg=1"
+                                        });
+                                    }
+                                });
+                                $( this ).dialog( "close" );
+                            },
+                            "|l_n|": function() {
+                                $( this ).dialog( "close" );
+                            }
+                        }
+                    });
+
+                    $("#alldialogbox").dialog('close');
+                },
+                "|l_pclose|":function(){
+                    $("#alldialogbox").dialog('close');
+                }
+            }
+        });
+    }
+</script>

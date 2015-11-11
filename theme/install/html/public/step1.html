@@ -1,0 +1,41 @@
+
+<tr>
+    <td>Connection Type</td>
+    <td><select name="conType">
+        <option value="1">MS SQL</option>
+        <option value="2">MS SQL PDO</option>
+        <option value="3">MS SQL ODBC</option>
+        <option value="4">MySQL</option>
+        <option value="5">MySQL PDO</option>
+    </select></td>
+</tr>
+<tr>
+    <td>DB host</td>
+    <td><input type="text" name="db_host"></td>
+</tr>
+<tr>
+    <td>DB user</td>
+    <td><input type="text" name="db_usr"></td>
+</tr>
+<tr>
+    <td>DB password</td>
+    <td><input type="text" name="db_pwd"></td>
+</tr>
+<tr>
+    <td>DB Name</td>
+    <td><input type="text" name="db_name"></td>
+</tr>
+<tr>
+    <td colspan="2" id="checkConnect"><input type="button" value="Next >" onclick='genIn({
+                element:"checkConnect",
+                address:"|site|install.php?st=2",
+                type:"POST",
+                        data:$("#mainform").serialize(),
+                        loadicon:"Checking connecton..."
+                        })'></td>
+</tr>
+<tr>
+    <td colspan="2"></td>
+</tr>
+
+

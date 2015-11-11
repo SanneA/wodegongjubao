@@ -1,0 +1,28 @@
+<div style="margin: 25px 18px;">
+    <div>
+        <span class="top100Head" style="width:13%;" onclick="showtop('DWSMGM');">DW/SM/GM</span>
+        <span class="top100Head" style="width:13%;" onclick="showtop('DKBKBM');">DK/BK/BM</span>
+        <span class="top100Head" style="width:13%;" onclick="showtop('ElfMEHE');">Elf/ME/HE</span>
+        <span class="top100Head" style="width:13%;" onclick="showtop('SBSDMS');">S/BS/DMS</span>
+        <span class="top100Head" style="width:9%;" onclick="showtop('DLLE');">DL/LE</span>
+        <span class="top100Head" style="width:9%;" onclick="showtop('RFFM');">RF/FM</span>
+        <span class="top100Head" style="width:9%;" onclick="showtop('MGDM');">MG/DM</span>
+        <span class="top100Head" style="width:9%;" onclick="showtop('All');">All</span>
+    </div>
+    <div style="width:100%; margin-top:5px;" id="chartops">
+
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        showtop('All');
+    });
+
+    function showtop(id)
+    {
+        genIn({
+            element:'chartops',
+            address:'|site|pagebg/top100/' + id + '.html'
+        });
+    }
+</script>

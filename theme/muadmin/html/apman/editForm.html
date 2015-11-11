@@ -1,0 +1,37 @@
+<form id="editplugin_|pid|">
+    <table>
+        <tr>
+            <td style="height: 30px;">|l_plname|</td>
+            <td><input type="text" name="pname" style="width: 100px;" maxlength="50" value="|pname|"></td>
+            <td style="padding-left:10px;">|l_addtogrp| |grplist|</td>
+        </tr>
+        <tr>
+            <td style="height: 30px;">|l_plmname|</td>
+            <td><input type="text" name="mname" placeholder="|l_notnes|" value="|mname|" style="width: 100px;" maxlength="50"></td>
+            <td rowspan="4" style="padding-left:10px;">
+                <div id="inplgroup_|pid|" style="height: 150px; border: 1px solid gray; border-radius: 3px;padding:0 5px;overflow-y: scroll"></div>
+            </td>
+        </tr>
+        <tr>
+            <td style="height: 30px;">|l_pcache|</td>
+            <td><input type="text" name="pcache" style="width: 100px;" value="|pcache|"></td>
+        </tr>
+        <tr>
+            <td style="height: 30px;">|l_seq|</td>
+            <td><input type="text" name="seq" style="width: 100px;" value="|seq|"></td>
+        </tr>
+        <tr>
+            <td style="height: 30px;">|l_plstate|</td>
+            <td>|statelist|</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+</form>
+<script type="text/javascript">
+    $(document).ready(function(){
+        showGroups(|pid|);
+    })
+</script>

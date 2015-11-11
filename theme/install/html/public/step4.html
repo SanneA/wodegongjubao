@@ -1,0 +1,19 @@
+<tr>
+    <td>Admin Login</td>
+    <td><input type="text" name="aname"></td>
+</tr>
+<tr>
+    <td>Admin pwd</td>
+    <td><input type="text" name="apw"></td>
+</tr>
+<tr>
+    <td colspan="2">
+        <input type="button" value="Next >" onclick='genIn({
+                element:"maintebody",
+                address:"|site|install.php?st=5",
+                type:"POST",
+                        data:$("#mainform").serialize(),
+                        loadicon:"loading..."
+                        })'>
+    </td>
+</tr>
