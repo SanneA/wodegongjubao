@@ -242,4 +242,17 @@ class MuonlineUser extends Model
         }
     }
 
+    /**
+     * возвращает сундучек из игры
+     * @param $user
+     * @param $len
+     * @return string
+     * @throws ADODB_Exception
+     */
+    public function getWH($user,$len)
+    {
+        $r = $this->db->query("SELECT CONVERT(VARCHAR(".(120*$len)."), Items, 2) as Items FROM warehouse WHERE AccountID='$user'")->FetchRow();
+        return strtoupper($r["Items"]);
+    }
+
 }
