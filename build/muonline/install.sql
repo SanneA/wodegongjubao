@@ -413,7 +413,7 @@ CREATE TABLE [dbo].[mwc_web_shop](
 	[col_isPVP] [char](1) NULL,
 	[col_isHarmony] [char](1) NULL,
 	[col_eq] [varchar](50) NULL,
-	col_prise] [bigint] NULL,
+	[col_prise] [bigint] NULL,
 	[col_priseType] [smallint] NULL,
 	[col_isMy] [char](1) NULL,
 	[col_user] [varchar](10) NULL,
