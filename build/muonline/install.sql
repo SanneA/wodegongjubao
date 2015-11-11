@@ -61,12 +61,12 @@ INSERT INTO mwc_menu (id,mtitle,mtype,link,server,modul,col_Seq) VALUES
 (17,'auto_title1',4,'page/news.html',0,'news',1),
 (19,'auto_title13',4,'page/register.html',0,'register',2),
 (20,'auto_title16',5,'page/bank.html',0,'bank',0),
-(21,'auto_title14',5,'page/editchars.html',0,'editchars',0),
+(21,'auto_title14',3,'?p=editchar',0,'editchars',4),
 (22,'auto_title17',5,'page/freepoints.html',0,'freepoints',0),
 (23,'auto_title19',4,'page/top100.html',0,'top100',3),
 (24,'auto_title20',4,'page/topguild.html',0,'topguild',4),
-(24,'auto_title15',3,'?p=iexport',0,'iexport',7),
-(24,'auto_title22',5,'page/webshop.html',0,'webshop',4);
+(25,'auto_title15',3,'?p=iexport',0,'iexport',7),
+(26,'auto_title22',5,'page/webshop.html',0,'webshop',4);
 SET IDENTITY_INSERT [mwc_menu] OFF;
 
 SET IDENTITY_INSERT [mwc_pages] ON;
@@ -93,7 +93,8 @@ INSERT INTO mwc_pages (id,pname,ptitle,ppath,caching,ison,server,mname,mpath,tbu
 (30, 'topguild', 'auto_title20','controllers',60,1,0,'m_topguild','models','muonline'),
 (31, 'iexport', 'auto_title15','mu/c',0,1,0,'m_iexport','mu/m','muadmin'),
 (32, 'item', 'auto_title21','controllers',0,1,0,'m_item','models','muonline'),
-(33, 'webshop', 'auto_title22','controllers',0,1,0,'m_webshop','models','muonline');
+(33, 'webshop', 'auto_title22','user_c',0,1,0,'m_webshop','user_m','muonline'),
+(34, 'webmarket', 'auto_title22','controllers',0,1,0,'m_webmarket','models','muonline');
 
 SET IDENTITY_INSERT [mwc_pages] OFF;
 
@@ -132,7 +133,8 @@ INSERT INTO mwc_access (aid,pageId,goupId,server) VALUES
 (52,31,1,0),
 (53,31,3,0),
 (54,32,4,0),
-(55,33,5,0);
+(55,33,5,0),
+(56,34,4,0);
 SET IDENTITY_INSERT [mwc_access] OFF;
 
 
@@ -295,6 +297,102 @@ END
 GO
 
 
+-- =============================================
+-- Author:		epmnak
+-- Create date: 30.10.2013
+-- Description:	замена вещи по ид
+-- =============================================
+CREATE PROCEDURE [dbo].[MWC_REPLACEWHNUM32]
+ @AccountID varchar(10), -- акк
+ @ItemNum int,           -- номер вещи, на которую надо положить
+ @ItemTo varchar(32)     -- что положить
+     AS
+BEGIN
+    declare @res char(1);
+	declare @vinv varchar(3840);
+	 SET NOCOUNT ON;
+	set @ItemNum = @ItemNum * 32 +1 ;
+	set @res =(SELECT ConnectStat from MEMB_STAT WHERE memb___id = @AccountID);
+	IF @res = 0
+	BEGIN
+	  set @vinv = CONVERT(varchar(3840),(SELECT Items FROM warehouse WHERE AccountID = @AccountID),2);
+
+	 IF (LEN(@vinv)>@ItemNum)
+	 BEGIN
+
+		BEGIN TRANSACTION
+
+			UPDATE warehouse SET Items = CONVERT(varbinary(3840),STUFF(@vinv,@ItemNum,32,@ItemTo),2) WHERE AccountID = @AccountID;
+
+			IF @@Error<>0
+			BEGIN
+				ROLLBACK TRANSACTION;
+				SET @res = 1;
+			END
+		ELSE
+			BEGIN
+				COMMIT TRANSACTION
+			END
+		END
+	END
+	ELSE
+	BEGIN
+		SET @res = 1;
+	END
+    SELECT @res as statez;
+END
+
+GO
+
+
+-- =============================================
+-- Author:		epmnak
+-- Create date: 30.10.2013
+-- Description:	замена вещи по ид
+-- =============================================
+CREATE PROCEDURE [dbo].[MWC_REPLACEWHNUM64]
+ @AccountID varchar(10), -- акк
+ @ItemNum int,           -- номер вещи, на которую надо положить
+ @ItemTo varchar(64)     -- что положить
+     AS
+BEGIN
+    declare @res char(1);
+	declare @vinv varchar(7680);
+	 SET NOCOUNT ON;
+	set @ItemNum = @ItemNum * 64 +1 ;
+	set @res =(SELECT ConnectStat from MEMB_STAT WHERE memb___id = @AccountID);
+	IF @res = 0
+	BEGIN
+	  set @vinv = CONVERT(varchar(7680),(SELECT Items FROM warehouse WHERE AccountID = @AccountID),2);
+
+	 IF (LEN(@vinv)>@ItemNum)
+	 BEGIN
+
+		BEGIN TRANSACTION
+
+			UPDATE warehouse SET Items = CONVERT(varbinary(7680),STUFF(@vinv,@ItemNum,64,@ItemTo),2) WHERE AccountID = @AccountID;
+
+			IF @@Error<>0
+			BEGIN
+				ROLLBACK TRANSACTION;
+				SET @res = 1;
+			END
+		ELSE
+			BEGIN
+				COMMIT TRANSACTION
+			END
+		END
+	END
+	ELSE
+	BEGIN
+		SET @res = 1;
+	END
+    SELECT @res as statez;
+END
+
+GO
+
+
 SET ANSI_PADDING ON
 GO
 
@@ -315,9 +413,10 @@ CREATE TABLE [dbo].[mwc_web_shop](
 	[col_isPVP] [char](1) NULL,
 	[col_isHarmony] [char](1) NULL,
 	[col_eq] [varchar](50) NULL,
-	[col_prise] [int] NULL,
+	col_prise] [bigint] NULL,
 	[col_priseType] [smallint] NULL,
 	[col_isMy] [char](1) NULL,
+	[col_user] [varchar](10) NULL,
  CONSTRAINT [PK_mwc_web_shop] PRIMARY KEY CLUSTERED
 (
 	[col_shopID] ASC

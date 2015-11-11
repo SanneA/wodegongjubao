@@ -2672,116 +2672,21 @@ class rItem
     }
 
     /**
-     * функция поиска свободного места в сундуке
-     * @param $item_hex (string) хекс сундука
-     * @param $x
-     * @param $y
-     * @param $itembd краткая база вещей
-     * @return int номер позиции для вещи
+     * @param string $item_hex
+     * @param int $x
+     * @param int $y
+     * @param array $itembd
+     * @param int $size
+     * @param int $col_i
+     * @return int
      */
-    static public function smartsearch64($item_hex,$x,$y,$itembd)
-    {
-
-        if(empty($x) || empty($y) || $x<=0 || $y<=0)
-            return -1;
-        $item_hex=strtoupper($item_hex);
-        $col_i = (int)strlen($item_hex)/64;
-        //$col_i = 120;
-
-        $itemarr = array();
-        for ($i=0;$i<$col_i;$i++)
-        {
-            if (!isset($itemarr[$i]) || strlen($itemarr[$i])==64)
-                $itemarr[$i] = substr($item_hex,$i*64, 64);
-
-            if ($itemarr[$i]!="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF" && strlen($itemarr[$i])==64)
-            {
-                $it["id"] = hexdec(substr($itemarr[$i],0,2)); // ID
-                $it["group"] = hexdec(substr($itemarr[$i],18,1)); // group
-              //  $xin = substr($itembd[$it["group"]][$it["id"]][1],0,1);
-              //  $yin = substr($itembd[$it["group"]][$it["id"]][1],1,1);
-
-                if ($it["group"] == 7 || ($it["group"]>=9 && $it["group"]<=11 && $it["id"]!=128) || $it["group"]==15)
-                {
-                    $xin = substr($itembd[$it["group"]][0][1],0,1);
-                    $yin = substr($itembd[$it["group"]][0][1],1,1);
-                }
-                else
-                {
-                    $xin = substr($itembd[$it["group"]][$it["id"]][1],0,1);
-                    $yin = substr($itembd[$it["group"]][$it["id"]][1],1,1);
-                }
-                $j=$xin*$yin;
-                $str=$i;
-                $x1=0;
-                while($j>0)
-                {
-                    if($x1<=$xin)
-                    {
-                        $itemarr[$str]="not_empty";
-                        $str++;
-                        $x1++;
-                        if($x1==$xin)
-                        {
-                            $str +=(8-$xin);
-                            $x1=0;
-                        }
-                    }
-                    $j--;
-                }
-            }
-        }
-        $c=0;
-
-        for ($i=0;$i<$col_i;$i++)
-        {
-            $j = $x * $y;
-            $str = $i;
-            $x1=0;
-            $found=0;
-            $ind = ((floor($i/8)+1)*8)-1; // правый конец строки
-            $raz = $i+($x-1);
-
-            while($j>0)
-            {
-                if($x1<=$x)
-                {
-                    if (strlen($itemarr[$str])==64 && $str<$col_i && $raz<=$ind) $found++; else {$j=0;$found=0;}
-                    $str++;
-                    $x1++;
-                    if($x1==$x)
-                    {
-                        $str +=(8-$x);
-                        $ind+=8;
-                        $x1=0;
-                    }
-                }
-                $j--;
-            }
-            if ($found == $x*$y && ($i-$col_i)>0)
-            {
-               // unset($itemarr);
-                return $i;
-            }
-        }
-        unset($itemarr);
-        return -1;
-    }
-
-
     static public function search($item_hex,$x,$y,$itembd,$size,$col_i)
     {
-        if(empty($x) || empty($y) || $x<=0 || $y<=0 || empty($itembd))
+        if(empty($x) || empty($y) || empty($itembd))
             return -1;
-        $item_hex=strtoupper($item_hex);
-       // $col_i = (int)strlen($item_hex)/$size;
 
-        $emptyItm="";
-        for ($z_ =0;$z_<$size;$z_++)
-        {
-            $emptyItm.="F";
-        }
-        //$col_i = 120;
+        $emptyItm = str_pad("", $size,"F",STR_PAD_BOTH);
+
 
         $itemarr = array();
         for ($i=0;$i<$col_i;$i++)
@@ -2839,7 +2744,7 @@ class rItem
             {
                 if($x1<=$x)
                 {
-                    if (strlen($itemarr[$str])==64 && $str<$col_i && $raz<=$ind) $found++; else {$j=0;$found=0;}
+                    if (strlen($itemarr[$str]) == $size && $str<$col_i && $raz<=$ind) $found++; else {$j=0;$found=0;}
                     $str++;
                     $x1++;
                     if($x1==$x)
@@ -2859,99 +2764,6 @@ class rItem
         return -1;
     }
 
-    /**
-     * функция поиска свободного места в сундуке
-     * @param $item_hex (string) хекс сундука
-     * @param $x
-     * @param $y
-     * @param $itembd краткая база вещей
-     * @return int номер позиции для вещи
-     */
-    static public function smartsearch32($item_hex,$x,$y,$itembd)
-    {
-        if(empty($x) || empty($y) || $x<=0 || $y<=0 || empty($itembd))
-            return -1;
-      //  if ($tt==0)
-       // {
-       //     if (substr($item_hex,0,2)=='0x') $item_hex=substr($item_hex,2);
-       //     else $item_hex=strtoupper(urlencode(bin2hex($item_hex)));
-       // }
-        $item_hex=strtoupper($item_hex);
-        $col_i = strlen($item_hex)/32-1;
-        //$col_i = 120;
-
-        $itemarr = array();
-        for ($i=0;$i<$col_i;$i++)
-        {
-            if (!isset($itemarr[$i]) || strlen($itemarr[$i])==32)$itemarr[$i] = substr($item_hex,$i*32, 32);
-            if ($itemarr[$i]!="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF" && strlen($itemarr[$i])==32)
-            {
-                $it["id"] = hexdec(substr($itemarr[$i],0,2)); // ID
-                $it["group"] = hexdec(substr($itemarr[$i],18,1)); // group
-
-                if ($it["group"] == 7 || ($it["group"]>=9 && $it["group"]<=11 && $it["id"]!=128) || $it["group"]==15)
-                {
-                    $xin = substr($itembd[$it["group"]][0][1],0,1);
-                    $yin = substr($itembd[$it["group"]][0][1],1,1);
-                }
-                else
-                {
-                    $xin = substr($itembd[$it["group"]][$it["id"]][1],0,1);
-                    $yin = substr($itembd[$it["group"]][$it["id"]][1],1,1);
-                }
-                $j=$xin*$yin;
-                $str=$i;
-                $x1=0;
-                while($j>0)
-                {
-                    if($x1<=$xin)
-                    {
-                        $itemarr[$str]="not_empty";
-                        $str++;
-                        $x1++;
-                        if($x1==$xin)
-                        {
-                            $str +=(8-$xin);
-                            $x1=0;
-                        }
-                    }
-                    $j--;
-                }
-            }
-        }
-        $c=0;
-
-        for ($i=0;$i<$col_i;$i++)
-        {
-            $j = $x * $y;
-            $str = $i;
-            $x1=0;
-            $found=0;
-            $ind = ((floor($i/8)+1)*8)-1; // правый конец строки
-            $raz = $i+($x-1);
-
-            while($j>0)
-            {
-                if($x1<=$x)
-                {
-                    if (strlen($itemarr[$str])==32 && $str<$col_i && $raz<=$ind) $found++; else {$j=0;$found=0;}
-                    $str++;
-                    $x1++;
-                    if($x1==$x)
-                    {
-                        $str +=(8-$x);
-                        $ind+=8;
-                        $x1=0;
-                    }
-                }
-                $j--;
-            }
-            if ($found == $x*$y )
-                return $i;
-        }
-
-        return -1;
-    }
 
     /**
      * раделение вещи на логические классы: АА или камни, для подсветки
@@ -3011,6 +2823,9 @@ class rItem
  * @param $hex хекс
  * @param $harm база хармони опций
  * @param int $type тип отображения
+ * 1 - отображение полного тултипа
+ * 2 - картинка + ссылка с хексом
+ * 3 - тултип без картинки
  * @param int $inx
  * @param string $saddr
  * @return string
@@ -3030,7 +2845,7 @@ function itemShow($hex,$harm,$type=0,$inx=0,$saddr="")
     {
         $name_class = "I_Normal7_l";
     }
-    if (is_array($item["exc"]))
+    if (!empty($item["exc"]) && is_array($item["exc"]))
     {
         $wings = array(0,1,2,3,4,5,6,7,8,9,36,37,38,39,40,41,42,43,49,50,130,131,132,133,134,135,262,263,264,265); //винги в 12 группе
         if(($item["group"] == 12 && in_array($item["id"],$wings)) OR ($item["group"]==13 && $item["id"]==30))
@@ -3081,21 +2896,26 @@ function itemShow($hex,$harm,$type=0,$inx=0,$saddr="")
 
     if($type == 1 && isset($item["img"]))
     {
-        if (file_exists("theme/imgs/items/{$item["img"]}.gif"))
-            $d_caption.="<li><img src='{$saddr}theme/imgs/items/{$item["img"]}.gif' border='0'></li>";
-        else if (file_exists("theme/imgs/items/{$item["img"]}.png"))
-            $d_caption.="<li><img src='{$saddr}theme/imgs/items/{$item["img"]}.png' border='0'></li>";
+        if(!empty($saddr))
+        {
+            if (file_exists("theme/{$saddr["theme"]}/images/items/{$item["img"]}.gif"))
+                $d_caption.="<li><img src='{$saddr["address"]}theme/{$saddr["theme"]}/images/items/{$item["img"]}.gif' border='0'></li>";
+            else if (file_exists("theme/{$saddr["theme"]}/images/items/{$item["img"]}.png"))
+                $d_caption.="<li><img src='{$saddr["address"]}theme/{$saddr["theme"]}/images/items/{$item["img"]}.png' border='0'></li>";
+            else
+                $d_caption.="<li>{$item["img"]}.gif/png</li>";
+        }
         else
             $d_caption.="<li>{$item["img"]}.gif/png</li>";
 
     }
 
-    if (file_exists("theme/imgs/items/{$item["img"]}.gif"))
-        $img="<img src='{$saddr}theme/imgs/items/{$item["img"]}.gif' border='0'>";
-    else if (file_exists("theme/imgs/items/{$item["img"]}.png"))
-        $img="<img src='{$saddr}theme/imgs/items/{$item["img"]}.png' border='0'>";
-   // else
-   //     $img="<li>{$item["img"]}.gif/png</li>";
+    if (file_exists("theme/{$saddr["theme"]}/images/items/{$item["img"]}.gif"))
+        $img="<img src='{$saddr["address"]}theme/{$saddr["theme"]}/images/items/{$item["img"]}.gif' border='0'>";
+    else if (file_exists("theme/{$saddr["theme"]}/images/items/{$item["img"]}.png"))
+        $img="<img src='{$saddr["address"]}theme/{$saddr["theme"]}/images/items/{$item["img"]}.png' border='0'>";
+    else
+        $img="<li>{$item["img"]}.gif/png</li>";
 
 
     //region hands & dmg
@@ -3152,7 +2972,7 @@ function itemShow($hex,$harm,$type=0,$inx=0,$saddr="")
     }
     //endregion
 
-    if(isset($item["equipment"]) && trim($item["equipment"][0]) != "no")
+    if(isset($item["equipment"]) && isset($item["equipment"][0])&& trim($item["equipment"][0]) != "no")
     {
         foreach($item["equipment"] as $p)
         {
@@ -3191,7 +3011,7 @@ function itemShow($hex,$harm,$type=0,$inx=0,$saddr="")
         $d_caption.="<li class='I_Skill'>{$item["skillname"]}</li>";
     }
 
-    if($item["isLuck"]>0)
+    if(empty($item["isLuck"]))
     {
         $d_caption.="<li class='I_Options'>Luck(succes rate of Jewel of soul +25%)<br>
         Luck(critical damage rate +5%)</li>";
@@ -3236,7 +3056,7 @@ function itemShow($hex,$harm,$type=0,$inx=0,$saddr="")
         }
     }
 
-    if(is_array($item["exc"]))
+    if(!empty($item["exc"]) && is_array($item["exc"]))
     {
         $d_caption.="<li class='I_ExcOpt'>";
         foreach($item["exc"] as $p)
@@ -3267,7 +3087,7 @@ function itemShow($hex,$harm,$type=0,$inx=0,$saddr="")
     if($type!=2)
         return "<div class=\"item_bg\"> <ul>{$d_caption}</ul></div>";
     else
-        return "<a href='#' rel='{$saddr}sbase.php?act=1&h={$itm}'>{$img}</a>";
+        return "<a href='#' class='itemshows' rel='{$saddr["address"]}pagebg/item/view/{$itm}.html'>{$img}</a>";
 }
 
 /**
