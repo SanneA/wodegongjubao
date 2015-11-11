@@ -1,0 +1,33 @@
+<form id="freepts">
+    <table>
+        <tr>
+            <td>|l_frpts|</td>
+            <td><span style="display: inline-block;width: 50px;" id="lvlupptd">|LevelUpPoint|</span></td>
+        </tr>
+        <tr>
+            <td>Strength</td>
+            <td><span style="display: inline-block;width: 50px;">|Strength|</span><input onkeyup="changePoints(|LevelUpPoint|)" type="text" class="inputtext" name="Strength" id="Strength" value="0"></td>
+        </tr>
+        <tr>
+            <td>Dexterity</td>
+            <td><span style="display: inline-block;width: 50px;">|Dexterity|</span><input onkeyup="changePoints(|LevelUpPoint|)" type="text" class="inputtext" name="Dexterity" id="Dexterity" value="0"></td>
+        </tr>
+        <tr>
+            <td>Vitality</td>
+            <td><span style="display: inline-block;width: 50px;">|Vitality|</span><input onkeyup="changePoints(|LevelUpPoint|)" type="text" class="inputtext" name="Vitality" id="Vitality" value="0"></td>
+        </tr>
+        <tr>
+            <td>Energy</td>
+            <td><span style="display: inline-block;width: 50px;">|Energy|</span><input  onkeyup="changePoints(|LevelUpPoint|)" type="text" class="inputtext" name="Energy" id="Energy" value="0"></td>
+        </tr>
+        <tr style="|notusest|">
+            <td>Leadership</td>
+            <td ><span style="display: inline-block;width: 50px;|notusest|">|Leadership|</span><input |notuse| onkeyup="changePoints(|LevelUpPoint|)" type="text" class="inputtext" name="Leadership" id="Leadership" value="0"></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="button" class="un-btn" value="|l_frbtn|" id="changepts" disabled onclick="apply();">
+            </td>
+        </tr>
+    </table>
+</form>

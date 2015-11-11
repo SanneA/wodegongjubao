@@ -1,0 +1,20 @@
+<div onclick="  $( '#pluginBox_').empty();
+$( '#pluginBox_').append('|l_pldel|');
+$( '#pluginBox_' ).dialog({
+resizable: false,
+height:180,
+modal: true,
+buttons: {
+'|l_y|': function() {
+genIn({
+address:'|site|control.php?p=apman&a=deletegrp&id=|id|&gp=|gp|&bg=1',
+noresponse:true,
+callback:function(){showGroups(|id|);}
+});
+$( this ).dialog( 'close' );
+},
+'|l_n|': function() {
+$( this ).dialog( 'close' );
+}
+}
+});">|g_name|</div>

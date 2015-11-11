@@ -1,0 +1,16 @@
+RewriteEngine on
+RewriteRule ^.htaccess$ - [F]
+RewriteRule ^info$ - [F]
+RewriteCond %{REQUEST_METHOD} ^TRACE
+RewriteRule .* [F]
+RewriteRule page/([a-zA-Z0-9_]{1,})\.html$ index.php?p=$1 [L]
+RewriteRule page/([a-zA-Z0-9_]{1,})/([a-zA-Z0-9_]{1,})\.html$ index.php?p=$1&a=$2
+RewriteRule page/([a-zA-Z0-9_]{1,})/([a-zA-Z0-9_]{1,})/(.*)\.html$ index.php?p=$1&a=$2&get=$3
+RewriteRule pagebg/([a-zA-Z0-9_]{1,})\.html$ index.php?p=$1&bg=1 [L]
+RewriteRule pagebg/([a-zA-Z0-9_]{1,})/([a-zA-Z0-9_]{1,})\.html$ index.php?p=$1&bg=1&a=$2
+RewriteRule pagebg/([a-zA-Z0-9_]{1,})/([a-zA-Z0-9_]{1,})/(.*)\.html$ index.php?p=$1&bg=1&a=$2&get=$3
+RewriteRule ^.*$ - [NC,L]
+
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteRule ^(.*)$ index.php?p=$1 [L]

@@ -1,0 +1,59 @@
+<div style="margin-top: 25px;">
+    <table style="margin:0 auto;">
+        <tr>
+            <td>|l_shoosechar|</td>
+            <td>|chlist|</td>
+        </tr>
+        <tr>
+            <td colspan="2" id="getfreeptcontent"></td>
+        </tr>
+    </table>
+</div>
+<script type="text/javascript">
+
+    function changePoints(val)
+    {
+        var freepts = val;
+        var str = parseInt(document.getElementById('Strength').value);
+        var dext = parseInt(document.getElementById('Dexterity').value);
+        var vit = parseInt(document.getElementById('Vitality').value);
+        var ene = parseInt(document.getElementById('Energy').value);
+        var com = parseInt(document.getElementById('Leadership').value);
+        document.getElementById('lvlupptd').style.color = "#6a98ac";
+
+        if(str>=0 && dext>=0 && vit>=0 && ene>=0 && com>=0)
+        {
+            if((freepts - str - dext - vit - ene - com) >= 0)
+            {
+                document.getElementById('changepts').disabled = false;
+                document.getElementById('lvlupptd').style.color = "#6a98ac";
+            }
+            else
+            {
+                document.getElementById('lvlupptd').style.color = "red";
+                document.getElementById('changepts').disabled = true;
+            }
+        }
+        else
+        {
+            document.getElementById('changepts').disabled = true;
+            document.getElementById('lvlupptd').style.color = "red";
+        }
+    }
+
+    function apply()
+    {
+        genIn({
+            noresponse:true,
+            address:'|site|pagebg/freepoints/apply.html',
+            type:'POST',
+            data:$("#freepts").serialize()+'&char=' + document.getElementById('charsChoose').value,
+            callback:function(r){
+                console.log(r);
+                $("#charsChoose").val(0);
+                genIn({element:"getfreeptcontent",address:"|site|pagebg/freepoints/choose/0.html"});
+            }
+        });
+    }
+
+</script>

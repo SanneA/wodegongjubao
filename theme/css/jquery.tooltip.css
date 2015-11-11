@@ -1,0 +1,89 @@
+
+
+#tooltip h3, #tooltip div { margin: 0; }
+#tooltip {
+/*width: 200px;*/
+position: absolute;
+z-index: 10;
+border: 1px solid #BDA899;
+background-color: #FDF9F0;
+font: 1em verdana;
+color: #530000;
+padding: 5px;
+opacity: 0.75;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+}
+/*====================*/
+/*skill*/
+.cskill{
+color:#514EFF;
+font-weight:bold; 
+font-size:10px
+}
+/*name*/
+.name0{
+color:#C1C1C1;
+font-weight:bold;
+font-size:11px;
+background-color: #000000;
+}
+
+.name_ex{
+color: #3FD364;
+font-weight:bold;
+font-size:11px;
+background-color: #000000;
+}
+.name7{
+color:#D0DB32;
+font-weight:bold;
+font-size:11px;
+background-color: #000000;
+}
+/*luck*/
+.cluck{
+color:#514EFF;
+font-size:10px;
+}
+/*+options*/
+.iopt{
+color:#514EFF;
+font-size:10px;
+}
+/*excellent opt*/
+.excellent{
+color:#008000;
+font-size:10px;
+font-weight:bold;
+}
+/*ansient*/
+.ancient{
+background-color:#0000FF;
+color: #00FF00;
+font-weight:bold;
+font-size:11px;
+}
+.anc_opt{
+color:#514EFF;
+font-weight:bold; 
+font-size:10px;
+}
+/*lvl380*/
+.refinery{
+color:#FF1493;
+font-weight:bold; 
+font-size:10px;
+}
+/*harmony*/
+.harmony{
+color:#A9AF28;
+font-weight:bold;
+font-size:10px;
+}
+/*socket*/
+.socket{
+color:#9400D3;
+font-weight:bold;
+font-size:10px;
+}

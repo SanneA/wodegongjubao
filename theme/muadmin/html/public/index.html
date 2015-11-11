@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!-- Design by hrdesign.ru -->
+<html data-wf-site="53a028cb0b65bf5f0c0f9d8e">
+<head>
+    <meta charset="utf-8">
+    <title>@root_</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Webflow">
+    <link rel="shortcut icon" type="image/x-icon" href="|site|theme/|theme|/images/favicon.ico">
+    <link rel="apple-touch-icon" href="|site|/theme/|theme|/images/thumbnail-starter.png">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+
+
+    <script type="text/javascript" language="javascript" src="|site|/theme/|theme|/js/modernizr.js"></script>
+    <script type="text/javascript" language="javascript" src="|site|theme/scripts/jquery.js"></script>
+    <script type="text/javascript" language="javascript" src="|site|theme/scripts/apprise-v2.js"></script>
+    <script type="text/javascript" language="javascript" src="|site|theme/scripts/jquery-ui.min.js"></script>
+    <script type="text/javascript" language="javascript" src="|site|theme/scripts/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" language="javascript" src="|site|theme/scripts/jquery.qtip.js"></script>
+    <!--<script type="text/javascript" language="javascript" src="|site|theme/scripts/jquery.qtip.min.js.map"></script>-->
+    <script type="text/javascript" language="javascript" src="|site|theme/scripts/mwcapi.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="|site|theme/|theme|/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="|site|theme/|theme|/css/webflow.css">
+    <link rel="stylesheet" type="text/css" href="|site|theme/|theme|/css/mwc.webflow.css">
+    <link rel="stylesheet" type="text/css" href="|site|theme/|theme|/css/mwc.css">
+    <link rel="stylesheet" type="text/css" href="|site|theme/css/apprise-v2.css">
+    <link rel="stylesheet" type="text/css" href="|site|theme/css/jquery.qtip.css">
+    <link rel="stylesheet" type="text/css" href="|site|theme/css/jquery-ui.css">
+
+    <style>
+
+        |global_css|
+
+    </style>
+
+    <script>
+        WebFont.load({
+            google: {
+                families: ["Exo:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic"]
+            }
+        });
+
+        |global_js|
+    </script>
+</head>
+<body>
+<div class="w-row bg">
+    <div class="w-col w-col-2 left-sidebar">
+        <div class="fixed-nav">
+            <h2 class="logotype"><img src="|site|/theme/|theme|/images/mwc_log_icon.png" border="0" style="min-height: 100px;"></h2>
+            <div class="logo_sub">MWC engine admin panel</div>
+            |plugin_adminmenu|
+            <div class="italic-text">Contact with web-developer</div>
+            <a class="w-inline-block social-icon" href="mailto:epmak@muwebclone.com">
+                <img src="|site|/theme/|theme|/images/8a-social-email.png" width="21px" alt="email">
+            </a>
+        </div>
+    </div>
+    <div class="w-col w-col-10 content-column">
+        <div style="float:right;">
+            |plugin_admgroup|
+            <table id="login_bar">
+                <tr>
+                    <td style="width:200px;">|plugin_selserver|</td>
+
+                    <td>|agrname|: |vgrname|</td>
+                    <td><button onclick="gpage('logs'); return false;"  type="button" class="button warning"><span style="position:relative;top:7px;">|qlogs|</span></button></td>
+                    <td><form style="margin:0;"  method="POST">
+                        <button  name="aloguot" value="|btnlogout|" type="submit" class="button close"></button>
+                    </form></td>
+                </tr>
+            </table>
+        </div>
+        <h3>Mu Web Clone ENGINE / <span id="titleZ"> |title|</span></h3>
+
+        <div class="content-block" id="modules"> |page|
+            <!--  <h1 id="page-nav-Section 1">Section heading</h1>
+              <p>Section description. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus
+                  nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere.</p>
+              <div class="w-row">
+                  <div class="w-col w-col-4 w-col-small-4">
+                      <img src="http://uploads.webflow.com/placeholder/image-placeholder.svg" alt="image-placeholder.svg">
+                      <div class="caption">This is an image caption or something.</div><a class="button" href="#">Button Text</a>
+                  </div>
+                  <div class="w-col w-col-4 w-col-small-4">
+                      <img src="http://uploads.webflow.com/placeholder/image-placeholder.svg" alt="image-placeholder.svg">
+                      <div class="caption">This is an image caption or something.</div>
+
+                      <a class="button close" href="#" ></a>
+                      <a class="button warning" href="#" ></a>
+                      <a class="button add" href="#" ></a>
+                      <a class="button info" href="#" ></a>
+                      <a class="button save" href="#" ></a>
+                      <a class="button spark" href="#" ></a>
+                  </div>
+                  <div class="w-col w-col-4 w-col-small-4">
+
+                  </div>
+              </div>-->
+        </div>
+
+        <div class="footer-section">
+            <div class="italic-text footer" style="text-align: center">MuWebClone engine 1.6 <br> Design by hrdesign.ru</div>
+        </div>
+    </div>
+</div>
+<div id="alldialogbox" style="display: none;"></div>
+
+<script type="text/javascript" src="|site|/theme/|theme|/js/webflow.js"></script>
+<!--[if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
+<script type="text/javascript">
+
+    function gpage(pname,params)
+    {
+
+        if(pname == undefined || pname.trim().length == 0)
+        {
+             location.href = "|site|";
+        }
+
+
+        if(params == undefined)
+            genIn({
+                element:"modules",
+                address:"|site|control.php?p="+pname+"&bg=1",
+                loadicon:'<img src="theme/imgs/likewin.gif" style="position: fixed;left: 50%;margin-left: -100px;" border="0" alt="0" align="center"/>'
+            });
+        else
+            genIn({
+                element:"modules",
+                address:"|site|control.php?p="+pname+"&bg=1&a="+params,
+                loadicon:'<img src="theme/imgs/likewin.gif" style="position: fixed;left: 50%;margin-left: -100px;" border="0" alt="0" align="center"/>'
+            });
+
+        genIn({
+            element:"titleZ",
+            address:"|site|control.php?p="+pname+"&bg=1&a=title"
+        });
+    }
+</script>
+</body>
+</html>

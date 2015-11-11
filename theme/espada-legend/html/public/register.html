@@ -1,0 +1,67 @@
+<div class="stats-block">
+    <div class="stats-headerpage"></div>
+    <div class="stats-pages">
+        <form id="registerf">
+            <table style="margin: 0 auto;">
+                <tr>
+                    <td><label for="rlogin">|l_login|</label></td>
+                    <td><input type="text" name="rlogin" id="rlogin" class="inputtext" maxlength="10"> </td>
+                    <td style="font-style: italic">|l_symbols|</td>
+                </tr>
+                <tr>
+                    <td><label for="rpwd">|l_pwd|</label></td>
+                    <td><input type="password" name="rpwd" id="rpwd" class="inputtext" maxlength="10"> </td>
+                    <td style="font-style: italic">|l_symbols|</td>
+                </tr>
+                <tr>
+                    <td><label for="rrpwd">|l_rpwd|</label></td>
+                    <td><input type="password" name="rrpwd" id="rrpwd" class="inputtext" maxlength="10"> </td>
+                    <td style="font-style: italic">|l_symbols|</td>
+                </tr>
+                <tr>
+                    <td><label for="rmail">|l_mail|</label></td>
+                    <td><input type="email" name="rmail" id="rmail" class="inputtext"> </td>
+                    <td style="font-style: italic">|l_maildesc|</td>
+                </tr>
+                <tr>
+                    <td><img src="|site|pagebg/register/captcha.html" alt="code"></td>
+                    <td><input type="captch" name="rcaptch" id="rcaptch" class="inputtext"> </td>
+                    <td style="font-style: italic"></td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="text-align: center"><input type="button" value="|l_btv|" class="un-btn" onclick="register();"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function register()
+    {
+        genIn({
+            noresponse:true,
+            address:'|site|pagebg/register/setregister.html',
+            type:'POST',
+            data: $("#registerf").serialize(),
+            callback: function(r){
+                var ans = r.split("::");
+                if(ans[1] != undefined)
+                    Apprise(ans[1],{animation:0});
+                else
+                    Apprise("|l_errsite|",{animation:0});
+
+                if(ans[0]!= undefined && ans[0]>0)
+                {
+                    document.getElementById("rlogin").value = "";
+                    document.getElementById("rpwd").value = "";
+                    document.getElementById("rrpwd").value = "";
+                    document.getElementById("rmail").value = "";
+                    document.getElementById("rcaptch").value = "";
+                }
+            }
+        });
+    }
+
+</script>

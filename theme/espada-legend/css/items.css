@@ -1,0 +1,53 @@
+.item_bg {
+   /* background-color: rgba(0, 0, 0, 0.9);*/ /*полу-прозрачный чёрный фон*/
+    background: rgba(0, 0, 0, 0.9); /*полу-прозрачный чёрный фон+*/
+    color: rgba(0, 0, 0, 0.9); /*полу-прозрачный чёрный фон+*/
+    padding:5px; /*глобальные отступы в блока*/
+    color:#FFF; /*глобальный цвет (белый)*/
+    font-family:Arial, Helvetica, sans-serif; /*глобальный шрифт*/
+    font-size:12px; /*глобальный размер шрифта*/
+    text-align:center; /*весь текст по центру*/
+    width:300px;
+}
+.item_bg ul {
+    list-style:none;
+    margin:0;
+    padding:0;
+    position: relative;
+    right:4px;
+    bottom:5px;
+    margin-right: 15px;
+}
+
+.I_Divine {font-weight:bold; padding-bottom:5px; color: #983C93; background-color:#000000;}
+.I_Normal {font-weight:bold; padding-bottom:5px; color: #a9a9a9; background-color:#000000;}
+.I_NormalOpt {font-weight:bold; padding-bottom:5px; color: #98AFCE; background-color:#000000;}
+.I_Normal7 {color:#DEC99E; font-weight:bold; padding-bottom:5px; background-color:#000000;}
+.I_Normal3 {color:#CDA793; font-weight:bold; padding-bottom:5px; background-color:#000000;}
+.I_plus9 {color:#EFC573; font-weight:bold; padding-bottom:5px; background-color:#000000;}
+.I_Socket {font-weight:bold; padding-bottom:5px; color:#9B7DBD; background-color:#000000;}
+.I_Excellent {font-weight:bold; color:#66D497; padding-bottom:5px; background-color:#000000;}
+.I_ExcOpt {color:#66D497; padding-bottom:5px;}
+.I_Ancient {font-weight:bold; color:#5ECE96; margin-bottom:5px; background-color:#333DC3; width:100%;}
+.I_Options {color:#98AFCE;}
+.I_ErOptions {color:#B93D47;}
+.I_WizOpt {padding:8px 0 8px 0; color:#98AFCE;}
+.I_AddhzOpt {padding:8px 0 8px 0; color:#B391B2;}
+.I_HarmOpt {padding:8px 0 5px 0; color:#DCC985;}
+.I_SetI_T_Opt {padding:8px 0 8px 0; color:#DCC985;}
+.I_SetIOpt { color:#686868;}
+.I_SocketOpt {color:#9B5D9C; padding:8px 0 8px 0;}
+.I_ErEnqip { background-color:#A40603; width:100%; }
+.I_Skill {color:#98AFCE; font-weight:bold; padding-bottom:5px;}
+.I_Divine_l {font-weight:bold; padding-bottom:5px; color: #983C93;}
+.I_NormalOpt_l {font-weight:bold; padding-bottom:5px; color: #98AFCE;}
+.I_Ancient_l {font-weight:bold; color:#00FFD5; margin-bottom:5px;width:100%;}
+.I_Normal_l {font-weight:bold; padding-bottom:5px; color: #a9a9a9}
+.I_Socket_l {font-weight:bold; padding-bottom:5px; color:#9B7DBD;}
+.I_Excellent_l {font-weight:bold; color:#66D497; padding-bottom:5px;}
+.I_Ancient_l {font-weight:bold; color:#5ECE96; margin-bottom:5px; background-color:#333DC3; width:100%;}
+.I_Options_l {color:#98AFCE;}
+.I_HarmOpt_l {padding:8px 0 5px 0; color:#DCC985;}
+.I_Normal3_l {color:#98AFCE; font-weight:bold; padding-bottom:5px;}
+.I_Normal7_l {color:#DEC99E; font-weight:bold; padding-bottom:5px;}
+.I_plus9_l {color:#EFC573; font-weight:bold; padding-bottom:5px;}

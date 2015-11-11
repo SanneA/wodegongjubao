@@ -1,0 +1,20 @@
+<div onclick="  $( '#groupBox_').empty();
+$( '#groupBox_').append('|l_pgdel|');
+$( '#groupBox_' ).dialog({
+resizable: false,
+height:180,
+modal: true,
+buttons: {
+'|l_y|': function() {
+genIn({
+address:'|site|control.php?p=ammanager&a=deletegrp&id=|id|&gp=|gp|&bg=1',
+noresponse:true,
+callback:function(){genIn({element: 'ingroupage_|id|',address: '|site|control.php?p=ammanager&a=getinlist&bg=1&id=|id|'});}
+     });
+$( this ).dialog( 'close' );
+},
+'|l_n|': function() {
+$( this ).dialog( 'close' );
+}
+}
+});">|g_name|</div>

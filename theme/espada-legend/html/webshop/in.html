@@ -1,0 +1,54 @@
+<form id="inwebshop">
+<div style="margin:25px 5px;">
+    <table style="margin:0 auto;">
+        <tr>
+            <td>|l_itmlist|</td>
+            <td>|itlist|</td>
+        </tr>
+        <tr>
+            <td>|l_price|</td>
+            <td><input type="text" name="price" id="price" class="inputtext"></td>
+        </tr>
+        <tr>
+            <td><input type="button" class="un-btn" value="|l_sellbtn|" onclick="putInShop();"></td>
+            <td id="msgid"></td>
+        </tr>
+    </table>
+</div>
+</form>
+<script type="text/javascript">
+
+    function putInShop()
+    {
+        var msgO = document.getElementById("msgid");
+        genIn({
+            noresponse:true,
+            address:"|site|pagebg/webshop/putin.html",
+            type:'POST',
+            data:$("#inwebshop").serialize(),
+            callback:function(r){
+                var answ = r.split("<");
+                console.log(answ);
+                if(answ[0] != "" && answ[0] != "0")
+                {
+                    var pr= document.getElementById("price");
+                    var obj = document.getElementById('itm');
+
+                    obj.options[obj.selectedIndex] = null;
+                    msgO.innerHTML="";
+                    msgO.style.color = "green";
+                    msgO.innerHTML="|l_item| #"+answ[0].trim()+' |l_insell| '+pr.value;
+                    pr.value = '';
+                }
+                else if(answ[0] == "" || answ[0] == "0")
+                {
+                    msgO.innerHTML="";
+                    msgO.style.color = "red";
+                    msgO.innerHTML="|l_nosell|";
+                }
+                console.log(r+' '+answ[0]);
+            }
+        });
+    }
+
+</script>

@@ -1,0 +1,1 @@
+<?php $lang["server1"]="НазваниеСервера;статус(online/offline);адрес(без htttp)до файлика online.txt(опционально)"; 

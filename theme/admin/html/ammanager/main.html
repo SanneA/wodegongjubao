@@ -1,0 +1,159 @@
+<table class="table table-striped table-bordered table-hover" style="min-width: 80%;margin: 0 auto;">
+    <thead>
+    <tr>
+        <th>|l_mname|</th>
+        <th>|folderlist|</th>
+        <th>|l_mmname|</th>
+        <th>|l_mmfname|</th>
+        <th>|l_mmcache|</th>
+        <th>
+            <input type="button" class="button add" value="|l_addwizard|" onclick="showWizard();"><br>
+            <input type="button" class="button add" value="|l_btclear|" onclick="applyChanges();">
+        </th>
+    </tr>
+    </thead>
+    <tbody id="mmmods"></tbody>
+</table>
+
+<div id="groupBox_" style="display: none;"></div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        amfilter();
+    });
+
+    function amfilter()
+    {
+        genIn({
+            element:"mmmods",
+            address:"|site|control.php?p=ammanager&a=plist&bg=1&f="+ document.getElementById("selfolderc").value
+        });
+    }
+
+
+    function addToPage(obj,id)
+    {
+        genIn({
+            address:"|site|control.php?p=ammanager&a=addgrp&bg=1&id="+id+"&gp="+obj.value,
+            noresponse:true,
+            callback:function(response)
+            {
+                genIn({element: "ingroupage_"+id,address: "|site|control.php?p=ammanager&a=getinlist&bg=1&id="+id});
+                var seler  = obj.options[obj.selectedIndex];
+                obj.removeChild(seler);
+                obj.options[obj.options.length-1].selected=true;
+            }
+        });
+    }
+
+    function applyChanges()
+    {
+        genIn({
+            address:"|site|control.php?p=ammanager&a=allclear&bg=1",
+            noresponse:true,
+            callback:function()
+            {
+                Apprise('|l_allchok|');
+            }
+        });
+    }
+
+    function showMinfo(id)
+    {
+        $("#alldialogbox").dialog({
+            open: function(){
+                genIn({
+                    element:"alldialogbox",
+                    address:"|site|control.php?p=ammanager&a=info&bg=1&id="+id,
+                    callback: function(){
+                        genIn({
+                            element: "ingroupage_"+id,
+                            address: "|site|control.php?p=ammanager&a=getinlist&bg=1&id=" + id
+                        });
+                    }
+                });
+            },
+            modal:true,
+            width:800,
+            height:350,
+            buttons:{
+                "|l_btadd|":function(){
+                    genIn({
+                        element:"alldialogbox",
+                        address:"|site|control.php?p=ammanager&a=applyinfo&bg=1&id="+id,
+                        noresponse:true,
+                        data:$("#pfrom_"+id).serialize(),
+                        type:'POST',
+                        callback: function(){
+                            amfilter();
+                            $("#alldialogbox").dialog('close');
+                        }
+                    });
+                },
+                "|l_btdel|":function(){
+                    $( "#groupBox_").empty();
+                    $( "#groupBox_").append("|l_pdel|");
+                    $( "#groupBox_" ).dialog({
+                        resizable: false,
+                        height:180,
+                        modal: true,
+                        buttons: {
+                            "|l_y|": function() {
+                                genIn({
+                                    noresponse:true,
+                                    address:"|site|control.php?p=ammanager&a=delpage&bg=1&id="+id,
+                                    callback:function(response){
+                                        amfilter();
+                                    }
+                                });
+                                $( this ).dialog( "close" );
+                            },
+                            "|l_n|": function() {
+                                $( this ).dialog( "close" );
+                            }
+                        }
+                    });
+
+                    $("#alldialogbox").dialog('close');
+                },
+                "|l_pclose|":function(){
+                    $("#alldialogbox").dialog('close');
+                }
+            }
+        });
+
+    }
+
+    function showWizard()
+    {
+        $("#alldialogbox").dialog({
+            open: function(){
+                genIn({
+                    element:"alldialogbox",
+                    address:"|site|control.php?p=ammanager&a=step1&bg=1"
+                });
+            },
+            modal:true,
+            width:600,
+            height:350,
+            title:"|l_titlewiz|",
+            buttons:{
+                "|l_btnext|":function(){
+                    genIn({
+                        noresponse:true,
+                        address:"|site|control.php?p=ammanager&a=step2&bg=1",
+                        type:"POST",
+                        data:$("#wstep1").serialize(),
+                        callback: function(){
+                            amfilter();
+                            $("#alldialogbox").dialog('close');
+                        }
+                    });
+                },
+                "|l_pclose|":function(){
+                    $("#alldialogbox").dialog('close');
+                }
+            }
+        });
+    }
+
+</script>

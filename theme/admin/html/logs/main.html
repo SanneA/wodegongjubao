@@ -1,0 +1,41 @@
+<form id="logforms">
+<table class="table table-striped table-bordered table-hover" style="width: 100%">
+    <thead>
+    <tr>
+        <td colspan="5" style="text-align: center">
+            |l_kolvin| <input type="text" name="topst" style="width:60px;" value="100">
+            |l_eventsh| |evlist|
+            |l_periods| <input type="date" name="dbegin" value="|datefrom|"> |l_tos| <input type="date" name="dend" value="|dateto|">
+            |l_lfilelist| |lilesc|
+            <div style="margin: 5px 0;">|l_inmsg| <input type="text" name="inevmsg"> <a href="#" onclick="genIn({
+            element:'logforms',
+                address:'|site|control.php?p=logs&a=fileindex&bg=1'
+                });return false;">|l_tofilelogs|</a> </div>
+        </td>
+        <td style="text-align: center"><input type="button" class="button add" value="|l_btlffiltr|" onclick="logFiltr();"></td>
+    </tr>
+    <tr>
+        <th style="width: 30px;">#</th>
+        <th colspan="3">|l_hevent|</th>
+        <th>|l_hfile|</th>
+        <th>|l_htimeev|</th>
+    </tr>
+    </thead>
+    <tbody id="logsEvcontent"></tbody>
+</table>
+</form>
+<script type="text/javascript">
+    $(document).ready(function(){
+        logFiltr();
+    });
+
+    function logFiltr()
+    {
+        genIn({
+            element:"logsEvcontent",
+            address:"|site|control.php?p=logs&a=getlist&bg=1",
+            type:"POST",
+            data: $("#logforms").serialize()
+        })
+    }
+</script>

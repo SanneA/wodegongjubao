@@ -1,0 +1,52 @@
+<form method="post" id="bakfrorm">
+<table style="margin:35px 30%;">
+    <tr>
+        <td>|inbankz| <span id="wbmoney">|webbank|</span></td>
+    </tr>
+    <tr>
+        <td>|inwhz| <span id="whmoney">|whmoney|</span></td>
+    </tr>
+    <tr>
+        <td>
+            <select name="typetrans" class="selectbox" style="width: 120px;">
+                <option value="1">|opt1|</option>
+                <option value="2">|opt2|</option>
+            </select>
+        </td>
+        </tr>
+    <tr>
+        <td>
+            <input class="selectbox" type="text" name="zens" style="width: 120px;">
+        </td>
+
+    </tr>
+    <tr><td><input type="button" class="un-btn" value="|btn-bgo|" onclick="commentrans();"></td></tr>
+    <tr>
+        <td colspan="3" id="bankresult"></td>
+    </tr>
+</table>
+</form>
+
+<script type="text/javascript">
+    function commentrans()
+    {
+        genIn({
+            element:'bankresult',
+            address:'|site|pagebg/bank/transact.html',
+            type:'POST',
+            data:$("#bakfrorm").serialize(),
+            callback: function(){
+                genIn({
+                    noresponse:true,
+                    address: '|site|pagebg/bank/knowmoney.html',
+                    callback:function(t){
+                        money = t.split("::");
+                        document.getElementById('wbmoney').innerHTML = money[0];
+                        document.getElementById('loginBankZen').innerHTML = money[0];
+                        document.getElementById('whmoney').innerHTML = money[1];
+                    }
+                });
+            }
+        });
+    }
+</script>

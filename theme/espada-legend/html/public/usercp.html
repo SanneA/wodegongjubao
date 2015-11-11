@@ -1,0 +1,50 @@
+<div style="margin: 25px 10px;">
+<form method="post" id="usercpeform">
+    <table>
+        <tr>
+            <td style="height: 20px;;">|l_email|</td>
+            <td style="padding-left:15px;font-weight: bold;">|mail_addr|</td>
+        </tr>
+        <tr>
+            <td>|l_name|</td>
+            <td><input type="text" name="memb_name" value="|memb_name|" class="inputtext"></td>
+        </tr>
+        <tr>
+            <td>|l_pwd|</td>
+            <td><input type="password" name="memb_pwd"  class="inputtext"> <i>|l_notice|</i></td>
+        </tr>
+        <tr>
+            <td id="l_newpwd">|l_newpwd|</td>
+            <td><input type="password" name="memb_newpwd" id="memb_newpwd" class="inputtext" onkeyup="checkedpwd()"></td>
+        </tr>
+        <tr>
+            <td id="l_newrpwd">|l_newrpwd|</td>
+            <td><input type="password" name="memb_newrpwd" id="memb_newrpwd" class="inputtext" onkeyup="checkedpwd()"></td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center;|resultst|">|showmsgusercp|</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center"><input type="submit" name="applyusercp" class="un-btn" value="|l_btapply|"></td>
+        </tr>
+    </table>
+</form>
+</div>
+<script type="text/javascript">
+
+    function checkedpwd()
+    {
+        if((document.getElementById('memb_newpwd').value != document.getElementById('memb_newrpwd').value) ||
+                (document.getElementById('memb_newrpwd').value.length<3 && document.getElementById('memb_newpwd').value.length<3) )
+        {
+            document.getElementById('l_newpwd').style.color = "red";
+            document.getElementById('l_newrpwd').style.color = "red";
+        }
+        else
+        {
+            document.getElementById('l_newpwd').style.color = "#6a98ac";
+            document.getElementById('l_newrpwd').style.color = "#6a98ac";
+        }
+    }
+
+</script>

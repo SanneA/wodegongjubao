@@ -1,0 +1,246 @@
+
+<table class="table table-striped table-bordered " style="margin: 0 auto;">
+    <thead>
+    <tr>
+        <td style="padding: 0 10px;" colspan="3">|l_mtype| |mtypelist|
+            <input type="button" style="margin-left:5px;"  class="button close" value="|l_btdel|" onclick="delmenu(currentmenu);">
+            <input type="button" style="margin-left:5px;"  class="button save" value="|l_btinmenu|" onclick="addinmenu(currentmenu);">
+            <input type="button" style="margin-left:5px;"  class="button warning" value="|l_addtom|" onclick="addmenuForm();">
+            <input type="button" style="margin-left:5px;"  class="button close" value="|l_btclearcahe|" onclick="clearcache();">
+        </td>
+    </tr>
+    <tr>
+        <th style="padding: 0 10px;">|titl|</th>
+        <th style="padding: 0 10px;">|mtypen|</th>
+        <th style="padding: 0 10px;">|link_a|</th>
+    </tr>
+</thead>
+    <tbody id="mmenucontent"></tbody>
+</table>
+<div id="fdel" style="display: none;"></div>
+<script type="text/javascript">
+
+    var currentmenu;
+
+    function filter(id)
+    {
+        if(id != undefined)
+        {
+            cur_id = id;
+        }
+        else
+        {
+            cur_id = currentmenu;
+        }
+
+        genIn({
+            element:"mmenucontent",
+            address:"|site|control.php?p=aaddmenu&a=getinmenu&bg=1&id="+ cur_id
+        });
+    }
+    $(document).ready(function(){
+        currentmenu = $("#menutype").val();
+        filter();
+    });
+
+    function delmenu(id)
+    {
+        var settings = {
+            animation: 0,
+            buttons:{
+                confirm:{
+                    action: function(){
+                        genIn({
+                            address:"|site|control.php?p=aaddmenu&a=delmenu&bg=1&id="+ id,
+                            noresponse:true,
+                            callback:function(){
+                                var seler  = document.getElementById("menutype").options[document.getElementById("menutype").selectedIndex];
+                                document.getElementById("menutype").removeChild(seler);
+
+                                filter(id)
+                            }
+                        });
+                        Apprise('close');
+                    },
+                    className: null,
+                    id:'confirm',
+                    text: '|l_y|'
+                },
+                cansel:{
+                    action: function(){
+                        Apprise('close');
+                    },
+                    className: null,
+                    id:'cns',
+                    text: '|l_n|'
+                }
+            },
+            input:false,
+            overrid:true
+        };
+        Apprise('|l_del|', settings);
+    }
+
+    function getlink()
+    {
+        check = document.getElementById("cptype").checked;
+        textbx = document.getElementById("linkadr");
+//http://forum.muwebclone.com
+        console.log(textbx.value.indexOf("http",0));
+        if(textbx.value.indexOf("http",0)==-1)
+        {
+            if (check)
+                textbx.value =  'page/'+ $("#pagesList").val() + '.html';
+            //textbx.value =  'page/'+document.getElementById("pagesList").value + '.html';
+            else
+                textbx.value =  '?p=' + $("#pagesList").val();
+            // textbx.value =  '?p='+document.getElementById("pagesList").value ;
+        }
+
+    }
+
+    function addmenuForm()
+    {
+        $("#alldialogbox").dialog({
+            title:"|l_addtom|",
+            modal:true,
+            width:400,
+            height:140,
+            open:function(){
+                genIn({
+                    element:"alldialogbox",
+                    address:"|site|control.php?p=aaddmenu&a=addmenuform&bg=1"
+                });
+            },
+            buttons:{
+                "|l_btadd|": function(){
+
+                    genIn({
+                        noresponse:true,
+                        address:"|site|control.php?p=aaddmenu&a=applemenu&bg=1",
+                        type:"POST",
+                        data:$("#addingtypemenu").serialize(),
+                        callback:function(){
+                            genIn({
+                                element:"mmenucontent",
+                                address:"|site|control.php?p=aaddmenu&a=getinmenu&bg=1&id="+$("#menutype").val(),
+                                callback:function(){gpage('aaddmenu');}
+                            });
+
+                        }
+                    });
+                    $(this).dialog("close");
+                },
+                "|l_btclose|":function(){
+                    $(this).dialog("close");
+                }
+
+            }
+        });
+    }
+
+    function clearcache()
+    {
+        genIn({
+            address:"|site|control.php?p=aaddmenu&a=delCache&bg=1&id="+ $("#menutype :selected").text(),
+            noresponse:true,
+            callback:function(){Apprise('|l_mallok|');}
+        });
+    }
+
+    function pmenuInfo(mid,pid)
+    {
+        $("#alldialogbox").dialog({
+            title:"|l_curpos|",
+            modal:true,
+            width:600,
+            height:240,
+            open:function(){
+                genIn({
+                    element:"alldialogbox",
+                    address:"|site|control.php?p=aaddmenu&a=infoperp&bg=1&pid="+pid+"&mid="+mid
+                });
+            },
+            buttons:{
+                "|l_btsave|": function(){
+                    genIn({
+                        noresponse:true,
+                        address:"|site|control.php?p=aaddmenu&a=aplympos&bg=1&pid="+pid,
+                        type:"POST",
+                        data:$("#editedp_"+pid).serialize(),
+                        callback:function(){
+                           filter();
+                           $("#alldialogbox").dialog("close");
+                        }
+                    });
+                },
+                "|l_btdel|": function(){
+                    $( "#fdel").empty();
+                    $( "#fdel").append("|l_delp|");
+                    $( "#fdel" ).dialog({
+                        resizable: false,
+                        height:180,
+                        modal: true,
+                        buttons: {
+                            "|l_y|": function() {
+                                genIn({
+                                    noresponse:true,
+                                    address:"|site|control.php?p=aaddmenu&a=delmpos&bg=1&id="+ pid,
+                                    callback:function(){
+                                        gpage('aaddmenu');
+                                    }
+                                });
+                                $(this).dialog("close");
+                            },
+                            "|l_n|": function() {
+                                $( this ).dialog( "close" );
+                            }
+                        }
+                    });
+                    $(this).dialog("close");
+                },
+                "|l_btclose|":function(){
+                    $(this).dialog("close");
+                }
+
+            }
+        });
+    }
+
+
+    function addinmenu(id)
+    {
+        $("#alldialogbox").dialog({
+            title:"|l_curpos|",
+            modal:true,
+            width:700,
+            height:280,
+            open:function(){
+                genIn({
+                    element:"alldialogbox",
+                    address:"|site|control.php?p=aaddmenu&a=addp&bg=1&pid="+id
+                });
+            },
+            buttons:{
+                "|l_btadd|": function(){
+                    genIn({
+                        noresponse:true,
+                        address:"|site|control.php?p=aaddmenu&a=applyadd&bg=1&pid="+id,
+                        type:"POST",
+                        data:$("#addedp_").serialize(),
+                        callback:function(r){
+                            filter();
+                            $("#alldialogbox").dialog("close");
+                        }
+                    });
+                },
+
+                "|l_btclose|":function(){
+                    $(this).dialog("close");
+                }
+
+            }
+        });
+
+    }
+</script>

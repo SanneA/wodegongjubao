@@ -1,0 +1,1 @@
+<?php $lang["bankmodul"]="Веб-банк"; $lang["usercpmodul"]="Настройки аккаунта"; $lang["l_wshpage"]="WEB-магазин"; 

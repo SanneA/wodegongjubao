@@ -1,0 +1,71 @@
+<table class="table table-striped table-bordered table-hover" style="min-width: 80%;margin: 0 auto;">
+    <thead>
+    <tr>
+        <th colspan="2" style="text-align: center"><input type="button" class="button add" onclick="adminInfo('-')" value="|l_addbtn_|"> </th>
+    </tr>
+    <tr>
+        <th>|l_acname|</th>
+        <th>|l_acgroup|</th>
+    </tr>
+
+    </thead>
+    <tbody id="acontrolcontent"></tbody>
+</table>
+<script type="text/javascript">
+    $(document).ready(function(){
+        afilter();
+    });
+
+    function afilter()
+    {
+        genIn({
+            element:"acontrolcontent",
+            address:"|site|control.php?p=acontrol&a=getlist&bg=1"
+        });
+    }
+
+    function adminInfo(id)
+    {
+
+        $("#alldialogbox").dialog({
+           open: function(){
+               genIn({
+                   element:"alldialogbox",
+                   address:"|site|control.php?p=acontrol&a=info&bg=1&id="+id
+               });
+           },
+            modal:true,
+            width:380,
+            buttons:{
+                "|l_btsave|": function()
+                {
+                    genIn({
+                        noresponse:true,
+                        address:"|site|control.php?p=acontrol&a=apply&bg=1&id="+id,
+                        type:'POST',
+                        data: $("#aeditform_"+id).serialize(),
+                        callback: function(){
+                            $("#alldialogbox").dialog('close');
+                            afilter();
+                        }
+                    });
+                },
+                "|l_btdel|": function(){
+
+                    genIn({
+                        noresponse:true,
+                        address:"|site|control.php?p=acontrol&a=deladm&bg=1&id="+id,
+                        callback: function(){
+                            $("#alldialogbox").dialog('close');
+                            afilter();
+                        }
+                    });
+                },
+                "|l_btclose|": function(){
+                    $(this).dialog('close');
+                }
+
+            }
+        });
+    }
+</script>

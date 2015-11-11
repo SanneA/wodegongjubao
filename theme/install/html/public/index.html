@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="epmak">
+    <title>MuWebClone engine installation script</title>
+
+    <script type="text/javascript" language="javascript" src="|site|theme/scripts/jquery.js"></script>
+    <script type="text/javascript" language="javascript" src="|site|theme/scripts/mwcapi.js"></script>
+
+    <style type="text/css">
+        #mainlegend
+        {
+            border: 1px solid rgba(203, 202, 201, 0.1);
+            border-radius: 4px;
+
+            font-style: italic;
+            padding: 3px;
+        }
+
+        #mainfieldset
+        {
+            border: 1px solid rgba(203, 202, 201, 0.38);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<form method="POST" id="mainform">
+    <div style="width:400px; margin: 0 auto">
+        <fieldset style="width:100%;" id="mainfieldset">
+            <legend id="mainlegend" style="text-align: center;"><img src="|site|theme/imgs/mwc_log_icon.png" style="height:200px;"></legend>
+            <table>
+                <tbody id="maintebody"></tbody>
+            </table>
+        </fieldset>
+    </div>
+</form>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        genIn({
+            element:"maintebody",
+            address:"|site|install.php?st=1"
+        })
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<table class="table table-striped table-bordered table-hover" style="width: 100%">
+    <thead>
+    <tr>
+        <th style="text-align: center">
+            |l_hfile| |filelist|
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            <textarea style="width:100%;height:800px;" id="showlog"></textarea>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<script type="text/javascript">
+
+    function setfile(id)
+    {
+        genIn({
+            element:"showlog",
+            address:"|site|control.php?p=logs&a=getflist&bg=1&id="+id
+        })
+    }
+</script>
