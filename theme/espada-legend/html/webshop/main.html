@@ -1,0 +1,141 @@
+<div style="margin: 25px 18px;">
+
+    <div style="width:100%; margin-top:5px;">
+        <form id="itemFilter">
+        <div style="border:1px black solid;margin-bottom: 10px;border-radius: 8px;padding:4px;">
+            <input type="text" placeholder="|l_namesitms|" name="itemname" class="inputtext" >  |l_levls| |since| <select name="lvlf" class="selectbox">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="-1" selected>-</option>
+        </select> |to_| <select name="lvlt" class="selectbox">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="-1" selected>-</option>
+        </select>
+            <input type="button" value="Фильтровать" class="un-btn" onclick="filter();">
+            <div style="|isallows|"><input type="checkbox" name="ismyitem" id="ismyitem" value="1"> <label for="ismyitem">|l_myitms|</label></div>
+        </div>
+        </form>
+        <div style="height:1100px;overflow-y: auto;">
+            <table style="width:100%" class="wshopTbl">
+                <tbody id="itemscontent"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        filter();
+    });
+
+    function byItm(id)
+    {
+        genIn({
+            noresponse:true,
+            address:'|site|pagebg/webmarket/buy/'+id+'.html',
+            callback: function (r) {
+                var nasw = r.split("<!--");
+                if(nasw[0] != 0)
+                {
+                    $("#shitem_"+id).empty();
+                    $("#shitem_"+id).append("<td colspan='4'>|l_wasbuy|</td>");
+                    $("#loginBankZen").empty();
+                    $("#loginBankZen").append(formatStr(nasw[0]));
+                }
+                else
+                {
+                    Apprise("|l_droperror|",{animation:0});
+                }
+                console.log(r);
+            }
+        })
+    }
+
+    function DrItm(id)
+    {
+        genIn({
+            noresponse:true,
+            address:'|site|pagebg/webmarket/drop/'+id+'.html',
+            callback: function (r) {
+                var nasw = r.split("<!--");
+                if(nasw[0] == 1)
+                {
+                    $("#shitem_"+id).empty();
+                    $("#shitem_"+id).append("<td colspan='4'>|l_itmdrop|</td>");
+                }
+                else
+                {
+                    Apprise("|l_droperror|",{animation:0});
+                }
+            }
+        })
+    }
+
+
+
+    function filter()
+    {
+        genIn({
+            element:'itemscontent',
+            address:'|site|pagebg/webmarket/inlist.html',
+            type:'POST',
+            data:$("#itemFilter").serialize(),
+            callback:function(){
+                $('.itemshows').qtip({
+                    content: {
+                        text: function(event, api) {
+                            $.ajax({
+                                        url: api.elements.target.attr('rel') // Use data-url attribute for the URL
+                                    })
+                                    .then(function(content) {
+                                        // Set the tooltip content upon successful retrieval
+                                        api.set('content.text', content);
+                                    }, function(xhr, status, error) {
+                                        // Upon failure... set the tooltip content to the status and error value
+                                        api.set('content.text', status + ': ' + error);
+                                    });
+
+                            return 'Loading...'; // Set some initial text
+                        }
+                    },
+                    style:{
+                        def: false
+                    },
+                    position:{
+                        viewport: $(window)//,
+                        //target: 'mouse' // Track the mouse as the positioning target
+
+                    }
+                });
+            }
+        });
+    }
+</script>
