@@ -1,0 +1,9 @@
+.wshopTbl tbody tr:hover{
+    background-color: rgba(236, 235, 234, 0.17);
+}
+.plink{
+    cursor: pointer;
+}
+.plink:hover{
+    text-decoration: underline;
+}

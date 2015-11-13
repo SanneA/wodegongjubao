@@ -1,0 +1,1 @@
+<?php $lang["l_levls"]="Уровень"; $lang["since"]="c"; $lang["to_"]="по"; $lang["l_myitms"]="Мои вещи"; $lang["l_namesitms"]="Название вещи"; $lang["l_itmdrop"]="Вещь была убрана в сундук"; $lang["l_droperror"]="При операции произошла ошибка, возможно, аккаунт в игре."; $lang["l_wasbuy"]="Вещь была куплена"; 
