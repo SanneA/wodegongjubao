@@ -44,6 +44,7 @@ class webmarket extends muController
             else
                 $user["mwc_bankZ"] =0;
             $harm_ = "build/muonline/_dat/items/harmony.php";
+
             if(file_exists($harm_))
                 require $harm_;
             else
@@ -56,6 +57,24 @@ class webmarket extends muController
             $params["lvlt"] = (int)$_POST["lvlt"];
             $params["min"] = 0;
             $params["max"] = 100;
+
+            if(!empty($_POST["isExc"]))
+                $params["isExc"] = 1;
+
+            if(!empty($_POST["isAnc"]))
+                $params["isAnc"] = 1;
+
+            if(!empty($_POST["isSkill"]))
+                $params["isSkill"] = 1;
+
+            if(!empty($_POST["isOpt"]))
+                $params["isOpt"] = 1;
+
+            if(!empty($_POST["isPVP"]))
+                $params["isPVP"] = 1;
+
+            if(!empty($_POST["isHarmony"]))
+                $params["isHarmony"] = 1;
 
             $list = $this->model->getlist($params);
 

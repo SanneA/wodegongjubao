@@ -39,6 +39,24 @@ class m_webmarket extends MuonlineUser
             $filter.=" AND col_user ='{$_SESSION["mwcuser"]}'";
         }
 
+        if(!empty($params["isExc"]))
+            $filter.=" AND col_isExc !='0'";
+
+        if(!empty($params["isAnc"]))
+            $filter.=" AND col_isAnc !='0'";
+
+        if(!empty($params["isSkill"]))
+            $filter.=" AND col_isSkill !='0'";
+
+        if(!empty($params["isOpt"]))
+            $filter.=" AND col_isOpt !='0'";
+
+        if(!empty($params["isPVP"]))
+            $filter.=" AND col_isPVP !='0'";
+
+        if(!empty($params["isHarmony"]))
+            $filter.=" AND col_isHarmony !='0'";
+
 
         return $this->db->query("WITH CTEwResults AS(
             SELECT *,
