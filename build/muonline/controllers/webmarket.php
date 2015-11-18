@@ -55,11 +55,14 @@ class webmarket extends muController
 
             $params["lvlf"] = (int)$_POST["lvlf"];
             $params["lvlt"] = (int)$_POST["lvlt"];
-            $params["min"] = 0;
-            $params["max"] = 100;
 
             if(!empty($_POST["isExc"]))
                 $params["isExc"] = 1;
+
+            if(!empty($_POST["pn"]))
+                $params["pn"] = (int)$_POST["pn"];
+            else
+                $params["pn"] = 1;
 
             if(!empty($_POST["isAnc"]))
                 $params["isAnc"] = 1;
@@ -76,11 +79,34 @@ class webmarket extends muController
             if(!empty($_POST["isHarmony"]))
                 $params["isHarmony"] = 1;
 
-            $list = $this->model->getlist($params);
+            $count = $this->model->getCount($params);
 
-
-            if(!empty($list))
+            if($count>0)
             {
+                $pp = Tools::paginate($count,$this->configs["itemPp"],$params["pn"]);
+                $params["min"]=$pp["min"];
+                $params["max"]=$pp["max"];
+
+                if($pp["count"]>1)
+                {
+                    for($i = 0; $i < $pp["count"]; $i++)
+                    {
+                        if($i+1 == $params["pn"])
+                            $this->view->set("isactive","color:white");
+                        else
+                            $this->view->set("isactive","");
+
+                        $this->view
+                            ->set("i",($i+1))
+                            ->out("paginator_c","webshop");
+                    }
+
+                    $this->view
+                        ->setFContainer("pcontent",true)
+                        ->out("pmain","webshop");
+                }
+
+                $list = $this->model->getlist($params);
                 $ai = new ArrayIterator($list);
                 foreach($ai as $vals)
                 {
@@ -175,6 +201,13 @@ class webmarket extends muController
                         ->set("img",itemShow($vals["col_hex"],$harm,2,0,array("address"=>$this->view->getAdr(),"theme"=>$this->view->getVal("theme"))))
                         ->out("center","webshop");
                 }
+
+                if($pp>1)
+                {
+                    $this->view
+                        ->out("pmain","webshop");
+                }
+
             }
 
         }

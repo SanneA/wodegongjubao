@@ -67,6 +67,61 @@ class m_webmarket extends MuonlineUser
     }
 
     /**
+     * количество записей, удовледтворяющих запросу
+     * @param array $params
+     * @return mixed
+     * @throws ADODB_Exception
+     */
+    public function getCount($params)
+    {
+        $filter = '';
+        if(!empty($params["name"]))
+        {
+            if(!empty($filter))
+                $filter.=" AND ";
+
+            $filter.=" col_Name like '%{$params["name"]}%'";
+        }
+
+        if($params["lvlf"]>-1 && $params["lvlt"]>-1)
+        {
+            if(!empty($filter))
+                $filter.=" AND ";
+
+            $filter.=" col_level BETWEEN {$params["lvlf"]} AND {$params["lvlt"]}";
+        }
+
+        if( !empty($params["ismyitem"]))
+        {
+            $filter.=" AND col_user ='{$_SESSION["mwcuser"]}'";
+        }
+
+        if(!empty($params["isExc"]))
+            $filter.=" AND col_isExc !='0'";
+
+        if(!empty($params["isAnc"]))
+            $filter.=" AND col_isAnc !='0'";
+
+        if(!empty($params["isSkill"]))
+            $filter.=" AND col_isSkill !='0'";
+
+        if(!empty($params["isOpt"]))
+            $filter.=" AND col_isOpt !='0'";
+
+        if(!empty($params["isPVP"]))
+            $filter.=" AND col_isPVP !='0'";
+
+        if(!empty($params["isHarmony"]))
+            $filter.=" AND col_isHarmony !='0'";
+
+        if(!empty($filter))
+            $filter = "WHERE $filter";
+
+        $q = $this->db->query("SELECT COUNT(*) as cnt FROM mwc_web_shop $filter")->FetchRow();
+        return $q["cnt"];
+    }
+
+    /**
      * @param int $id
      * @return mixed
      * @throws ADODB_Exception

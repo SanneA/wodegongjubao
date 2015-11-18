@@ -547,10 +547,10 @@ background:url(../images/marker.png) left 1px no-repeat;
 padding-left:15px;
 margin-top:5px;
 }
-/*
+
 .page-navi {
 width:263px;
-margin:40px 0 0 125px;
+margin:2px auto;
 }
 .page-navi ul{
 width:224px;
@@ -586,7 +586,7 @@ margin:4px 9px 0 0px;
 .navi-left:hover, .navi-right:hover {
 color:#FFF;
 }
-*/
+
 
 .copyleft {
 margin:47px 0 0 63px;

@@ -59,6 +59,8 @@
     </div>
 </div>
 <script type="text/javascript">
+    var page = 1;
+
     $(document).ready(function(){
         filter();
     });
@@ -106,7 +108,11 @@
         })
     }
 
-
+    function paginate(num)
+    {
+        page = num;
+        filter();
+    }
 
     function filter()
     {
@@ -114,7 +120,7 @@
             element:'itemscontent',
             address:'|site|pagebg/webmarket/inlist.html',
             type:'POST',
-            data:$("#itemFilter").serialize(),
+            data:$("#itemFilter").serialize()+'&pn='+page,
             callback:function(){
                 $('.itemshows').qtip({
                     content: {
