@@ -223,7 +223,7 @@ class cconfigs  extends aController
      */
     public function action_addparam()
     {
-        if(!empty($_GET["cid"]) && !empty($_POST["pname"]) && !empty($_POST["pval"])&& !empty($_POST["id"]))
+        if(!empty($_GET["cid"]) && !empty($_POST["pname"]) && isset($_POST["pval"])&& !empty($_POST["id"]))
         {
             $id_ = (int)$_GET["cid"];
             $name = $_POST["pname"];

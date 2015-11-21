@@ -1,0 +1,1 @@
+<?php $lang["mailhost"]="Адрес почтового сервера"; $lang["mailport"]="Порт почтового сервера"; $lang["mailtmout"]="Таймаут"; $lang["mailboxf"]="Почтовый ящик"; $lang["mailpbf"]="Пароль от почтового ящика"; $lang["maildlvl"]="Уровень дебага"; $lang["mailnib"]="Название в теле письма"; $lang["mailnamefrom"]="От кого письмо"; $lang["attenMail"]="Обратный адрес почты"; 

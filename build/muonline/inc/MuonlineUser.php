@@ -70,7 +70,7 @@ class MuonlineUser extends Model
             $this->user["login"] = $_SESSION["mwcuser"] = $login;
             $this->user["pwd"]  = $_SESSION["mwcpwd"] = $password;
             $this->user += $about;//добавляем данные как положено.
-            $_SESSION["mwcpoints"] = 5;//делаем пользователя пользователем
+            $_SESSION["mwcpoints"] = $this->user["MWCpoints"];//делаем пользователя пользователем
 
             $this->isLoged = true;
             return true;
