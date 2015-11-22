@@ -21,6 +21,7 @@ class router
 
         define("tbuild",$cfg["defaultbuild"]);
 
+
         if(empty($_SESSION["mwcbuild"]) || $_SESSION["mwcbuild"]!=$cfg["defaultbuild"])
         {
             $_SESSION["mwcbuild"] = $cfg["defaultbuild"];
@@ -40,10 +41,7 @@ class router
         if(empty($_SESSION["mwcpoints"])) //группа
             $_SESSION["mwcpoints"] = $globalcfg["defgrp"];
 
-        /*if("http://".getenv("HTTP_HOST")."/" != $globalcfg["address"])
-            $adres = "http://".getenv("HTTP_HOST")."/";
-        else*/
-            $adres = $globalcfg["address"];
+        $adres = $globalcfg["address"];
 
         try
         {
@@ -59,21 +57,13 @@ class router
 
         try
         {
-            $db = new connect(
-                $globalcfg["ctype"],
-                $globalcfg["db_host"][$_SESSION["mwcserver"]],
-                $globalcfg["db_name"][$_SESSION["mwcserver"]],
-                $globalcfg["db_user"][$_SESSION["mwcserver"]],
-                $globalcfg["db_upwd"][$_SESSION["mwcserver"]]
-            );
-
+            $db = connect::start();
             if(empty($_SESSION["mwcuid"]))
                 $uid = 0;
             else
                 $uid = $_SESSION["mwcuid"];
 
-            $valid = new validation($db); //валидация данных с пост и гет массивов REQUEST НЕ ПРОВЕРЯЮ!!
-            $builder = new builder($db,tbuild,$_SESSION["mwclang"],$_SESSION["mwcserver"]); // проверяем наличие списка модулей и плагинов
+            $builder = new builder(tbuild,$_SESSION["mwclang"],$_SESSION["mwcserver"]); // проверяем наличие списка модулей и плагинов
 
             //region плагины
             $plugin = "";
@@ -104,8 +94,6 @@ class router
                             $err = 2;
                         //endregion
 
-
-
                         if(file_exists($contoller_path) && (!empty($param["groups"]) || $err == 0))
                         {
                             if(empty($param["groups"]))
@@ -121,13 +109,13 @@ class router
                                 {
                                     require $model_path;
                                 }
+
                                 require $contoller_path;
 
                                 if((in_array($_SESSION["mwcpoints"],$paccess) || in_array(4,$paccess) || $err==0) && class_exists($param["mname"])) //если есть доступ к плагинам показываем
                                 {
                                     $tmp = $param["mname"];
-                                    $model = new $tmp($db);
-
+                                    $model = new $tmp();
                                     $pcontoller = new $name($model, $content, $plugin, $_SESSION["mwcserver"]);
 
                                     if (method_exists($name, "action_index"))
@@ -142,7 +130,7 @@ class router
                             {
                                 if(in_array($_SESSION["mwcpoints"],$paccess) || in_array(4,$paccess)) //если есть доступ к плагинам показываем
                                 {
-                                    $model = new usermodel($db);
+                                    $model = new $globalcfg["defModel"]();
                                     $pcontoller = new PController($model,$content,$plugin,$_SESSION["mwcserver"]);
                                     $pcontoller->genNonMVC($contoller_path);
                                     $pcontoller->parentOut($name);
@@ -286,6 +274,7 @@ class router
         catch (ADODB_Exception $ex)
         {
             $stack = $ex->getTrace();
+            Tools::debug($stack);
             $msg = $ex->getMessage()." in file: ".basename($stack[3]["file"])." line: ".$stack[3]["line"];
             self::addlog(tbuild."_error",$msg,"log");
             content::showError("Something went wrong","please, check logs.");

@@ -39,10 +39,7 @@ class arouter
         if(empty($_SESSION["mwcapoints"])) //группа в админке
             $_SESSION["mwcapoints"] = $globalcfg["defgrp"];
 
-       /* if("http://".getenv("HTTP_HOST")."/" != $globalcfg["address"])
-            $adres = "http://".getenv("HTTP_HOST")."/";
-        else*/
-            $adres = $globalcfg["address"];
+        $adres = $globalcfg["address"];
 
         //для редактирования билдов (подгрузка всего и вся (настроек)
         if(isset($_POST["whosconfig"]))
@@ -62,17 +59,8 @@ class arouter
 
         try
         {
-            $db = new connect(
-                $globalcfg["ctype"],
-                $globalcfg["db_host"][$_SESSION["mwcserver"]],
-                $globalcfg["db_name"][$_SESSION["mwcserver"]],
-                $globalcfg["db_user"][$_SESSION["mwcserver"]],
-                $globalcfg["db_upwd"][$_SESSION["mwcserver"]]
-            );
-
-            $valid = new validation($db); //валидация данных с пост и гет массивов REQUEST НЕ ПРОВЕРЯЮ!!
-            $builder = new builder($db,tbuild,$_SESSION["mwclang"],$_SESSION["mwcserver"]); // проверяем наличие списка модулей и плагинов
-
+            $db = connect::start();
+            $builder = new builder(tbuild,$_SESSION["mwclang"],$_SESSION["mwcserver"]); // проверяем наличие списка модулей и плагинов
             $action_name = "action_index";
 
             //region плагины
@@ -105,7 +93,7 @@ class arouter
                                 if(in_array($_SESSION["mwcapoints"],$paccess) || in_array(4,$paccess) && class_exists($param["mname"])) //если есть доступ к плагинам показываем
                                 {
                                     $tmp = $param["mname"];
-                                    $model = new $tmp($db);
+                                    $model = new $tmp();
                                     $pcontoller = new $name($model,$content,$plugin,$_SESSION["mwcserver"]);
 
                                     if(method_exists($name,"action_index"))
@@ -121,7 +109,7 @@ class arouter
                             {
                                 if(in_array($_SESSION["mwcapoints"],$paccess) || in_array(4,$paccess)) //если есть доступ к плагинам показываем
                                 {
-                                    $model = new ausermodel($db);
+                                    $model = new $globalcfg["defModel"]();
                                     $pcontoller = new PController($model,$content,$plugin,$_SESSION["mwcserver"]);
                                     $pcontoller->genNonMVC($contoller_path);
                                     $pcontoller->parentOut($name);
@@ -237,7 +225,7 @@ class arouter
                 }
                 else
                 {
-                    $model = new Model($db);
+                    $model = new Model();
                     $contolinst = new Controller($model,$content,$page,$_SESSION["mwcserver"]);
                     $contolinst->init();
                     $contolinst->showError(3);
@@ -247,7 +235,7 @@ class arouter
             }
             else
             {
-                $model = new Model($db);
+                $model = new Model();
                 $contolinst = new Controller($model,$content,$page,$_SESSION["mwcserver"]);
                 $contolinst->init();
                 $contolinst->showError(3);

@@ -8,6 +8,8 @@
  **/
 class mainmenu extends muPController
 {
+    protected $needValid = false; //выключаем валидацию POST & GET
+
     public function action_index()
     {
         if($this->isCached("mainmenu")) //кешик

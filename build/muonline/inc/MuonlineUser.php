@@ -15,9 +15,9 @@ class MuonlineUser extends Model
     protected $character;
     protected $unicCfg;
 
-    public function __construct(connect $db)
+    public function __construct()
     {
-        parent::__construct($db);
+        parent::__construct();
         if(!empty($_SESSION["mwcuser"]) && !empty($_SESSION["mwcpwd"]))
         {
             $this->user["login"] = $_SESSION["mwcuser"];

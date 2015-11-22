@@ -10,6 +10,7 @@ include "libraries". DIRECTORY_SEPARATOR ."adodb5". DIRECTORY_SEPARATOR ."adodb.
 
 class connect
 {
+    static protected  $inst = null;
     private $resId; // идентификатор ресурсов
     private $iserror; //идентификатор ошибки
     private $btype; //тип подключения
@@ -23,6 +24,15 @@ class connect
         "PDO"
     );
 
+    static public function start($type = NULL,$host = NULL,$base = NULL,$user = NULL,$pwd = NULL)
+    {
+        if(self::$inst==null)
+        {
+            self::$inst = new connect($type,$host,$base,$user,$pwd);
+        }
+        return self::$inst;
+    }
+
     /**
      * @param int $type
      * @param string $host
@@ -31,8 +41,18 @@ class connect
      * @param string $pwd
      * @throws Exception
      */
-    public function __construct ($type,$host,$base,$user,$pwd)
+    private function __construct ($type = NULL,$host = NULL,$base = NULL,$user = NULL,$pwd = NULL)
     {
+        if(is_null($type) && is_null($host) && is_null($base) && is_null($user) && is_null($pwd))
+        {
+            $cfg = Configs::readCfg("main",tbuild);
+            $type = $cfg["ctype"];
+            $host = $cfg["db_host"][$_SESSION["mwcserver"]];
+            $base = $cfg["db_name"][$_SESSION["mwcserver"]];
+            $user = $cfg["db_user"][$_SESSION["mwcserver"]];
+            $pwd = $cfg["db_upwd"][$_SESSION["mwcserver"]];
+        }
+
         $this->iserror=false;
         $this->btype=$type;
         global $ADODB_FETCH_MODE;
@@ -55,7 +75,7 @@ class connect
             case 5:
             $this->pdo_mysql($host,$base,$user,$pwd);$this->ntype=5; break; //pdo mysql connection
             default:
-            throw new ADODB_Exception("Unknown connect Type");
+            throw new ADODB_Exception("Unknown connect Type '$type'");
         }
     }
 

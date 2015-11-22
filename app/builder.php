@@ -20,9 +20,9 @@ class builder
     private $lang;
     private $server;
 
-    public function __construct($db,$tbuild,$lang,$server)
+    public function __construct($tbuild,$lang,$server)
     {
-        $this->DB = $db;
+        $this->DB = connect::start();
         $this->build = $tbuild;
         $this->lang = $lang;
         $this->server = $server;

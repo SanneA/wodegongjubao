@@ -9,6 +9,10 @@
  **/
 class login extends aPController
 {
+    protected $postField = array(
+        "mwcalogin" => array("type"=>"str","maxLength"=>22),
+        "mwcapwd" => array("type"=>"str","maxLength"=>22)
+    );
     public function action_index()
     {
         if(isset($_POST["mwcalogin"]) && isset($_POST["mwcapwd"]) && !$this->model->isLogged())

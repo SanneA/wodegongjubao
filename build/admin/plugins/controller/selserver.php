@@ -9,9 +9,12 @@
  **/
 class selserver extends aPController
 {
+    protected $postField = array(
+        "whosconfig" => array("type"=>"str","maxLength"=>30)
+    );
+
     public function action_index()
     {
-
         if(!empty($_SESSION["mwccfgread"]))
             $selectted = $_SESSION["mwccfgread"];
         else
