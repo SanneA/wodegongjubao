@@ -8,6 +8,8 @@
  **/
 class eventblock extends muPController
 {
+    protected $needValid = false; //выключаем валидацию POST & GET
+
     public function action_index()
     {
         $this->view

@@ -81,7 +81,7 @@ else
                 {
                     $conType = (int)$_POST["conType"];
 
-                    $db = new connect(
+                    $db = connect::start(
                         $conType,
                         $_POST["db_host"],
                         $_POST["db_name"],
@@ -129,7 +129,7 @@ else
             echo "<tr><td colspan='2'> Adding tables in database.. <br>";
             try
             {
-                $db = new connect(
+                $db = connect::start(
                     $_SESSION["installmwcct"],
                     $_SESSION["installmwcdb_host"],
                     $_SESSION["installmwcdb_name"],
@@ -166,7 +166,7 @@ else
         case 5:
             try
             {
-                $db = new connect(
+                $db = connect::start(
                     $_SESSION["installmwcct"],
                     $_SESSION["installmwcdb_host"],
                     $_SESSION["installmwcdb_name"],

@@ -11,14 +11,15 @@ class Model
 {
     protected $db;
 
-
-    public function __construct(connect $db)
+    public function __construct()
     {
-        $this->db = $db;
-
+        $this->db = connect::start();
         $this->init();
     }
 
+    /**
+     * функция, запускаемая с конструктором
+     */
     public function init()
     {
 
@@ -26,7 +27,6 @@ class Model
 
     /**
      * запись лога в БД
-     *
      * @param string $msg
      * @param string $file
      * @param int $errNo
@@ -37,6 +37,10 @@ class Model
         $this->db->SQLog($msg,$file,$errNo, $isValid);
     }
 
+    /**
+     * доступ к бд, для функциональных модулей
+     * @return connect|null
+     */
     public function getDBins()
     {
         return $this->db;
