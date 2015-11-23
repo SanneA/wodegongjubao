@@ -367,19 +367,7 @@ class Controller
                     if(!empty($this->postField[$id]["maxLength"]))
                         $val = substr($val,0,(int)$this->postField[$id]["maxLength"]);
 
-                    switch($type)
-                    {
-                        case "double":
-                        case "float": $val = floatval($val);break;
-                        case "int":
-                        case "integer": $val = intval($val);break;
-                        case "str":
-                        case "string": $val = htmlspecialchars(self::checkText($val),ENT_QUOTES);break;
-                        case "bool":
-                        case "boolean": $val = boolval($val);break;
-                        case "array": break;
-                        default: $val = htmlspecialchars(self::checkText($val),ENT_QUOTES);break;
-                    }
+                    $val = self::paramsControl($val,$type);
 
                     if(function_exists("get_magic_quotes_gpc"))
                     {
@@ -427,19 +415,7 @@ class Controller
                     if(!empty($this->getField[$id]["maxLength"]))
                         $val = substr($val,0,(int)$this->getField[$id]["maxLength"]);
 
-                    switch($type)
-                    {
-                        case "double":
-                        case "float": $val = floatval($val);break;
-                        case "int":
-                        case "integer": $val = intval($val);break;
-                        case "str":
-                        case "string": $val = htmlspecialchars(self::checkText($val),ENT_QUOTES);break;
-                        case "bool":
-                        case "boolean": $val = boolval($val);break;
-                        case "array": break;
-                        default: $val = htmlspecialchars(self::checkText($val),ENT_QUOTES);break;
-                    }
+                    $val = self::paramsControl($val,$type);
 
                     if(function_exists("get_magic_quotes_gpc"))
                     {
@@ -462,5 +438,32 @@ class Controller
                 }
             }
         }
+    }
+
+    /**
+     * приведение типов по парамету
+     * @param number|string $param
+     * @param string $type
+     * @return bool|float|int|string
+     */
+    protected function paramsControl($param,$type)
+    {
+        switch($type)
+        {
+            case "double":
+            case "float": $param = floatval($param);break;
+            case "int":
+            case "integer": $param = intval($param);break;
+            case "str":
+            case "string": $param = htmlspecialchars(self::checkText($param),ENT_QUOTES);break;
+            case "bool":
+            case "boolean": $param = boolval($param);break;
+            case "array": break;
+            case "date": $param = date_::intransDate($param); break;
+            case "datetime": $param = date_::intransDate($param,true); break;
+            default: $param = htmlspecialchars(self::checkText($param),ENT_QUOTES);break;
+        }
+
+        return $param;
     }
 }
