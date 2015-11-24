@@ -132,7 +132,7 @@ class arouter
             }
             else
             {
-                $controller = strtolower($_GET["p"]);
+                $controller = htmlspecialchars($_GET["p"],ENT_QUOTES);
 
                 if($controller == "index")
                     $controller = $globalcfg["defpage"];
