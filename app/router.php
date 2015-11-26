@@ -274,7 +274,6 @@ class router
         catch (ADODB_Exception $ex)
         {
             $stack = $ex->getTrace();
-            Tools::debug($stack);
             $msg = $ex->getMessage()." in file: ".basename($stack[3]["file"])." line: ".$stack[3]["line"];
             self::addlog(tbuild."_error",$msg,"log");
             content::showError("Something went wrong","please, check logs.");
