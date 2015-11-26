@@ -18,6 +18,7 @@ class Controller
     protected $configs = array(); //конфигурации к модулю
     protected $postField; //поля для валидации из POST - массива
     protected $getField; //поля для валидации из GET - массива
+    protected $needValid = true; //проверять или нет пост и гет
 
 
     public function __construct(Model $model,content $view,$pages,$server)
@@ -242,6 +243,11 @@ class Controller
      */
     protected function validate()
     {
+        if(!$this->needValid) //если выставлен флаг, что не надо валидации, значит, не надо валидации :)
+        {
+            return;
+        }
+
         if(empty($this->postField))
             self::clearPost();
         else
