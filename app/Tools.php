@@ -237,4 +237,8 @@ class Tools
         return number_format($num, 2, ',', ' ')." ".$pos;
     }
 
+    static public function linkDec($link)
+    {
+        return str_replace("&amp;","&",$link);
+    }
 }
