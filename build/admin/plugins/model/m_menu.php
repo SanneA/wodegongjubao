@@ -29,7 +29,7 @@ class m_menu extends Model
         {
             if(!empty($lang[$r["mtitle"]]))
                 $r["mtitle"] = $lang[$r["mtitle"]];
-            $r["link"] = validation::linkDec($r["link"]); //снимает экранирование с амперсанда
+            $r["link"] = Tools::linkDec($r["link"]); //снимает экранирование с амперсанда
             $return[$i] = $r;
 
             $i++;
