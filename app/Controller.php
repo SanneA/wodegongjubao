@@ -242,17 +242,15 @@ class Controller
      */
     protected function validate()
     {
-        if(empty($this->postField) && empty($this->getField)) // если не указаны частные поля, то чекаем дефолтной проверкой
-        {
-            self::clearGet();
+        if(empty($this->postField))
             self::clearPost();
-        }
         else
-        {
             self::customPostValid();
-            self::customGetValid();
-        }
 
+        if(empty($this->getField))
+            self::clearGet();
+        else
+            self::customGetValid();
     }
 
     protected function clearGet()
