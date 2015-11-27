@@ -196,6 +196,7 @@ class router
 
                     if(in_array($_SESSION["mwcpoints"],$access) ||  in_array(4,$access) || $err == 0 )//если пользователю дозволен вход и нет проблем с allowedUsrs
                     {
+
                         if(!empty($page[$controller]["mname"]) && !empty($page[$controller]["mpath"])) //если модуль является православным MVC
                         {
                             $modelpath = "build".DIRECTORY_SEPARATOR.tbuild.DIRECTORY_SEPARATOR.$page[$controller]["mpath"].DIRECTORY_SEPARATOR.$page[$controller]["mname"].".php";
@@ -229,8 +230,9 @@ class router
                         }
                         else //если написан без ооп
                         {
-                            $model = new usermodel($db);
-                            $contolinst = new Controller($model,$content,$page,$_SESSION["mwcserver"]);
+
+                            $model = new $globalcfg["defModel"]();
+                            $contolinst = new $globalcfg["defController"]($model,$content,$page,$_SESSION["mwcserver"]);
                             $contolinst->genNonMVC($path);
                             $contolinst->parentOut($isBackground);
                         }

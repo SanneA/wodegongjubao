@@ -193,6 +193,8 @@ else
                         "licecount" => 1,
                         "defgrp" => 2,
                         "defpage" => "admin",
+                        "defController" => "aController",
+                        "defModel" => "ausermodel",
                     );
                     $mainpath = "configs".DIRECTORY_SEPARATOR."configs.php";
                     if(file_exists($mainpath))
