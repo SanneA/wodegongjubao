@@ -152,7 +152,7 @@ class m_ammanager extends Model
      */
     public function delPage($id)
     {
-        $this->db->query("DELETE FROM mwc_access WHERE pageId = $id; DELETE FROM mwc_pages WHERE id = $id");
+        $this->db->query("DELETE FROM mwc_access WHERE pageId = $id; DELETE FROM mwc_pages WHERE id = $id;");
     }
 
 }

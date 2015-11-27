@@ -114,7 +114,7 @@ class apman extends aController
             $cache = (int)$_POST["pcache"];
             $state = (int)$_POST["chosedstate"];
             $seq = (int)$_POST["seq"];
-            $model = !empty($_POST["mname"]) ? "'".substr($_POST["mname"],0,50)."'" : "NULL";
+            $model = !empty($_POST["mname"]) ? "'".substr($_POST["mname"],0,50)."'" : "''";
 
             $this->model->applyPlugin($pid,$plugin,$cache,$state,$model,$seq);
         }
@@ -164,8 +164,6 @@ class apman extends aController
                     ->set(array("g_name"=>$gname,"gp"=>$id,"id"=>$plid))
                     ->out("inlistgroup","apman");
             }
-
-            //Tools::debug($groups);
         }
     }
 

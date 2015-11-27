@@ -194,8 +194,8 @@ class arouter
                         }
                         else //если написан без ооп
                         {
-                            $model = new ausermodel($db);
-                            $contolinst = new aController($model,$content,$page,$_SESSION["mwcserver"]);
+                            $model = new $globalcfg["defModel"]();
+                            $contolinst = new $globalcfg["defController"]($model,$content,$page,$_SESSION["mwcserver"]);
 
                             if (method_exists($contolinst, $action_name) && $action_name!="action_index" && (in_array($_SESSION["mwcapoints"],$access) || $_SESSION["mwcapoints"] == 1))
                                 $contolinst->$action_name();

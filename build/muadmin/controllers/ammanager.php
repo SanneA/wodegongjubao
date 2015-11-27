@@ -127,12 +127,12 @@ class ammanager extends aController
             if(!empty($_POST["mmname"]))
                 $mmname = $_POST["mmname"];
             else
-                $mmname = NULL;
+                $mmname = "";
 
             if(!empty($_POST["mpath"]))
                 $mpath = $_POST["mpath"];
             else
-                $mpath = NULL;
+                $mpath = "";
 
             if(!empty($_POST["cache"]))
                 $cache = $_POST["cache"];
@@ -249,8 +249,8 @@ class ammanager extends aController
         else
             return;
 
-        $mname = !empty($_POST["mname"]) ? "'{$_POST["mname"]}'" : "NULL";
-        $fmname = !empty($_POST["fmname"]) ? "'{$_POST["fmname"]}'" : "NULL";
+        $mname = !empty($_POST["mname"]) ? "'{$_POST["mname"]}'" : "''";
+        $fmname = !empty($_POST["fmname"]) ? "'{$_POST["fmname"]}'" : "''";
         $cache = !empty($_POST["cache"]) ? (int)$_POST["cache"] : 0;
 
         if(!empty($_POST["title_n"])) //если указано имя на живую, то игнорируем выбранное, и забиваем в язык новое
