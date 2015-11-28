@@ -220,5 +220,4 @@ else
             Tools::debug($_POST);
             break;
     }
-//MAINTANCE\LOCALDBS
 }

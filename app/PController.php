@@ -23,7 +23,6 @@ class PController
     protected $configs = array(); //конфигурации к модулю
     protected $postField; //поля для валидации из POST - массива
     protected $getField; //поля для валидации из GET - массива
-    protected $needValid = true; //нужна ли плагину вообще валидация
 
     public function __construct(Model $model,content $view,$plugins,$server)
     {
@@ -241,22 +240,11 @@ class PController
      */
     protected function validate()
     {
-        if(!$this->needValid) //если выставлен флаг, что не надо валидации, значит, не надо валидации :)
-        {
-            return;
-        }
-
-        if(empty($this->postField) && empty($this->getField)) // если не указаны частные поля, то чекаем дефолтной проверкой
-        {
-            self::clearGet();
-            self::clearPost();
-        }
-        else
-        {
+        if(!empty($this->postField))
             self::customPostValid();
-            self::customGetValid();
-        }
 
+        if(!empty($this->getField))
+            self::customGetValid();
     }
 
     protected function clearGet()
@@ -275,7 +263,7 @@ class PController
                 $this->model->toLog("GET -> {$_GET[$id]} != {$v}, URI:{$_SERVER["REQUEST_URI"]} ","validation",4);
             }
             $_GET[$id] = $v;
-            $GLOBALS["get_".$id."_v"] = true;
+            //$GLOBALS["get_".$id."_v"] = true;
         }
     }
 
@@ -306,9 +294,10 @@ class PController
                 $this->model->toLog("POST -> {$_POST[$id]} != {$v}, URI:{$_SERVER["REQUEST_URI"]} ","validation",4);
             }
             $_POST[$id]=$v;
-            $GLOBALS["post_".$id."_v"] = true;
+            //$GLOBALS["post_".$id."_v"] = true;
         }
     }
+
     /**
      * возврат исходного текста после htmlspecialchars
      *
