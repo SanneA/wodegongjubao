@@ -10,6 +10,9 @@ class news extends muController
 {
     public function action_index()
     {
+        $this->view->replace("title","keywords");
+        $this->view->replace("title","description");
+
 
         $nar = $this->model->getNewsList($this->configs["cntPerPage"]); //выборка новостей
 
