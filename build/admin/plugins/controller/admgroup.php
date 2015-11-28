@@ -9,8 +9,6 @@
  **/
 class admgroup extends aPController
 {
-    protected $needValid = false; //выключаем валидацию POST & GET
-
     public function action_index()
     {
         if(isset($_SESSION["mwcagroupname"]))

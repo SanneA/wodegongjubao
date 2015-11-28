@@ -9,8 +9,6 @@
  **/
 class adminmenu extends aPController
 {
-    protected $needValid = false; //выключаем валидацию POST & GET
-
     public function action_index()
     {
         $this->genadminmenu();
