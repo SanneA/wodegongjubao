@@ -19,7 +19,7 @@
                         <input type="text" name="ntitlez" id="ntitlez" placeholder="|l_ntitle|" style="width:100%" maxlength="255">
                     </tr>
                     <tr>
-                        <td colspan="2"><textarea style="width:100%; height:150px;" id="newsinput" ></textarea></td>
+                        <td colspan="2"><textarea style="width:100%; height:150px;" id="newsinput" name="newsinput" ></textarea></td>
                     </tr>
                     <td>
                         <input type="text" class="w-input" name="ntag" id="ntag" placeholder="|l_nttags|" style="width:100%" maxlength="255">
@@ -85,12 +85,17 @@
 
     function addorapply()
     {
+
+        for(var editor in CKEDITOR.instances) {
+            CKEDITOR.instances[editor].updateElement();
+        }
+
         if(currentNews>0)
         {
             $.ajax({
                 url: "|site|control.php?p=anews&bg=1&a=apply",
                 type: 'POST',
-                data: $("#newsform_").serialize() + "&id=" + currentNews+"&newsinput="+CKEDITOR.instances["newsinput"].getData(),
+                data: $("#newsform_").serialize() + "&id=" + currentNews,
                 cache: false,
                 success: function () {
                     clearnews();
@@ -107,7 +112,7 @@
             $.ajax({
                 url: "|site|control.php?p=anews&bg=1&a=newnews",
                 type: 'POST',
-                data: $("#newsform_").serialize() + "&newsinput="+CKEDITOR.instances["newsinput"].getData(),
+                data: $("#newsform_").serialize(),
                 cache: false,
                 success: function () {
                     clearnews();
