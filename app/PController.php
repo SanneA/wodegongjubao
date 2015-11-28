@@ -128,7 +128,7 @@ class PController
      */
     protected function cacheDif($fname)
     {
-        $path = "build".DIRECTORY_SEPARATOR.tbuild.DIRECTORY_SEPARATOR."_dat".DIRECTORY_SEPARATOR."cache".DIRECTORY_SEPARATOR.$this->serverNum."_".$this->view->cLAng()."_plugin_".get_class($this)."_$fname";
+        $path = "build".DIRECTORY_SEPARATOR.tbuild.DIRECTORY_SEPARATOR."_dat".DIRECTORY_SEPARATOR."cache".DIRECTORY_SEPARATOR.$this->serverNum."_".$this->view->cLAng()."_plugin_$fname";
 
         if(file_exists($path))
         {
@@ -204,6 +204,7 @@ class PController
      */
     protected function isCached($fname,$name=null)
     {
+
         $prop = $this->getPProperties($name);
 
         if(!is_null($name))
