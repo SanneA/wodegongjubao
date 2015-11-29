@@ -209,7 +209,8 @@ else
                     session_unset();
                     session_destroy();
 
-				echo "<tr><td colspan='2' style='font-weight: bold;'>Congratulation! Installation completed! Please, replace install.php from root directory, if it doesn't. Admin-panel <a href='{$gaddress}control.php'>here</a></td></tr>";
+				echo "<tr><td colspan='2' style='font-weight: bold;'>Congratulation! Core installation completed! Please, replace install.php from root directory, if it doesn't. We remind you, that was core install. Next step - build install.
+ Core Admin-panel <a href='{$gaddress}control.php'>here</a></td></tr>";
 
                 }
             }
