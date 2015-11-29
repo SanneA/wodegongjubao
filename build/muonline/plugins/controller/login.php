@@ -10,7 +10,7 @@ class login extends muPController
 {
     //массив с проверяемыми и используемыми полями из POST
     protected $postField = array(
-        "username" => array("type"=>"int","maxLength"=>20),
+        "username" => array("type"=>"str","maxLength"=>20),
         "password" => array("type"=>"str","maxLength"=>20),
     );
 
