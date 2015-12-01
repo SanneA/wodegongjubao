@@ -1,10 +1,10 @@
 <?php  //ERROR_REPORTING( E_ALL ^ E_WARNING ^ E_NOTICE ^ E_ERROR);
 
 /**
-* Класс-обертка над adodb для 
-* для работы с базой данных
-* v 1.1
-**/
+ * Класс-обертка над adodb для
+ * для работы с базой данных
+ * v 1.1
+ **/
 include "libraries". DIRECTORY_SEPARATOR ."adodb5". DIRECTORY_SEPARATOR ."adodb-exceptions.inc.php";
 include "libraries". DIRECTORY_SEPARATOR ."adodb5". DIRECTORY_SEPARATOR ."adodb.inc.php";
 
@@ -61,21 +61,21 @@ class connect
         {
             case "SQL":
             case 1:
-            $this->mmsql($host,$base,$user,$pwd);$this->ntype=1;break;    //ms sql connection
+                $this->mmsql($host,$base,$user,$pwd);$this->ntype=1;break;    //ms sql connection
             case "MPDO":
             case 2:
-            $this->pdo_mssql($host,$base,$user,$pwd);$this->ntype=2;break; //pdo ms sql connection
+                $this->pdo_mssql($host,$base,$user,$pwd);$this->ntype=2;break; //pdo ms sql connection
             case "ODBC":
             case 3:
-            $this->odbc_mmsql($host,$base,$user,$pwd);$this->ntype=3;break; //odbc mssql connection
+                $this->odbc_mmsql($host,$base,$user,$pwd);$this->ntype=3;break; //odbc mssql connection
             case "MYSQL":
             case 4:
-            $this->mysql($host,$base,$user,$pwd);$this->ntype=4;break;  // mysql connection
+                $this->mysql($host,$base,$user,$pwd);$this->ntype=4;break;  // mysql connection
             case "PDO":
             case 5:
-            $this->pdo_mysql($host,$base,$user,$pwd);$this->ntype=5; break; //pdo mysql connection
+                $this->pdo_mysql($host,$base,$user,$pwd);$this->ntype=5; break; //pdo mysql connection
             default:
-            throw new ADODB_Exception("Unknown connect Type '$type'");
+                throw new Exception("Unknown connect Type '$type'");
         }
     }
 
@@ -125,10 +125,10 @@ class connect
     }
 
     /**
-      * функция возвращает последний insert id
-      * @param string $tbname - название таблицы, куда была последняя вставка
-      * @return int id
-      */
+     * функция возвращает последний insert id
+     * @param string $tbname - название таблицы, куда была последняя вставка
+     * @return int id
+     */
     public function lastId($tbname=null)
     {
         if ($this->ntype <4) // ms
@@ -152,22 +152,32 @@ class connect
         if (function_exists("mssql_connect"))
         {
             $this->resId = ADONewConnection('mssql');
-            $this->resId->PConnect($host,$user,$pwd,$base);
+            if(!empty($base))
+                $this->resId->PConnect($host,$user,$pwd,$base);
+            else
+                $this->resId->PConnect($host,$user,$pwd);
         }
         else
-            throw new ADODB_Exception("mssql_connect is NOT supported!");
+            throw new Exception("mssql_connect is NOT supported!");
     }
 
     private function mysql($host,$base,$user,$pwd)
     {
         if (function_exists("mysql_connect"))
         {
-            $dsn = "mysql://$user:$pwd@$host/$base?clientflags=65536";
+            if(empty($base))
+            {
+                $dsn = "mysql://$user:$pwd@$host";
+                self::query("CREATE DATABASE mwce_settings CHARACTER SET utf8 COLLATE utf8_general_ci; USE mwce_settings;");
+            }
+            else
+                $dsn = "mysql://$user:$pwd@$host/$base?clientflags=65536";
+
             $this->resId = ADONewConnection($dsn);
             self::query("SET names 'utf8'");
         }
         else
-            throw new ADODB_Exception("mysql_connect is NOT supported!");
+            throw new Exception("mysql_connect is NOT supported!");
     }
 
 
@@ -176,12 +186,15 @@ class connect
         if (function_exists("odbc_connect"))
         {
             $this->resId = ADONewConnection('odbc_mssql');
-            $dsn = "Driver={SQL Server};Server=".$host.";Database=".$base.";";
+            if(!empty($base))
+                $dsn = "Driver={SQL Server};Server=".$host.";Database=".$base.";";
+            else
+                $dsn = "Driver={SQL Server};Server=".$host.";";
             $this->resId->debug=false;
             $this->resId->PConnect($dsn,$user,$pwd);
         }
         else
-            throw new ADODB_Exception("odbc_connect is NOT supported!");
+            throw new Exception("odbc_connect is NOT supported!");
     }
 
     private function pdo_mssql($host,$base,$user,$pwd)
@@ -189,10 +202,13 @@ class connect
         $drivers = PDO::getAvailableDrivers();
         if (in_array("mssql",$drivers))
         {
-            $this->resId =& NewADOConnection("pdo_mssql://{$user}:{$pwd}@{$host}/{$base}");
+            if(!empty($base))
+            $this->resId = NewADOConnection("pdo_mssql://{$user}:{$pwd}@{$host}/{$base}");
+            else
+            $this->resId = NewADOConnection("pdo_mssql://{$user}:{$pwd}@{$host}");
         }
         else
-            throw new ADODB_Exception("PDO_mssql is NOT supported!");
+            throw new Exception("PDO_mssql is NOT supported!");
     }
 
     private function pdo_mysql($host,$base,$user,$pwd)
@@ -201,10 +217,18 @@ class connect
 
         if (in_array("mysql",$drivers))
         {
-            $this->resId =& NewADOConnection("pdo_mysql://{$user}:{$pwd}@{$host}/{$base}");
+            if(empty($base))
+            {
+                $this->resId = NewADOConnection("pdo_mysql://{$user}:{$pwd}@{$host}");
+                self::query("CREATE DATABASE mwce_settings CHARACTER SET utf8 COLLATE utf8_general_ci; USE mwce_settings;");
+            }
+            else
+                $this->resId = NewADOConnection("pdo_mysql://{$user}:{$pwd}@{$host}/{$base}");
+
+            self::query("SET names 'utf8'");
         }
         else
-            throw new ADODB_Exception("PDO_mysql is NOT supported!");
+            throw new Exception("PDO_mysql is NOT supported!");
     }
 
     public function getMsg()
@@ -223,7 +247,7 @@ class connect
             $this->lastq = $qtext;
             return $this->resId->Execute($qtext);
         }
-        catch (ADODB_Exception $ex)
+        catch (Exception $ex)
         {
             error_reporting(0);
             $agr = $ex->getTrace();

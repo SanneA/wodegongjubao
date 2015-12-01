@@ -1,0 +1,216 @@
+1. проверяем наличие полей в MEMB_INFO:
+- MWCpoints
+- mwc_credits
+- mwc_tryes
+- mwc_timeban
+- mwc_bankZ
+если Каких-то из полей нет, ТО вбиваем в QA нужные, не забыв выбрать базу:
+ALTER TABLE dbo.MEMB_INFO ADD MWCpoints int default ((5)) NOT NULL;
+ALTER TABLE dbo.MEMB_INFO ADD mwc_credits bigint default ((0)) NOT NULL;
+ALTER TABLE dbo.MEMB_INFO ADD mwc_tryes smallint default((0)) NULL;
+ALTER TABLE dbo.MEMB_INFO ADD mwc_timeban datetime NULL;
+ALTER TABLE dbo.MEMB_INFO ADD mwc_bankZ bigint default ((0)) NOT NULL;
+
+2. Проверяем наличие полей в characrer:
+- gr_res
+- RESETS (если у Вас используется другое поле, то не забудьте в админке в конфиге unic - "уникальные настройки" указать какое!)
+
+если Каких-то из полей нет, ТО вбиваем в QA нужные, не забыв выбрать базу:
+
+ALTER TABLE dbo.Character ADD gr_res int default ((0)) NOT NULL;
+ALTER TABLE dbo.Character ADD RESETS int default ((0)) NOT NULL;
+
+3. В QA в базу вбиваем процедуры после чего установка до рабочего состояния завершена:
+
+CREATE PROCEDURE [dbo].[MWC_WHITEM64]
+     @AccountID varchar(10),
+     @ItemNumber smallint,
+     @ItemSize smallint
+AS
+BEGIN
+	declare @inv varbinary(7680);
+	declare @vinv varchar(7680);
+	declare @answ varchar(64),@curitm varchar(64);
+	SET @answ = 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF';
+
+	BEGIN TRANSACTION
+	set @inv = (SELECT Items FROM warehouse WHERE AccountID = @AccountID);
+	set @vinv = CONVERT(varchar(max),@inv,2);
+	select @curitm =substring(@vinv,(@ItemNumber*@ItemSize)+1,@ItemSize)
+	IF @@Error<>0
+	    BEGIN
+	       ROLLBACK TRANSACTION;
+	       select @answ as item
+	    END
+	  ELSE
+	    BEGIN
+	      COMMIT TRANSACTION
+	      select @curitm as item
+	    END
+
+END
+
+GO
+
+CREATE PROCEDURE [dbo].[MWC_WHITEM32]
+     @AccountID varchar(10),
+     @ItemNumber smallint,
+     @ItemSize smallint
+AS
+BEGIN
+	declare @inv varbinary(3840);
+	declare @vinv varchar(3840);
+	declare @answ varchar(32),@curitm varchar(32);
+	SET @answ = 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF';
+
+	BEGIN TRANSACTION
+	set @inv = (SELECT Items FROM warehouse WHERE AccountID = @AccountID);
+	set @vinv = CONVERT(varchar(max),@inv,2);
+	select @curitm =substring(@vinv,(@ItemNumber*@ItemSize)+1,@ItemSize)
+	IF @@Error<>0
+	    BEGIN
+	       ROLLBACK TRANSACTION;
+	       select @answ as item
+	    END
+	  ELSE
+	    BEGIN
+	      COMMIT TRANSACTION
+	      select @curitm as item
+	    END
+
+END
+
+GO
+
+CREATE PROCEDURE [dbo].[MWC_REPLACEWH32]
+     @AccountID varchar(10),
+     @ItemWhat varchar(32),
+     @ItemTo varchar(32)
+AS
+BEGIN
+    declare @res char(1);
+	declare @inv varbinary(3840);
+	declare @vinv varchar(3840);
+
+	set @res =(SELECT ConnectStat from MEMB_STAT WHERE memb___id = @AccountID);
+	IF @res = 0
+	BEGIN
+	  set @inv = (SELECT Items FROM warehouse WHERE AccountID = @AccountID);
+	  set @vinv = CONVERT(varchar(3840),@inv,2);
+	  SET NOCOUNT ON;
+
+
+	  UPDATE warehouse SET Items = CONVERT(varbinary(3840),REPLACE(@vinv,@ItemWhat,@ItemTo),2) WHERE AccountID = @AccountID;
+
+   END
+   SELECT @res as statez;
+END
+
+GO
+
+CREATE PROCEDURE [dbo].[MWC_REPLACEWH64]
+     @AccountID varchar(10),
+     @ItemWhat varchar(64),
+     @ItemTo varchar(64)
+AS
+BEGIN
+    declare @res char(1);
+	declare @inv varbinary(7680);
+	declare @vinv varchar(7680);
+	--set @res = (SELECT WHOpen FROM warehouse WHERE AccountID = @AccountID);
+	set @res =(SELECT ConnectStat from MEMB_STAT WHERE memb___id = @AccountID);
+	IF @res = 0
+	BEGIN
+	  set @inv = (SELECT Items FROM warehouse WHERE AccountID = @AccountID);
+	  set @vinv = CONVERT(varchar(7680),@inv,2);
+	  SET NOCOUNT ON;
+
+	  UPDATE warehouse SET Items = CONVERT(varbinary(7680),REPLACE(@vinv,@ItemWhat,@ItemTo),2) WHERE AccountID = @AccountID;
+
+   END
+   SELECT @res as statez;
+END
+
+GO
+
+CREATE PROCEDURE [dbo].[MWC_REPLACEWHNUM32]
+ @AccountID varchar(10),
+ @ItemNum int,
+ @ItemTo varchar(32)
+     AS
+BEGIN
+    declare @res char(1);
+	declare @vinv varchar(3840);
+	 SET NOCOUNT ON;
+	set @ItemNum = @ItemNum * 32 +1 ;
+	set @res =(SELECT ConnectStat from MEMB_STAT WHERE memb___id = @AccountID);
+	IF @res = 0
+	BEGIN
+	  set @vinv = CONVERT(varchar(3840),(SELECT Items FROM warehouse WHERE AccountID = @AccountID),2);
+
+	 IF (LEN(@vinv)>@ItemNum)
+	 BEGIN
+
+		BEGIN TRANSACTION
+
+			UPDATE warehouse SET Items = CONVERT(varbinary(3840),STUFF(@vinv,@ItemNum,32,@ItemTo),2) WHERE AccountID = @AccountID;
+
+			IF @@Error<>0
+			BEGIN
+				ROLLBACK TRANSACTION;
+				SET @res = 1;
+			END
+		ELSE
+			BEGIN
+				COMMIT TRANSACTION
+			END
+		END
+	END
+	ELSE
+	BEGIN
+		SET @res = 1;
+	END
+    SELECT @res as statez;
+END
+
+GO
+
+CREATE PROCEDURE [dbo].[MWC_REPLACEWHNUM64]
+ @AccountID varchar(10),
+ @ItemNum int,
+ @ItemTo varchar(64)
+     AS
+BEGIN
+    declare @res char(1);
+	declare @vinv varchar(7680);
+	 SET NOCOUNT ON;
+	set @ItemNum = @ItemNum * 64 +1 ;
+	set @res =(SELECT ConnectStat from MEMB_STAT WHERE memb___id = @AccountID);
+	IF @res = 0
+	BEGIN
+	  set @vinv = CONVERT(varchar(7680),(SELECT Items FROM warehouse WHERE AccountID = @AccountID),2);
+
+	 IF (LEN(@vinv)>@ItemNum)
+	 BEGIN
+
+		BEGIN TRANSACTION
+
+			UPDATE warehouse SET Items = CONVERT(varbinary(7680),STUFF(@vinv,@ItemNum,64,@ItemTo),2) WHERE AccountID = @AccountID;
+
+			IF @@Error<>0
+			BEGIN
+				ROLLBACK TRANSACTION;
+				SET @res = 1;
+			END
+		ELSE
+			BEGIN
+				COMMIT TRANSACTION
+			END
+		END
+	END
+	ELSE
+	BEGIN
+		SET @res = 1;
+	END
+    SELECT @res as statez;
+END

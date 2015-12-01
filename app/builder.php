@@ -19,8 +19,9 @@ class builder
     private $build; //к какому проекту относится
     private $lang;
     private $server;
+    private $mwcedb; //база данных с настройками cms
 
-    public function __construct($tbuild,$lang,$server)
+    public function __construct($tbuild,$lang,$server,$mwcedb="mwce_settings")
     {
         $this->DB = connect::start();
         $this->build = $tbuild;
@@ -37,9 +38,9 @@ class builder
     public function genPage()
     {
         if($this->DB->ConType() < 4)//если ms sql
-            $q = $this->DB->query("SELECT * FROM mwc_pages WHERE tbuild = '{$this->build}'");
+            $q = $this->DB->query("SELECT * FROM {$this->mwcedb}.mwc_pages WHERE tbuild = '{$this->build}'");
         else
-            $q = $this->DB->query("SELECT *, (SELECT GROUP_CONCAT(goupId) FROM mwc_access WHERE pageId = id) AS groups FROM mwc_pages  WHERE tbuild = '{$this->build}'");
+            $q = $this->DB->query("SELECT *, (SELECT GROUP_CONCAT(goupId) FROM {$this->mwcedb}.mwc_access WHERE pageId = id) AS groups FROM {$this->mwcedb}.mwc_pages  WHERE tbuild = '{$this->build}'");
 
         $inf = '<?php ';
         /*
@@ -70,7 +71,7 @@ class builder
 
             if($this->DB->ConType() < 4)//если ms sql ...да, страшный костыль...
             {
-                $q1 = $this->DB->query("SELECT goupId FROM mwc_access WHERE pageID = ".$res["id"]);
+                $q1 = $this->DB->query("SELECT goupId FROM {$this->mwcedb}.mwc_access WHERE pageID = ".$res["id"]);
                 $grps = "";
                 while ($gr = $q1->FetchRow())
                     $grps.=$gr["goupId"].",";
@@ -99,17 +100,17 @@ class builder
     {
 
         if($this->DB->ConType() < 4)//если ms sql
-            $q = $this->DB->query("SELECT * FROM mwc_plugins WHERE tbuild = '{$this->build}' order by seq asc");
+            $q = $this->DB->query("SELECT * FROM {$this->mwcedb}.mwc_plugins WHERE tbuild = '{$this->build}' order by seq asc");
         else
-            $q = $this->DB->query("SELECT *, (SELECT GROUP_CONCAT(col_groupID) FROM mwc_pluginsaccess WHERE col_pluginID = pid) AS groups FROM mwc_plugins WHERE tbuild = '{$this->build}'");
+            $q = $this->DB->query("SELECT *, (SELECT GROUP_CONCAT(col_groupID) FROM {$this->mwcedb}.mwc_pluginsaccess WHERE col_pluginID = pid) AS groups FROM {$this->mwcedb}.mwc_plugins WHERE tbuild = '{$this->build}'");
 
         $inf ='<?php ';
-    /*
-     * pstate статус плагина: 0/1 выкл/откл
-     * pcache кеширование в секундах
-     * pserver сервер
-     * mname название модели (Если есть)
-     */
+        /*
+         * pstate статус плагина: 0/1 выкл/откл
+         * pcache кеширование в секундах
+         * pserver сервер
+         * mname название модели (Если есть)
+         */
 
         while ($res=$q->FetchRow())
         {
@@ -122,7 +123,7 @@ class builder
 
             if($this->DB->ConType() < 4)//если ms sql ...да, страшный костыль...
             {
-                $q1 = $this->DB->query("SELECT col_groupID FROM mwc_pluginsaccess WHERE col_pluginID = ".$res["pid"]);
+                $q1 = $this->DB->query("SELECT col_groupID FROM {$this->mwcedb}.mwc_pluginsaccess WHERE col_pluginID = ".$res["pid"]);
                 $grps = "";
                 while ($gr = $q1->FetchRow())
                     $grps.=$gr["col_groupID"].",";
