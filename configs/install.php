@@ -7,7 +7,7 @@
  * скрипт установки админки
  **/
 session_start();
-error_reporting(0);
+error_reporting(E_ALL);
 function __autoload($name)
 {
     if(file_exists("app".DIRECTORY_SEPARATOR."$name.php"))
@@ -73,25 +73,27 @@ else
             try
             {
                 if(!empty($_POST["conType"])
-                && !empty($_POST["db_host"])
-                && !empty($_POST["db_name"])
-                && !empty($_POST["db_usr"])
-                && !empty($_POST["db_pwd"])
+                    && !empty($_POST["db_host"])
+                    // && !empty($_POST["db_name"])
+                    && !empty($_POST["db_usr"])
+                    && !empty($_POST["db_pwd"])
                 )
                 {
                     $conType = (int)$_POST["conType"];
 
-                    $db = connect::start(
-                        $conType,
-                        $_POST["db_host"],
-                        $_POST["db_name"],
-                        $_POST["db_usr"],
-                        $_POST["db_pwd"]
-                    );
-
+                        $db = connect::start(
+                            $conType,
+                            $_POST["db_host"],
+                            NULL,
+                            $_POST["db_usr"],
+                            $_POST["db_pwd"]
+                        );
                     $_SESSION["installmwcct"] = $conType;
                     $_SESSION["installmwcdb_host"] = $_POST["db_host"];
-                    $_SESSION["installmwcdb_name"] = $_POST["db_name"];
+
+                    if(!empty($_POST["adb_name"]))
+                        $_SESSION["installamwcdb_name"] = $_POST["adb_name"];
+
                     $_SESSION["installmwcdb_usr"] = $_POST["db_usr"];
                     $_SESSION["installmwcdb_pwd"] = $_POST["db_pwd"];
 
@@ -112,7 +114,7 @@ else
                         })\'> Please, check the entered data ';
 
             }
-            catch (ADODB_Exception $ex)
+            catch (Exception $ex)
             {
                 echo '<input type="button" value="Next >" onclick=\'genIn({
                 element:"checkConnect",
@@ -129,23 +131,45 @@ else
             echo "<tr><td colspan='2'> Adding tables in database.. <br>";
             try
             {
-                $db = connect::start(
-                    $_SESSION["installmwcct"],
-                    $_SESSION["installmwcdb_host"],
-                    $_SESSION["installmwcdb_name"],
-                    $_SESSION["installmwcdb_usr"],
-                    $_SESSION["installmwcdb_pwd"]
-                );
+                 //если база не указана, то создаем отдельно
+                    $db = connect::start(
+                        $_SESSION["installmwcct"],
+                        $_SESSION["installmwcdb_host"],
+                        NULL,
+                        $_SESSION["installmwcdb_usr"],
+                        $_SESSION["installmwcdb_pwd"]
+                    );
+                    $_SESSION["installmwcdb_name"] = "mwce_settings";
+
+
+
 
                 if($_SESSION["installmwcct"]>3)
+                {
                     $query = file_get_contents("configs/mysql.sql");
+                    $pref = "mysql";
+                }
                 else
+                {
+                    $pref = "mssql";
+                    if(file_exists("configs/createmssql.sql"))
+                    {
+                        $db->query(file_get_contents("configs/createmssql.sql"));
+                        $db->query("USE mwce_settings");
+                    }
                     $query = file_get_contents("configs/mssql.sql");
+                }
 
                 $db->query($query);
 
+                if(!empty($_SESSION["installamwcdb_name"]) && file_exists("configs/aditional_$pref.sql"))
+                {
+                    $db->query("USE {$_SESSION["installamwcdb_name"]};");
+                    $db->query(file_get_contents("configs/aditional_$pref.sql"));
+                }
+
             }
-            catch (ADODB_Exception $ex)
+            catch (Exception $ex)
             {
                 echo $ex->getMessage();
             }
@@ -194,7 +218,7 @@ else
                         "defgrp" => 2,
                         "defpage" => "admin",
                         "defController" => "aController",
-                        "defModel" => "ausermodel",
+                        "defModel" => "ausermodel"
                     );
                     $mainpath = "configs".DIRECTORY_SEPARATOR."configs.php";
                     if(file_exists($mainpath))
@@ -206,19 +230,59 @@ else
 
                     Configs::writeCfg($config,"main",$cfg["defaultabuild"]);
                     rename("install.php","configs/install.php"); //убираем модуль админки, юольше не нужен
+
+                    //region for muonline
+                    //admin
+                    $config = array(
+                        "ctype" => $_SESSION["installmwcct"],
+                        "address" => $gaddress,
+                        "dlang" => "ru",
+                        "theme" => "muadmin",
+                        "db_host" => array($_SESSION["installmwcdb_host"]),
+                        "db_name" => array($_SESSION["installmwcdb_name"]),
+                        "db_user" => array($_SESSION["installmwcdb_usr"]),
+                        "db_upwd" => array($_SESSION["installmwcdb_pwd"]),
+                        "licecount" => 1,
+                        "defgrp" => 2,
+                        "defpage" => "admin",
+                        "defController" => "aController",
+                        "defModel" => "ausermodel"
+                    );
+                    Configs::writeCfg($config,"main","muadmin");
+                    //muonline site
+                    $config = array(
+                        "ctype" => $_SESSION["installmwcct"],
+                        "address" => $gaddress,
+                        "dlang" => "ru",
+                        "theme" => "espada-legend",
+                        "usemd5" =>0,
+                        "db_host" => array($_SESSION["installmwcdb_host"]),
+                        "db_name" => array($_SESSION["installmwcdb_name"]),
+                        "db_user" => array($_SESSION["installmwcdb_usr"]),
+                        "db_upwd" => array($_SESSION["installmwcdb_pwd"]),
+                        "licecount" => 1,
+                        "defgrp" => 2,
+                        "defpage" => "news",
+                        "tryCount" => 5,
+                        "banMin" => 15,
+                        "defController" => "muController",
+                        "defModel" => "MuonlineUser"
+                    );
+                    Configs::writeCfg($config,"main","muonline");
+                    //endregion
+                    
                     session_unset();
                     session_destroy();
 
-				echo "<tr><td colspan='2' style='font-weight: bold;'>Congratulation! Core installation completed! Please, replace install.php from root directory, if it doesn't. We remind you, that was core install. Next step - build install.
+                    echo "<tr><td colspan='2' style='font-weight: bold;'>Congratulation! Core installation completed! Please, replace install.php from root directory, if it doesn't. We remind you, that was core install. Next step - build install.
  Core Admin-panel <a href='{$gaddress}control.php'>here</a></td></tr>";
 
                 }
             }
-            catch (ADODB_Exception $ex)
+            catch (Exception $ex)
             {
                 echo $ex->getMessage();
             }
-            Tools::debug($_POST);
             break;
     }
 }
