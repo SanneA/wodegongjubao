@@ -27,7 +27,7 @@ class Menu extends Model
         $return = array();
         $i=0;
 
-        $q = $this->db->query("SELECT mm.id,mm.mtitle,mm.mtype,mm.link,mm.server,mm.modul FROM mwc_menu mm, mwc_menu_type mmt WHERE  mm.mtype = mmt.id AND mmt.tbuild='$build' AND mmt.ttitle='$name' order by mm.col_Seq"); //выбираем меню админа только для нашего билда
+        $q = $this->db->query("SELECT mm.id,mm.mtitle,mm.mtype,mm.link,mm.server,mm.modul FROM mwce_settings.{$this->db->getSuf()}mwc_menu mm, mwce_settings.{$this->db->getSuf()}mwc_menu_type mmt WHERE  mm.mtype = mmt.id AND mmt.tbuild='$build' AND mmt.ttitle='$name' order by mm.col_Seq"); //выбираем меню админа только для нашего билда
         while ($r = $q->FetchRow())
         {
             if(!empty($lang[$r["mtitle"]]))

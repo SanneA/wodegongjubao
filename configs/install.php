@@ -257,7 +257,7 @@ else
                         "theme" => "espada-legend",
                         "usemd5" =>0,
                         "db_host" => array($_SESSION["installmwcdb_host"]),
-                        "db_name" => array($_SESSION["installmwcdb_name"]),
+                        "db_name" => array($_SESSION["installamwcdb_name"]),
                         "db_user" => array($_SESSION["installmwcdb_usr"]),
                         "db_upwd" => array($_SESSION["installmwcdb_pwd"]),
                         "licecount" => 1,

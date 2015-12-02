@@ -20,8 +20,8 @@ class muonlineMenu extends Model
         $q = $this->db->query("Select
         *
         FROM
-        mwc_menu_type mmt,
-        mwc_menu mu
+        mwce_settings.{$this->db->getSuf()}mwc_menu_type mmt,
+        mwce_settings.{$this->db->getSuf()}mwc_menu mu
         WHERE
         mu.mtype = mmt.id
         AND mmt.tbuild = '$build' and mmt.ttitle = '$title' order by mu.col_Seq");

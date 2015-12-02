@@ -47,12 +47,25 @@ WHERE RowNum BETWEEN {$arr["min"]} AND {$arr["max"]};");
 
         if ($this->db->ConType()<=3) //ms sql
         {
-            $q = $this->db->query("SELECT TOP $cont autothor, convert(date, indate,120) as indate, ntitle,ntype,news FROM mwce_settings.mwc_news ORDER BY nid DESC");
-            //$q = $this->db->query("SELECT TOP $cont autothor, convert(date, indate,120) as indate, CAST(ntitle as TEXT) as ntitle,ntype, CAST(news as TEXT) as news FROM mwc_news ORDER BY nid DESC");
-         }
+            if($this->db->ConType() == 3)
+                $q = $this->db->query("SELECT TOP $cont
+autothor,
+convert(date, indate,120) as indate,
+ ntitle,
+ ntype,
+ news
+ FROM mwce_settings.{$this->db->getSuf()}mwc_news ORDER BY nid DESC");
+            else
+                $q = $this->db->query("SELECT TOP $cont
+autothor,
+convert(date, indate,120) as indate,
+ CAST(ntitle as TEXT) as ntitle,ntype,
+ CAST(news as TEXT) as news
+ FROM  mwce_settings.{$this->db->getSuf()}mwc_news ORDER BY nid DESC");
+        }
         else
         {
-            $q = $this->db->query("SELECT * FROM mwce_settings.mwc_news ORDER by nid desc LIMIT $cont");
+            $q = $this->db->query("SELECT * FROM mwce_settings.{$this->db->getSuf()}mwc_news ORDER by nid desc LIMIT $cont");
         }
 
         $newsArray = array();
