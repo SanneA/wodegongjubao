@@ -36,6 +36,7 @@ class m_servertop extends MuonlineUser
                 $hiders = "";
             }
         }
+
         $q = $this->db->query("SELECT TOP $top
 ch.Name,
 ch.Class,

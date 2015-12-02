@@ -24,6 +24,8 @@ class connect
         "PDO"
     );
 
+    private $suf="";
+
     static public function start($type = NULL,$host = NULL,$base = NULL,$user = NULL,$pwd = NULL)
     {
         if(self::$inst==null)
@@ -80,6 +82,14 @@ class connect
     }
 
     /**
+     * @return string
+     */
+    public function getSuf()
+    {
+        return $this->suf;
+    }
+
+    /**
      * логи в таблицу Mwc_logs
      *
      * @param string $msg - текст лога
@@ -101,7 +111,7 @@ class connect
         else
             $dt = "NOW()";
 
-        self::query("INSERT INTO mwce_settings.mwc_logs(col_ErrNum,col_msg,col_mname,col_createTime) VALUES($errNo,'$msg','{$file}',$dt)");
+        self::query("INSERT INTO mwce_settings.{$this->suf}mwc_logs(col_ErrNum,col_msg,col_mname,col_createTime) VALUES($errNo,'$msg','{$file}',$dt)");
     }
 
     /**
@@ -156,6 +166,7 @@ class connect
                 $this->resId->PConnect($host,$user,$pwd,$base);
             else
                 $this->resId->PConnect($host,$user,$pwd);
+            $this->suf="[dbo].";
         }
         else
             throw new Exception("mssql_connect is NOT supported!");
@@ -192,6 +203,8 @@ class connect
                 $dsn = "Driver={SQL Server};Server=".$host.";";
             $this->resId->debug=false;
             $this->resId->PConnect($dsn,$user,$pwd);
+
+            $this->suf="[dbo].";
         }
         else
             throw new Exception("odbc_connect is NOT supported!");
@@ -206,6 +219,8 @@ class connect
             $this->resId = NewADOConnection("pdo_mssql://{$user}:{$pwd}@{$host}/{$base}");
             else
             $this->resId = NewADOConnection("pdo_mssql://{$user}:{$pwd}@{$host}");
+
+            $this->suf="[dbo].";
         }
         else
             throw new Exception("PDO_mssql is NOT supported!");

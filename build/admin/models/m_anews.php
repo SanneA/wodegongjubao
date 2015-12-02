@@ -31,8 +31,12 @@ class m_anews extends Model
     public function ninfo($nuwsNum)
     {
         if($this->db->ConType()<4) //ms sql
-            return $this->db->query("SELECT nid,autothor, convert(date, indate,120) as indate,  ntitle,ntype,  news,  ntags FROM mwc_news WHERE nid=$nuwsNum")->FetchRow();
-            //return $this->db->query("SELECT nid,autothor, convert(date, indate,120) as indate, CAST(ntitle as TEXT) as ntitle,ntype, CAST(news as TEXT) as news, CAST(ntags as TEXT) as ntags FROM mwc_news WHERE nid=$nuwsNum")->FetchRow();
+        {
+            if($this->db->ConType()==3)
+                return $this->db->query("SELECT nid,autothor, convert(date, indate,120) as indate,  ntitle,ntype,  news,  ntags FROM mwc_news WHERE nid=$nuwsNum")->FetchRow();
+            else
+                return $this->db->query("SELECT nid,autothor, convert(date, indate,120) as indate, CAST(ntitle as TEXT) as ntitle,ntype, CAST(news as TEXT) as news, CAST(ntags as TEXT) as ntags FROM mwc_news WHERE nid=$nuwsNum")->FetchRow();
+        }
         else
             return $this->db->query("SELECT nid,autothor,indate,ntitle,ntype,news,ntags FROM mwc_news WHERE nid=$nuwsNum")->FetchRow();
 
