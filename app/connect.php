@@ -101,7 +101,7 @@ class connect
         else
             $dt = "NOW()";
 
-        self::query("INSERT INTO mwc_logs(col_ErrNum,col_msg,col_mname,col_createTime) VALUES($errNo,'$msg','{$file}',$dt)");
+        self::query("INSERT INTO mwce_settings.mwc_logs(col_ErrNum,col_msg,col_mname,col_createTime) VALUES($errNo,'$msg','{$file}',$dt)");
     }
 
     /**
