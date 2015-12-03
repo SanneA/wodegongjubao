@@ -34,7 +34,7 @@ class m_agroup extends Model
         $inf = $this->db->query("SELECT g_name FROM mwc_group WHERE id = $id")->FetchRow();
         $this->db->query("DELETE FROM mwc_access WHERE goupId = $id;  DELETE FROM mwc_group WHERE id = $id");
 
-        $path = "build".DIRECTORY_SEPARATOR.$_SESSION["mwcabuild"].DIRECTORY_SEPARATOR."lang".DIRECTORY_SEPARATOR.$_SESSION["mwclang"].DIRECTORY_SEPARATOR."group.php";
+        $path = "build".DIRECTORY_SEPARATOR.$_SESSION["mwccfgread"].DIRECTORY_SEPARATOR."lang".DIRECTORY_SEPARATOR.$_SESSION["mwclang"].DIRECTORY_SEPARATOR."group.php";
 
         if(file_exists($path))
             require $path;
@@ -62,7 +62,7 @@ class m_agroup extends Model
      */
     public function addGroup($name)
     {
-        $path = "build".DIRECTORY_SEPARATOR.$_SESSION["mwcabuild"].DIRECTORY_SEPARATOR."lang".DIRECTORY_SEPARATOR.$_SESSION["mwclang"].DIRECTORY_SEPARATOR."group.php";
+        $path = "build".DIRECTORY_SEPARATOR.$_SESSION["mwccfgread"].DIRECTORY_SEPARATOR."lang".DIRECTORY_SEPARATOR.$_SESSION["mwclang"].DIRECTORY_SEPARATOR."group.php";
         if(file_exists($path))
         {
             require $path;
@@ -103,7 +103,7 @@ class m_agroup extends Model
         $pages = array();
         $q = $this->db->query("SELECT mp.ptitle,ma.aid FROM mwc_pages mp,mwc_access ma WHERE mp.id = ma.pageId AND mp.tbuild='{$_SESSION["mwccfgread"]}' and ma.goupId = $gnum");
 
-        $path = "build".DIRECTORY_SEPARATOR.$_SESSION["mwcabuild"].DIRECTORY_SEPARATOR."lang".DIRECTORY_SEPARATOR.$_SESSION["mwclang"].DIRECTORY_SEPARATOR."titles.php";
+        $path = "build".DIRECTORY_SEPARATOR.$_SESSION["mwccfgread"].DIRECTORY_SEPARATOR."lang".DIRECTORY_SEPARATOR.$_SESSION["mwclang"].DIRECTORY_SEPARATOR."titles.php";
         if(file_exists($path))
             require $path;
         else
@@ -139,15 +139,18 @@ class m_agroup extends Model
   mp.tbuild='{$_SESSION["mwccfgread"]}'
   AND mp.id NOT IN (SELECT ma.pageId FROM mwc_access ma WHERE ma.goupId = $gnum)");
 
-        $path = "build".DIRECTORY_SEPARATOR.$_SESSION["mwcabuild"].DIRECTORY_SEPARATOR."lang".DIRECTORY_SEPARATOR.$_SESSION["mwclang"].DIRECTORY_SEPARATOR."titles.php";
+        $path = "build".DIRECTORY_SEPARATOR.$_SESSION["mwccfgread"].DIRECTORY_SEPARATOR."lang".DIRECTORY_SEPARATOR.$_SESSION["mwclang"].DIRECTORY_SEPARATOR."titles.php";
+
         if(file_exists($path))
+        {
             require $path;
+        }
         else
             $lang = array();
 
         while ($r = $q->FetchRow())
         {
-            if(!empty($lang[$r["ptitle"]]))
+            if(!empty($lang[trim($r["ptitle"])]))
                 $name_ = $lang[$r["ptitle"]];
             else
                 $name_ = $r["ptitle"];
