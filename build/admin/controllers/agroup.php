@@ -27,7 +27,7 @@ class agroup extends aController
     public function action_getlist()
     {
         $groups = $this->model->getGroups();
-        $path = "build".DIRECTORY_SEPARATOR.$_SESSION["mwcabuild"].DIRECTORY_SEPARATOR."lang".DIRECTORY_SEPARATOR.$_SESSION["mwclang"].DIRECTORY_SEPARATOR."group.php";
+        $path = "build".DIRECTORY_SEPARATOR.$_SESSION["mwccfgread"].DIRECTORY_SEPARATOR."lang".DIRECTORY_SEPARATOR.$_SESSION["mwclang"].DIRECTORY_SEPARATOR."group.php";
 
         if(file_exists($path))
         {
@@ -41,6 +41,11 @@ class agroup extends aController
                 $_name = $lang[$val];
             else
                 $_name = $val;
+
+            if($id<=5)
+                $this->view->set("ishide","display:none;");
+            else
+                $this->view->set("ishide","");
 
             $this->view
                 ->set(array("id"=>$id,"g_name"=>$_name))
@@ -57,6 +62,8 @@ class agroup extends aController
         if(!empty($_GET["get"]))
         {
             $id = (int)$_GET["get"];
+            if($id<6)
+                return;
             $this->model->delGroup($id);
         }
     }
