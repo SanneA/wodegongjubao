@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
-    <file url="file://$PROJECT_DIR$/build/muonline/inc/CastleSiege.php" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/build/muonline/inc/iWork.php" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/build/muonline/inc/rItem.php" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/build/muonline/lang/ru/plugin_servertop.php" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/build/muonline/plugins/controller/servertop.php" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/theme/imgs/csowner.gif" charset="windows-1251" />
+  <component name="Encoding">
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

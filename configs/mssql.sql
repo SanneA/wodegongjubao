@@ -87,6 +87,7 @@ CREATE TABLE [dbo].[MWC_logs](
 	[col_msg] [text] NOT NULL,
 	[col_mname] [varchar](30) NULL,
 	[col_createTime] [datetime] NULL,
+	[tbuild] [varchar](255) NULL,
  CONSTRAINT [PK_MWC_logs] PRIMARY KEY CLUSTERED 
 (
 	[col_LogID] ASC

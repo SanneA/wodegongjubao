@@ -63,6 +63,7 @@ CREATE TABLE mwc_logs (
   col_msg text NOT NULL,
   col_mname varchar(30) DEFAULT NULL,
   col_createTime datetime DEFAULT NULL,
+  tbuild varchar(255) DEFAULT NULL,
   PRIMARY KEY (col_LogID)
 )
 ENGINE = INNODB
