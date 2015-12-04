@@ -16,7 +16,7 @@
         <entry key="$PROJECT_DIR$">
           <value>
             <SvnBranchConfiguration>
-              <option name="trunkUrl" value="https://xp-dev.com/svn/freemwce" />
+              <option name="trunkUrl" value="https://mysvn.ru/drouz/mwce" />
             </SvnBranchConfiguration>
           </value>
         </entry>

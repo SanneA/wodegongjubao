@@ -112,9 +112,9 @@ class m_logs extends Model
 
 
         if($this->db->ConType() >3)
-            $q = $this->db->query("SELECT * FROM mwc_logs WHERE col_createTime BETWEEN '$begin' and '$end' $file $event $msg ORDER by col_LogID DESC limit $top");
+            $q = $this->db->query("SELECT * FROM mwc_logs WHERE tbuild = '{$_SESSION["mwccfgread"]}' AND col_createTime BETWEEN '$begin' and '$end' $file $event $msg ORDER by col_LogID DESC limit $top");
         else
-            $q = $this->db->query("SELECT TOP $top * FROM mwc_logs WHERE col_createTime BETWEEN  convert(datetime,'$begin',120) and convert(datetime,'$end',120) $file $event $msg ORDER by col_LogID DESC ");
+            $q = $this->db->query("SELECT TOP $top * FROM mwc_logs WHERE tbuild = '{$_SESSION["mwccfgread"]}' AND col_createTime BETWEEN  convert(datetime,'$begin',120) and convert(datetime,'$end',120) $file $event $msg ORDER by col_LogID DESC ");
 
         $ret = array();
 
