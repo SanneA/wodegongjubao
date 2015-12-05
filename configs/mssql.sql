@@ -280,6 +280,22 @@ SET IDENTITY_INSERT [mwc_menu] OFF;
 
 -- muonline --
 
+SET ANSI_PADDING ON;
+
+CREATE TABLE [dbo].[mwc_downloads](
+	[col_id] [int] IDENTITY(1,1) NOT NULL,
+	[col_pik] [int] NULL,
+	[col_desc] [text] NULL,
+	[col_address] [text] NULL,
+	[col_title] [text] NULL,
+	[tbuild] [varchar](250) NULL,
+ CONSTRAINT [PK_mwc_downloads] PRIMARY KEY CLUSTERED
+(
+	[col_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY];
+
+SET ANSI_PADDING OFF;
 
 SET IDENTITY_INSERT [mwc_plugins] ON;
 INSERT INTO mwc_plugins (pid, pname, pstate, pcache, pserver, mname,tbuild,seq) VALUES
@@ -341,7 +357,9 @@ INSERT INTO mwc_menu (id,mtitle,mtype,link,server,modul,col_Seq) VALUES
 (23,'auto_title19',4,'page/top100.html',0,'top100',3),
 (24,'auto_title20',4,'page/topguild.html',0,'topguild',4),
 (25,'auto_title15',3,'?p=iexport',0,'iexport',7),
-(26,'auto_title22',5,'page/webshop.html',0,'webshop',4);
+(26,'auto_title22',5,'page/webshop.html',0,'webshop',4),
+(27,'auto_title23',4,'page/downloads.html',0,'downloads',5),
+(28,'auto_title12',3,'?p=downloads',0,'downloads',8);
 SET IDENTITY_INSERT [mwc_menu] OFF;
 
 SET IDENTITY_INSERT [mwc_pages] ON;
@@ -369,7 +387,9 @@ INSERT INTO mwc_pages (id,pname,ptitle,ppath,caching,ison,server,mname,mpath,tbu
 (31, 'iexport', 'auto_title15','mu/c',0,1,0,'m_iexport','mu/m','muadmin'),
 (32, 'item', 'auto_title21','controllers',0,1,0,'m_item','models','muonline'),
 (33, 'webshop', 'auto_title22','user_c',0,1,0,'m_webshop','user_m','muonline'),
-(34, 'webmarket', 'auto_title22','controllers',0,1,0,'m_webmarket','models','muonline');
+(34, 'webmarket', 'auto_title22','controllers',0,1,0,'m_webmarket','models','muonline'),
+(35, 'downloads', 'auto_title12','controllers',0,1,0,'m_downloads','models','muadmin'),
+(36, 'downloads', 'auto_title23','controllers',0,1,0,'m_downloads','models','muonline');
 
 SET IDENTITY_INSERT [mwc_pages] OFF;
 
@@ -409,5 +429,8 @@ INSERT INTO mwc_access (aid,pageId,goupId,server) VALUES
 (53,31,3,0),
 (54,32,4,0),
 (55,33,5,0),
-(56,34,4,0);
+(56,34,4,0),
+(57,36,4,0),
+(58,35,1,0),
+(59,35,3,0);
 SET IDENTITY_INSERT [mwc_access] OFF;
