@@ -15,6 +15,6 @@ class m_menu extends Menu
      */
     public function getMenu()
     {
-        return parent::getMenu('admin','adminmenu');
+        return parent::getMenu(tbuild,'adminmenu');
     }
 }

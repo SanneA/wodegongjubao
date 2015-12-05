@@ -385,7 +385,7 @@ class Controller
                     }
 
                     if($_POST[$id] != $val)
-                        $this->model->toLog("-> POST[$id] = $val",get_class($this),4,false);
+                        $this->model->toLog("-> POST[$id] = $val",get_class($this),4);
 
                     $_POST[$id] = $val;
                     $GLOBALS["post_".$id."_v"] = true;
@@ -435,7 +435,7 @@ class Controller
                     $val = preg_replace("/(\&lt\;br \/\&gt\;)|(\&lt\;br\&gt\;)/",' <br /> ',$val);
 
                     if($_GET[$id] != $val)
-                        $this->model->toLog("-> GET[$id] = $val",get_class($this),4,false);
+                        $this->model->toLog("-> GET[$id] = $val",get_class($this),4);
 
                     $_GET[$id] = $val;
                     $GLOBALS["get_".$id."_v"] = true;
