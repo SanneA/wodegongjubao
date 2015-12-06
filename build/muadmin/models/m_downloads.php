@@ -15,7 +15,7 @@ class m_downloads extends Model
      */
     public function getList()
     {
-        return $this->db->query("SELECT col_id,col_pik,col_desc,col_address,col_title,tbuild FROM mwce_settings.dbo.mwc_downloads")->GetRows();
+        return $this->db->query("SELECT col_id,col_pik,CAST(col_desc as TEXT) as col_desc,CAST(col_address as TEXT) as col_address,CAST(col_title as TEXT) as col_title,tbuild FROM mwce_settings.dbo.mwc_downloads")->GetRows();
     }
 
     /**
@@ -27,14 +27,14 @@ class m_downloads extends Model
         if(empty($params["title"]))
             $params["title"] = "NULL";
         else
-            $params["title"] = "'{$params["title"]}'";
+            $params["title"] = "N'{$params["title"]}'";
 
         if(empty($params["desc"]))
             $params["desc"] = "NULL";
         else
-            $params["desc"] = "'{$params["desc"]}'";
+            $params["desc"] = "N'{$params["desc"]}'";
 
-        $this->db->query("INSERT INTO mwce_settings.dbo.mwc_downloads (col_title,col_desc,col_address,col_pik,tbuild) VALUES ({$params["title"]},{$params["desc"]},'{$params["address"]}',0,'{$_SESSION["mwccfgread"]}')");
+        $this->db->query("INSERT INTO mwce_settings.dbo.mwc_downloads (col_title,col_desc,col_address,col_pik,tbuild) VALUES ({$params["title"]},{$params["desc"]},N'{$params["address"]}',0,'{$_SESSION["mwccfgread"]}')");
     }
 
     /**
@@ -46,14 +46,14 @@ class m_downloads extends Model
         if(empty($params["title"]))
             $params["title"] = "NULL";
         else
-            $params["title"] = "'{$params["title"]}'";
+            $params["title"] = "N'{$params["title"]}'";
 
         if(empty($params["desc"]))
             $params["desc"] = "NULL";
         else
-            $params["desc"] = "'{$params["desc"]}'";
+            $params["desc"] = "N'{$params["desc"]}'";
 
-        $this->db->query("UPDATE mwce_settings.dbo.mwc_downloads SET col_title = {$params["title"]},col_desc={$params["desc"]},col_address = '{$params["address"]}' WHERE col_id =".$params["id"]);
+        $this->db->query("UPDATE mwce_settings.dbo.mwc_downloads SET col_title = {$params["title"]},col_desc={$params["desc"]},col_address = N'{$params["address"]}' WHERE col_id =".$params["id"]);
 
     }
 

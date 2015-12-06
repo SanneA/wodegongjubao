@@ -2650,7 +2650,7 @@ class rItem
      */
     static private function readfile($name)
     {
-        $filep = "build/muonline/_dat/items/$name.mwc";
+        $filep = "build/".tbuild."/_dat/items/$name.mwc";
         if(file_exists($filep))
         {
             return file($filep);
@@ -3189,11 +3189,11 @@ function itemListShow($hex,$harm,$type=0)
 
 function Sockets($hex)
 {
-    if(file_exists("build/muonline/_dat/items/sockets.php"))
+    if(file_exists("build/".tbuild."/_dat/items/sockets.php"))
     {
       if ($hex!="FFFFFFFFFF" or $hex!="0000000000")
       {
-          require "build/muonline/_dat/items/sockets.php";
+          require "build/".tbuild."/_dat/items/sockets.php";
           $i=0;
           $sockets = "";
           $j =1;

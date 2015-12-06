@@ -13,7 +13,7 @@ class mainmenu extends muPController
         if($this->isCached("mainmenu")) //кешик
             return;
 
-        $menu = $this->model->getMenu('muonline','mainmenu');
+        $menu = $this->model->getMenu(tbuild,'mainmenu');
 
         if(!empty($menu))
         {

@@ -8,6 +8,7 @@
  **/
 class m_editchars extends ausermodel
 {
+    private $dbase;
     public $class = array(
         0=>"Dark Wizard",
         1=>"Soul Master",
@@ -36,6 +37,13 @@ class m_editchars extends ausermodel
         98=>"Fist Master(jpn)",
     );
 
+    public function init()
+    {
+        //$this->dbase;
+        $main = Configs::readCfg("main",$_SESSION["mwccfgread"]);
+        $this->dbase = $main["db_name"][0];
+    }
+
     /**
      * показать все по аккаунту
      * @param string $acc
@@ -45,9 +53,9 @@ class m_editchars extends ausermodel
      */
     public function getAccIfo($acc)
     {
-        $result = $this->db->query("SELECT * FROM MEMB_INFO WHERE memb___id='{$acc}'")->FetchRow();
+        $result = $this->db->query("SELECT * FROM {$this->dbase}.dbo.MEMB_INFO WHERE memb___id='{$acc}'")->FetchRow();
         $chrs = array();
-        $q = $this->db->query("SELECT Name FROM character WHERE AccountID='$acc'");
+        $q = $this->db->query("SELECT Name FROM {$this->dbase}.dbo.character WHERE AccountID='$acc'");
         while ($r = $q->FetchRow())
         {
             $chrs[]= $r["Name"];
@@ -65,19 +73,19 @@ class m_editchars extends ausermodel
      */
     public function getChar($char)
     {
-         return $this->db->query("SELECT ch.*,mi.ConnectStat,mi.ServerName,mi.ConnectTM,mi.DisConnectTM FROM Character ch LEFT JOIN MEMB_STAT mi ON mi.memb___id COLLATE DATABASE_DEFAULT = ch.AccountID COLLATE DATABASE_DEFAULT WHERE ch.Name='$char'")->FetchRow();
+         return $this->db->query("SELECT ch.*,mi.ConnectStat,mi.ServerName,mi.ConnectTM,mi.DisConnectTM FROM {$this->dbase}.dbo.Character ch LEFT JOIN {$this->dbase}.dbo.MEMB_STAT mi ON mi.memb___id COLLATE DATABASE_DEFAULT = ch.AccountID COLLATE DATABASE_DEFAULT WHERE ch.Name='$char'")->FetchRow();
     }
 
     public function saveChar($params)
     {
-        $this->db->query("UPDATE Character SET cLevel ={$params["cLevel"]}, LevelUpPoint={$params["LevelUpPoint"]}, Strength={$params["Strength"]}, Dexterity={$params["Dexterity"]}, Vitality={$params["Vitality"]},Energy={$params["Energy"]},Leadership={$params["Leadership"]},Money={$params["Money"]},MapNumber={$params["MapNumber"]},MapPosX={$params["MapPosX"]},MapPosY={$params["MapPosY"]} WHERE Name='{$params["Name"]}'");
+        $this->db->query("UPDATE {$this->dbase}.dbo.Character SET cLevel ={$params["cLevel"]}, LevelUpPoint={$params["LevelUpPoint"]}, Strength={$params["Strength"]}, Dexterity={$params["Dexterity"]}, Vitality={$params["Vitality"]},Energy={$params["Energy"]},Leadership={$params["Leadership"]},Money={$params["Money"]},MapNumber={$params["MapNumber"]},MapPosX={$params["MapPosX"]},MapPosY={$params["MapPosY"]} WHERE Name='{$params["Name"]}'");
         $this->db->SQLog("{$_SESSION["mwcauser"]} edit char {$params["Name"]}","m_editchars",7);
     }
     public function saveAcc($params)
     {
         if(!empty($params["memb__pwd"]))
         {
-            $cfg = Configs::readCfg("main","muonline");
+            $cfg = Configs::readCfg("main",$_SESSION["mwccfgread"]);
             if((int)$cfg["usemd5"] == 1)
             {
                 $r_password = ",memb__pwd = [dbo].[fn_md5]('{$params["memb__pwd"]}','{$params["account"]}')";
@@ -88,7 +96,7 @@ class m_editchars extends ausermodel
         else
             $r_password = "";
 
-        $this->db->query("UPDATE MEMB_INFO SET memb_name = '{$params["memb_name"]}', mail_addr = '{$params["mail_addr"]}', bloc_code = '{$params["bloc_code"]}', mwc_bankZ = {$params["mwc_bankZ"]}, mwc_credits = {$params["mwc_credits"]} $r_password WHERE memb___id='{$params["account"]}'");
+        $this->db->query("UPDATE {$this->dbase}.dbo.MEMB_INFO SET memb_name = '{$params["memb_name"]}', mail_addr = '{$params["mail_addr"]}', bloc_code = '{$params["bloc_code"]}', mwc_bankZ = {$params["mwc_bankZ"]}, mwc_credits = {$params["mwc_credits"]} $r_password WHERE memb___id='{$params["account"]}'");
         $this->db->SQLog("{$_SESSION["mwcauser"]} edit account {{$params["account"]}}","m_editchars",7);
     }
 

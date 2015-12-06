@@ -94,7 +94,7 @@ class register extends muController
                 {
                     //region отсылаем почту
                     $hash = md5($id."-=-".$email);
-                    $c_mail = Configs::readCfg("mail","muonline");
+                    $c_mail = Configs::readCfg("mail",tbuild);
 
                     require "libraries/PHPMailer/PHPMailerAutoload.php";
 

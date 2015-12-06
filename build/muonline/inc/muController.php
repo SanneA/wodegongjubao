@@ -13,7 +13,7 @@ class muController extends Controller
     {
         parent::__construct($model,$view,$pages,$server);
 
-        $cfg = Configs::readCfg("main","muonline");
+        $cfg = Configs::readCfg("main",tbuild);
         $this->view
             ->add_dict(get_class($this)) //подключаем словарь к модулю (если он, конечно, есть)
             ->set("sname",$cfg["snames"][0])

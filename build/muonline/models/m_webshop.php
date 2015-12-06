@@ -18,7 +18,7 @@ class m_webshop extends MuonlineUser
         $length = strlen($inventory)/$ilength;
         $coumt = 0;
 
-        $path = "build/muonline/_dat/items/harmony.php";
+        $path = "build/".tbuild."/_dat/items/harmony.php";
         if(file_exists($path))
             require $path;
         else
@@ -87,7 +87,7 @@ class m_webshop extends MuonlineUser
         if($price<=0)
             return ;
 
-        $path = "build/muonline/_dat/items/harmony.php";
+        $path = "build/".tbuild."/_dat/items/harmony.php";
         if(file_exists($path))
             require $path;
         else

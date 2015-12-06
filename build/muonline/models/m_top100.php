@@ -12,7 +12,7 @@ class m_top100 extends MuonlineUser
 
     public  function init()
     {
-        $this->unicCfg = Configs::readCfg("unic","muonline");
+        $this->unicCfg = Configs::readCfg("unic",tbuild);
     }
 
     /**

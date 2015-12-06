@@ -12,6 +12,6 @@ class muPController extends PController
     {
         parent::__construct($model, $view,$plugins,$server);
         $this->view->add_dict("plugin_".get_class($this));
-        $this->configs = Configs::readCfg("plugin_".get_class($this),"muonline");
+        $this->configs = Configs::readCfg("plugin_".get_class($this),tbuild);
     }
 }
