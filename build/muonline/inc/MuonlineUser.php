@@ -27,7 +27,7 @@ class MuonlineUser extends Model
         else
             $this->isLoged = false;
 
-        $this->unicCfg = Configs::readCfg("unic","muonline");
+        $this->unicCfg = Configs::readCfg("unic",tbuild);
     }
 
     /**
@@ -43,7 +43,7 @@ class MuonlineUser extends Model
         if($this->isLoged)
             return true;
 
-        $maincfg = Configs::readCfg("main","muonline");//читаем конфиг на предмет мд5 и не только
+        $maincfg = Configs::readCfg("main",tbuild);//читаем конфиг на предмет мд5 и не только
         $this->cfg = $maincfg;
 
         //region мд5 да,не/иди нафиг

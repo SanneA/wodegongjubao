@@ -13,7 +13,7 @@ class usermenu extends muPController
         if($this->isCached("usermenu")) //кешик
             return;
 
-        $menu = $this->model->getMenu('muonline','usermenu');
+        $menu = $this->model->getMenu(tbuild,'usermenu');
 
         if(!empty($menu))
         {

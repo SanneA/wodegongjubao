@@ -22,7 +22,7 @@ class router
         define("tbuild",$cfg["defaultbuild"]);
 
 
-        if(empty($_SESSION["mwcbuild"]) || $_SESSION["mwcbuild"]!=$cfg["defaultbuild"])
+        if(empty($_SESSION["mwcbuild"]))
         {
             $_SESSION["mwcbuild"] = $cfg["defaultbuild"];
         }

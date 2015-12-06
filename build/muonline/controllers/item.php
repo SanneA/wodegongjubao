@@ -20,7 +20,7 @@ class item extends muController
     {
         if(!empty($_GET["get"]))
         {
-            $path = "build/muonline/_dat/items/harmony.php";
+            $path = "build/".tbuild."/_dat/items/harmony.php";
             if(file_exists($path))
                 require $path;
             else
@@ -34,7 +34,7 @@ class item extends muController
     {
         if(!empty($_GET["get"]))
         {
-            $path = "build/muonline/_dat/items/harmony.php";
+            $path = "build/".tbuild."/_dat/items/harmony.php";
             if(file_exists($path))
                 require $path;
             else

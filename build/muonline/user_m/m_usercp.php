@@ -10,7 +10,7 @@ class m_usercp extends MuonlineUser
 {
     public function applyChanges($params)
     {
-        $maincfg = Configs::readCfg("main","muonline");//читаем конфиг на предмет мд5 и не только
+        $maincfg = Configs::readCfg("main",tbuild);//читаем конфиг на предмет мд5 и не только
 
         //region мд5 да,не/иди нафиг
         if((int)$maincfg["usemd5"]>0)

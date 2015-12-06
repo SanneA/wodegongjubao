@@ -13,7 +13,7 @@ class m_menu extends Menu
      * выбирает из базы менюшку и возвращает ее
      * @return array
      */
-    public function getMenu()
+    public function getMenu($build="",$menu="")
     {
         return parent::getMenu(tbuild,'adminmenu');
     }

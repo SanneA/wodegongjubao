@@ -27,7 +27,7 @@ class muonlineMenu extends Model
         AND mmt.tbuild = '$build' and mmt.ttitle = '$title' order by mu.col_Seq");
 
 
-        $path = "build".DIRECTORY_SEPARATOR."muonline".DIRECTORY_SEPARATOR."lang".DIRECTORY_SEPARATOR.$_SESSION["mwclang"].DIRECTORY_SEPARATOR."titles.php";
+        $path = "build".DIRECTORY_SEPARATOR.tbuild.DIRECTORY_SEPARATOR."lang".DIRECTORY_SEPARATOR.$_SESSION["mwclang"].DIRECTORY_SEPARATOR."titles.php";
 
         if(file_exists($path))
             require $path;

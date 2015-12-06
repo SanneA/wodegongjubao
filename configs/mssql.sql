@@ -285,9 +285,9 @@ SET ANSI_PADDING ON;
 CREATE TABLE [dbo].[mwc_downloads](
 	[col_id] [int] IDENTITY(1,1) NOT NULL,
 	[col_pik] [int] NULL,
-	[col_desc] [text] NULL,
-	[col_address] [text] NULL,
-	[col_title] [text] NULL,
+	[col_desc] [ntext] NULL,
+	[col_address] [ntext] NULL,
+	[col_title] [ntext] NULL,
 	[tbuild] [varchar](250) NULL,
  CONSTRAINT [PK_mwc_downloads] PRIMARY KEY CLUSTERED
 (

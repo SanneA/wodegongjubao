@@ -10,7 +10,7 @@ class webmarket extends muController
 {
     public function init()
     {
-        require "build/muonline/inc/rItem.php";
+        require "build/".tbuild."/inc/rItem.php";
     }
 
     public function action_index()
@@ -43,7 +43,7 @@ class webmarket extends muController
             }
             else
                 $user["mwc_bankZ"] =0;
-            $harm_ = "build/muonline/_dat/items/harmony.php";
+            $harm_ = "build/".tbuild."/_dat/items/harmony.php";
 
             if(file_exists($harm_))
                 require $harm_;
@@ -221,18 +221,18 @@ class webmarket extends muController
         if(!empty($_GET["get"]))
         {
             $inom = (int)$_GET["get"];
-            $harm_ = "build/muonline/_dat/items/harmony.php";
+            $harm_ = "build/".tbuild."/_dat/items/harmony.php";
             if(file_exists($harm_))
                 require $harm_;
             else
                 $harm = array();
 
-            if(file_exists("build/muonline/_dat/items/items.php"))
-                require "build/muonline/_dat/items/items.php";
+            if(file_exists("build/".tbuild."/_dat/items/items.php"))
+                require "build/".tbuild."/_dat/items/items.php";
             else
                 $item = array();
 
-            $cfg = Configs::readCfg("webshop","muonline");
+            $cfg = Configs::readCfg("webshop",tbuild);
             $emptyItem = str_pad("", $cfg["hexLen"],"F",STR_PAD_BOTH);
 
             $item_ = $this->model->getInfo($inom);
@@ -257,18 +257,18 @@ class webmarket extends muController
         if(!empty($_GET["get"]))
         {
             $inom = (int)$_GET["get"];
-            $harm_ = "build/muonline/_dat/items/harmony.php";
+            $harm_ = "build/".tbuild."/_dat/items/harmony.php";
             if(file_exists($harm_))
                 require $harm_;
             else
                 $harm = array();
 
-            if(file_exists("build/muonline/_dat/items/items.php"))
-                require "build/muonline/_dat/items/items.php";
+            if(file_exists("build/".tbuild."/_dat/items/items.php"))
+                require "build/".tbuild."/_dat/items/items.php";
             else
                 $item = array();
 
-            $cfg = Configs::readCfg("webshop","muonline");
+            $cfg = Configs::readCfg("webshop",tbuild);
             $emptyItem = str_pad("", $cfg["hexLen"],"F",STR_PAD_BOTH);
 
             $item_ = $this->model->getInfo($inom);

@@ -24,9 +24,9 @@ class iexport extends aController
 
 
                 if (is_array($itemfile))
-                    $obj  = new  createIbase("build/muonline/_dat/items",$itemfile,$skill,$iso,$ist,$iao);
+                    $obj  = new  createIbase("build/".tbuild."/_dat/items",$itemfile,$skill,$iso,$ist,$iao);
                 if (is_array($harm))
-                    $hobj = new BuildHarmony($harm,"build/muonline/_dat/items");
+                    $hobj = new BuildHarmony($harm,"build/".tbuild."/_dat/items");
 
                 $this->view->replace("l_itemok","itmmsg");
 
@@ -35,7 +35,7 @@ class iexport extends aController
             {
                 $soket = file($_FILES["soket"]["tmp_name"]);
                 $sok = new SoketInfo($soket,1);
-                $sok->Save("build/muonline/_dat/items/sockets.php");
+                $sok->Save("build/".$_SESSION["mwccfgread"]."/_dat/items/sockets.php");
 
                 $this->view->replace("l_skcmok","sckmsg");
             }

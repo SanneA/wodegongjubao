@@ -15,7 +15,7 @@ class m_downloads extends Model
      */
     public function getList()
     {
-        return $this->db->query("SELECT * FROM mwce_settings.dbo.mwc_downloads")->GetRows();
+        return $this->db->query("SELECT col_id,col_pik,CAST(col_desc as TEXT) as col_desc,CAST(col_address as TEXT) as col_address,CAST(col_title as TEXT) as col_title,tbuild FROM mwce_settings.dbo.mwc_downloads")->GetRows();
     }
 
 
@@ -26,6 +26,6 @@ class m_downloads extends Model
      */
     public function info($id)
     {
-        return $this->db->query("SELECT * FROM mwce_settings.dbo.mwc_downloads WHERE col_id = $id")->FetchRow();
+        return $this->db->query("SELECT col_id,col_pik,CAST(col_desc as TEXT) as col_desc,CAST(col_address as TEXT) as col_address,CAST(col_title as TEXT) as col_title,tbuild FROM mwce_settings.dbo.mwc_downloads WHERE col_id = $id")->FetchRow();
     }
 }
