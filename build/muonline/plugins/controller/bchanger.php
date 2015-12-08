@@ -13,9 +13,15 @@ class bchanger extends muPController
         "abchenge" => array("type"=>"str","maxLength"=>20)
     );
 
+    private $sinonims = array(
+        "muonline"=>"build1",
+        "muonline2"=>"build2",
+    );
+
     public function action_index ()
     {
         $buildList = Tools::getAllBuilds();
+        $sinList = array();
         $ai = new ArrayIterator($buildList);
         foreach ($ai as $id=>$vals)
         {
@@ -23,13 +29,23 @@ class bchanger extends muPController
             {
                 unset($buildList[$id]);
             }
+            else{
+                if(!empty($this->sinonims[$vals]))
+                    $sinList[$vals] = $this->sinonims[$vals];
+                else
+                    $sinList[$id] = $vals;
+            }
+
+
         }
         unset($buildList[-1]);
+        unset($sinList[-1]);
 
         if(!empty($_POST["abchenge"]))
         {
             if(!empty($buildList[$_POST["abchenge"]]))
             {
+                unset($_SESSION["mwcuser"],$_SESSION["mwcpwd"],$_SESSION["mwcpoints"],$_SESSION["mwccharacter"]);
                 $_SESSION["mwcbuild"] = $buildList[$_POST["abchenge"]];
                 Tools::go();
             }
@@ -37,7 +53,7 @@ class bchanger extends muPController
         if(count($buildList)>1)
         {
             $this->view
-                ->set("buildlist",html_::select($buildList,"abchenge",$_SESSION["mwcbuild"],'onchange="document.getElementById(\'abcnanger\').submit();" class="selectbox"'))
+                ->set("buildlist",html_::select($sinList,"abchenge",$_SESSION["mwcbuild"],'onchange="document.getElementById(\'abcnanger\').submit();" class="selectbox"'))
                 ->out("plugin_bchanger");
         }
     }

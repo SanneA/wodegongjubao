@@ -57,6 +57,8 @@ class m_webmarket extends MuonlineUser
         if(!empty($params["isHarmony"]))
             $filter.=" AND col_isHarmony !='0'";
 
+        if(!empty($filter))
+            $filter = " WHERE ".$filter;
 
         return $this->db->query("WITH CTEwResults AS(
             SELECT *,
