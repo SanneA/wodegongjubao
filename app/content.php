@@ -170,6 +170,7 @@ class content
      * заменяет название элемента в "словаре" (!в словаре должно присутствовать выражение $where)
      * @param string $what - что вставить
      * @param string $where - за место чего
+     * @return $this
      */
     public function replace($what,$where)
     {
@@ -178,6 +179,7 @@ class content
             $this->set($where,$this->vars[$what]);
            // unset($this->vars[$what]);
         }
+        return $this;
     }
 
     /**

@@ -1,22 +1,21 @@
 <?php
 /**
- * User: epmak
- * Date: 07.12.2014
- * Time: 14:05
- * WMCE 1.6
+ * MuWebCloneEngine
+ * Created by epmak
+ *
  */
 
 /**
- * Class CastleSiege v 0.1
- * отображение текущего периода атаки
+ * Class CastleSiege v 0.2
+ * отображение текущего периода
 
  $castle = new CastleSiege("6-12-2014 00:00",array(
-"period1" => 86400,
-"period2" => 75600,
-"period3" => 1800,
-"period4" => 1800,
-"period5" => 3600,
-"period6" => 60,
+"period1" => 86400, //начало регистраии
+"period2" => 75600, //Сдача Sign of Lord
+"period3" => 1800, //Объявление участников на осаду
+"period4" => 1800, //Подготовка к осаде
+"period5" => 3600, //осада
+"period6" => 60, //кончилась осада
 ));
  */
 
@@ -28,21 +27,21 @@ class CastleSiege {
 
     /**
      * функция вернет текущий период времени
-     * @param string $begin  дата начала (цифры, англ. яз)
-     * @param array  $periods  массив с периодами в формате "название периода" => длительность, кол-во секунд
+     * @param datetime $begin дата начала (цифры, англ. яз)
+     * @param array $periods массив с периодами в формате "название периода" => длительность, кол-во секунд
      * @param string $datePattern
+     * @throws Exception
      */
     public function __construct($begin, $periods, $datePattern = "d.m.Y H:i")
     {
-        if(is_array($periods) && count($periods)>4)
+        if(is_array($periods))
         {
             $this->dateBegin = $begin;
             $this->period = $periods;
             $this->pattern = $datePattern;
         }
         else
-            die("periods must be an array with minimal 5 duration parts");
-
+            throw new Exception("periods must be an array with duration parts");
     }
 
     /**

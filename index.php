@@ -26,4 +26,3 @@ function __autoload($name)
 router::start();
 
 echo "<!--".round(microtime()-$start_time,4)."-->";
-//todo:: spl_autoload_register
