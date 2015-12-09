@@ -6,7 +6,7 @@
  * 17.10.2015
  *
  **/
-class CharacterInfo
+class Character
 {
     /**
      * название класса по номеру

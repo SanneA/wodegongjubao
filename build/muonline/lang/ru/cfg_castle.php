@@ -1,0 +1,1 @@
+<?php $lang["period1"]="Период регистрации"; $lang["period4"]="Подготовка к осаде"; $lang["period5"]="Осада"; $lang["period6"]="Завершение осады"; $lang["period2"]="Сдача Sign of Lord"; $lang["period3"]="Объявление участников на осаду"; 

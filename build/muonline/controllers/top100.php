@@ -27,7 +27,7 @@ class top100 extends muController
 
             foreach($ai as $nom=>$vals)
             {
-                $vals["Class"] = CharacterInfo::_class($vals["Class"]);
+                $vals["Class"] = Character::_class($vals["Class"]);
 
                 if(empty($vals["guild"]))
                     $vals["guild"] = "-/-";
@@ -70,7 +70,7 @@ class top100 extends muController
 
             foreach($ai as $nom=>$vals)
             {
-                $vals["Class"] = CharacterInfo::_class($vals["Class"]);
+                $vals["Class"] = Character::_class($vals["Class"]);
 
                 if(empty($vals["guild"]))
                     $vals["guild"] = "-/-";
@@ -114,7 +114,7 @@ class top100 extends muController
 
             foreach($ai as $nom=>$vals)
             {
-                $vals["Class"] = CharacterInfo::_class($vals["Class"]);
+                $vals["Class"] = Character::_class($vals["Class"]);
 
                 if(empty($vals["guild"]))
                     $vals["guild"] = "-/-";
@@ -158,7 +158,7 @@ class top100 extends muController
 
             foreach($ai as $nom=>$vals)
             {
-                $vals["Class"] = CharacterInfo::_class($vals["Class"]);
+                $vals["Class"] = Character::_class($vals["Class"]);
 
                 if(empty($vals["guild"]))
                     $vals["guild"] = "-/-";
@@ -202,7 +202,7 @@ class top100 extends muController
 
             foreach($ai as $nom=>$vals)
             {
-                $vals["Class"] = CharacterInfo::_class($vals["Class"]);
+                $vals["Class"] = Character::_class($vals["Class"]);
 
                 if(empty($vals["guild"]))
                     $vals["guild"] = "-/-";
@@ -246,7 +246,7 @@ class top100 extends muController
 
             foreach($ai as $nom=>$vals)
             {
-                $vals["Class"] = CharacterInfo::_class($vals["Class"]);
+                $vals["Class"] = Character::_class($vals["Class"]);
 
                 if(empty($vals["guild"]))
                     $vals["guild"] = "-/-";
@@ -290,7 +290,7 @@ class top100 extends muController
 
             foreach($ai as $nom=>$vals)
             {
-                $vals["Class"] = CharacterInfo::_class($vals["Class"]);
+                $vals["Class"] = Character::_class($vals["Class"]);
 
                 if(empty($vals["guild"]))
                     $vals["guild"] = "-/-";
@@ -334,7 +334,7 @@ class top100 extends muController
 
             foreach($ai as $nom=>$vals)
             {
-                $vals["Class"] = CharacterInfo::_class($vals["Class"]);
+                $vals["Class"] = Character::_class($vals["Class"]);
 
                 if(empty($vals["guild"]))
                     $vals["guild"] = "-/-";
