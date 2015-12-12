@@ -67,7 +67,7 @@ class login extends muPController
                 ->set("charlist",Tools::htmlSelect($characters,"chosedchar",$choosed,"class='selectbox' onchange='loginarea.submit()'"))
                 ->add_dict($this->model->aboutUser())
                 ->add_dict($money)
-                ->out("userpanel","login");
+                ->out("userPanel","login");
 
             if(isset($_REQUEST["btn-out"])) //выход
             {
