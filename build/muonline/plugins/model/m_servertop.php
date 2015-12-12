@@ -52,7 +52,7 @@ FROM  [Character] ch
 left join [GuildMember] gm ON gm.Name COLLATE DATABASE_DEFAULT = ch.Name COLLATE DATABASE_DEFAULT
 left join MEMB_STAT ms on ms.memb___id COLLATE DATABASE_DEFAULT = ch.AccountID COLLATE DATABASE_DEFAULT
 WHERE  ch.CtlCode != '1' and ch.CtlCode != '17' {$hiders}
-ORDER BY  ch.{$this->unicCfg["rescolumn"]} DESC");
+ORDER BY  ch.{$this->unicCfg["rescolumn"]} DESC,ch.{$this->unicCfg["grescolumn"]} desc, ch.cLevel desc, ch.Name desc");
         $player = array();
 
         while ($r = $q->FetchRow())
