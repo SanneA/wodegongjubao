@@ -245,7 +245,7 @@ class arouter
             }
             //endregion
         }
-        catch (ADODB_Exception $ex)
+        catch (Exception $ex)
         {
             $stack = $ex->getTrace();
             $msg = $ex->getMessage()." in file: ".basename($stack[3]["file"])." line: ".$stack[3]["line"];
