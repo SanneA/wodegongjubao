@@ -25,6 +25,11 @@ class Model
 
     }
 
+    public function __call($name, $arguments)
+    {
+        throw new Exception("undefined function $name in ".get_class($this));
+    }
+
     /**
      * запись лога в БД
      * @param string $msg

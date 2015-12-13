@@ -359,7 +359,8 @@ INSERT INTO mwc_menu (id,mtitle,mtype,link,server,modul,col_Seq) VALUES
 (25,'auto_title15',3,'?p=iexport',0,'iexport',7),
 (26,'auto_title22',5,'page/webshop.html',0,'webshop',4),
 (27,'auto_title23',4,'page/downloads.html',0,'downloads',5),
-(28,'auto_title12',3,'?p=downloads',0,'downloads',8);
+(28,'auto_title12',3,'?p=downloads',0,'downloads',8),
+(29,'auto_title22',4,'page/webmarket.html',0,'webmarket',4);
 SET IDENTITY_INSERT [mwc_menu] OFF;
 
 SET IDENTITY_INSERT [mwc_pages] ON;
