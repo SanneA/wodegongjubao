@@ -6,7 +6,7 @@
  * 09.12.2015
  *
  **/
-class m_castle extends Model
+class m_castle extends MuonlineUser
 {
     public function getInfo()
     {

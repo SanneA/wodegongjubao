@@ -390,7 +390,7 @@ INSERT INTO mwc_pages (id,pname,ptitle,ppath,caching,ison,server,mname,mpath,tbu
 (34, 'webmarket', 'auto_title22','controllers',0,1,0,'m_webmarket','models','muonline'),
 (35, 'downloads', 'auto_title12','controllers',0,1,0,'m_downloads','models','muadmin'),
 (36, 'downloads', 'auto_title23','controllers',0,1,0,'m_downloads','models','muonline'),
-(37, 'castle', 'auto_title24','controllers',0,1,0,'m_downloads','models','muonline');
+(37, 'castle', 'auto_title24','controllers',0,1,0,'m_castle','models','muonline');
 
 SET IDENTITY_INSERT [mwc_pages] OFF;
 
