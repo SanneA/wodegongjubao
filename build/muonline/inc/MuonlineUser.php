@@ -255,4 +255,23 @@ class MuonlineUser extends Model
         return strtoupper($r["Items"]);
     }
 
+    /**
+     * положить зен в сундук
+     *
+     * @param int $zen
+     * @param string|NULL $login
+     * @throws Exception
+     */
+    public function setWhZen($zen,$login = NULL)
+    {
+        if(!is_null($login))
+        {
+            $user = $login;
+        }
+        else
+            $user = $this->user["login"];
+
+        $this->db->query("UPDATE warehouse SET Money = Money + $zen WHERE AccountID='$user'");
+    }
+
 }
