@@ -47,6 +47,50 @@ class Character
     }
 
     /**
+     * возвращает массив с номерами возможных
+     * классов для указанного персонажа
+     *
+     * @param string $name
+     * @return array
+     */
+    static public function getClassNums($name)
+    {
+        switch(strtolower($name))
+        {
+            case "wizard":
+            case "dw":
+                return array(0,1,2,3);
+                break;
+            case "knight":
+            case "dk":
+                return array(16,17,18,19);
+                break;
+            case "elf":
+            case "me":
+                return array(32,33,34,35);
+                break;
+            case "gladiator":
+            case "mg":
+                return array(48,49,50);
+                break;
+            case "lord":
+            case "dl":
+                return array(64,65,66);
+                break;
+            case "summoner":
+            case "sum":
+                return array(80,81,82,83);
+                break;
+            case "fighter":
+            case "rf":
+                return array(96,97,98);
+                break;
+        }
+
+        return array();
+    }
+
+    /**
      * проверка на поддрежку 65к в стате
      * @param $stat
      * @return int
