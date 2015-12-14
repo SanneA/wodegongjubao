@@ -52,6 +52,30 @@ class cconfigs  extends aController
     }
 
     /**
+     * форма добавления конового конфига
+     */
+    public function action_addform()
+    {
+        if(empty($_POST))
+            $this->view->out("addcfg","cconfigs");
+        else
+        {
+            if(!empty($_POST["necfgname"]))
+            {
+                Tools::debug($_POST);
+                $dirInfo = scandir("build".DIRECTORY_SEPARATOR.$_SESSION["mwccfgread"].DIRECTORY_SEPARATOR."configs");
+                if(!in_array($_POST["necfgname"],$dirInfo))
+                {
+                    $h = fopen("build".DIRECTORY_SEPARATOR.$_SESSION["mwccfgread"].DIRECTORY_SEPARATOR."configs".DIRECTORY_SEPARATOR.$_POST["necfgname"].".cfg","w");
+                    fclose($h);
+                    $h = fopen("build".DIRECTORY_SEPARATOR.$_SESSION["mwccfgread"].DIRECTORY_SEPARATOR."lang".DIRECTORY_SEPARATOR.$_SESSION["mwclang"].DIRECTORY_SEPARATOR."cfg_".$_POST["necfgname"].".php","w");
+                    fclose($h);
+                }
+            }
+        }
+    }
+
+    /**
      * Генерация конфига сайта
      */
     public function action_showcfg()
