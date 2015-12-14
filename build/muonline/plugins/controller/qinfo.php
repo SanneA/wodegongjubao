@@ -31,7 +31,7 @@ class qinfo extends muPController
                 {
                     if($params[2]!="localhost") //если не локальный сервер ТО
                     {
-                        $online = (int)file_get_contents("http://".Tools::unhtmlentities($params[2]));//получаем данные онлайна с другого сервера
+                        $online = (int)file_get_contents("http://".Tools::unhtmlentities($params[2])."/online.txt");//получаем данные онлайна с другого сервера
                     }
                     else
                     {
@@ -40,6 +40,10 @@ class qinfo extends muPController
                 }
 
                 $total+=$online;
+
+                $h = fopen("online.txt","w");
+                fwrite($h,$online);
+                fclose($h);
 
                 $this->view
                     ->set(array(
