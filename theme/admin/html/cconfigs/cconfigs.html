@@ -8,6 +8,7 @@
 </table>
 </form>
 <div style="display: none;" id="cconfdialog"></div>
+<div><input type="button" class="button add" value="|l_ncfgbtn|" onclick="addCfg();"></div>
 
 <script type="text/javascript">
     $(document).ready(genIn({element:"configbody", address:"|site|control.php?p=cconfigs&a=getlist&bg=1"}));
@@ -28,6 +29,42 @@
             }
         });
 
+    }
+
+    function addCfg()
+    {
+        genIn({
+            element:'cconfdialog',
+            address:'|site|control.php?p=cconfigs&bg=1&a=addform',
+            callback:function(){
+                $("#cconfdialog").dialog({
+                    title:'|l_addnewp|',
+                    modal:true,
+                    width:400,
+                    height:180,
+                    buttons:{
+                        "|l_ok|":function(){
+                            genIn({
+                                element: 'cconfdialog',
+                                address: '|site|control.php?p=cconfigs&bg=1&a=addform',
+                                type:'POST',
+                                data:$("#addCfg").serialize(),
+                                callback:function(){
+                                    $("#cconfdialog").dialog('close');
+                                    genIn({
+                                        element:"configbody",
+                                        address:"|site|control.php?p=cconfigs&a=getlist&bg=1"
+                                    });
+                                }
+                            });
+                        }
+                    },
+                    close:function(){
+                        $(this).dialog('destroy');
+                    }
+                });
+            }
+        })
     }
 
     function newParam(id)
