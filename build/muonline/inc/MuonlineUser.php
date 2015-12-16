@@ -99,11 +99,11 @@ class MuonlineUser extends Model
         if(is_null($login))
         {
             $login = $this->user["login"];
-            $info = $this->db->query("SELECT mi.memb_name,mi.mail_addr,mi.mwc_bankZ,mi.MWCpoints,mi.mwc_timeban,mi.mwc_tryes,mi.mwc_credits,wh.Money FROM MEMB_INFO mi LEFT JOIN warehouse wh ON wh.AccountID = mi.memb___id WHERE mi.memb___id='{$login}'")->FetchRow();
+            $info = $this->db->query("SELECT mi.memb_name,mi.mail_addr,mi.mwc_bankZ,mi.MWCpoints,mi.mwc_timeban,mi.mwc_tryes,mi.mwc_credits,wh.Money FROM MEMB_INFO mi LEFT JOIN warehouse wh ON wh.AccountID COLLATE DATABASE_DEFAULT = mi.memb___id COLLATE DATABASE_DEFAULT WHERE mi.memb___id='{$login}'")->FetchRow();
             $this->user += $info;
             return $this->user;
         }
-        $info = $this->db->query("SELECT mi.memb_name,mi.mail_addr,mi.mwc_bankZ,mi.MWCpoints,mi.mwc_timeban,mi.mwc_tryes,mi.mwc_credits,wh.Money FROM MEMB_INFO mi LEFT JOIN warehouse wh ON wh.AccountID = mi.memb___id WHERE mi.memb___id='{$login}'")->FetchRow();
+        $info = $this->db->query("SELECT mi.memb_name,mi.mail_addr,mi.mwc_bankZ,mi.MWCpoints,mi.mwc_timeban,mi.mwc_tryes,mi.mwc_credits,wh.Money FROM MEMB_INFO mi LEFT JOIN warehouse wh ON wh.AccountID COLLATE DATABASE_DEFAULT = mi.memb___id COLLATE DATABASE_DEFAULT WHERE mi.memb___id='{$login}'")->FetchRow();
         return $info;
     }
 
