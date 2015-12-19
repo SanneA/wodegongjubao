@@ -99,7 +99,7 @@ class downloads extends aController
         $iter = new ArrayIterator($allnews);
         foreach ($iter as $news)
         {
-            $news["indate"] = Tools::transDate($news["indate"]);
+            $news["indate"] = date_::transDate($news["indate"]);
 
             $this->view
                 ->set($news) //Добавляем в новости

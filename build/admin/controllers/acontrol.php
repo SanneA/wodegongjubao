@@ -41,7 +41,7 @@ class acontrol extends aController
             $info = $this->model->getInfo((int)$_GET["id"]);
             $this->view
                 ->add_dict($info)
-                ->set("grplist",Tools::htmlSelect($this->model->getCurrentList(),"checkedgroup",$info["access"],"style='width:183px;'"))
+                ->set("grplist",html_::select($this->model->getCurrentList(),"checkedgroup",$info["access"],"style='width:183px;'"))
                 ->set("id",$_GET["id"])
                 ->out("form","acontrol");
         }

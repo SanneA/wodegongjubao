@@ -102,7 +102,7 @@ class agroup extends aController
             $this->view
                 ->setFContainer("knownpages",true)
                 ->set("id",$pid)
-                ->set("grplist",Tools::htmlSelect($opages,"newpage"))
+                ->set("grplist",html_::select($opages,"newpage"))
                 ->out("groupinfo","agroup");
         }
     }

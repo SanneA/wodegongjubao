@@ -12,7 +12,7 @@ class aaddmenu extends aController
     public function action_index()
     {
         $this->view
-            ->set("mtypelist",Tools::htmlSelect($this->model->getMenuList(),"menutype",0,"onchange='filter(this.value);currentmenu=this.value;'"))
+            ->set("mtypelist",html_::select($this->model->getMenuList(),"menutype",0,"onchange='filter(this.value);currentmenu=this.value;'"))
             ->out("main","aaddmenu");
     }
 
@@ -99,9 +99,9 @@ class aaddmenu extends aController
 
             $this->view
                 ->add_dict($ar)
-                ->set("mtypelist",Tools::htmlSelect($this->model->getMenuList(),"typemenu",$ar["mtype"]))
-                ->set("titlest",Tools::htmlSelect($lang,"mtitel",$ar["mtitle"]))
-                ->set("modullist",Tools::htmlSelect($this->model->pageList(),"pagesList",$ar["modul"],"onchange='getlink();'"))
+                ->set("mtypelist",html_::select($this->model->getMenuList(),"typemenu",$ar["mtype"]))
+                ->set("titlest",html_::select($lang,"mtitel",$ar["mtitle"]))
+                ->set("modullist",html_::select($this->model->pageList(),"pagesList",$ar["modul"],"onchange='getlink();'"))
                 ->out("editPosition","aaddmenu");
         }
     }
@@ -122,9 +122,9 @@ class aaddmenu extends aController
                 $lang = array();
 
             $this->view
-                ->set("mtypelist",Tools::htmlSelect($this->model->getMenuList(),"typemenu",$tmenu))
-                ->set("titlest",Tools::htmlSelect($lang,"mtitel",1))
-                ->set("modullist",Tools::htmlSelect($this->model->pageList(),"pagesList",-1,"onchange='getlink();'"))
+                ->set("mtypelist",html_::select($this->model->getMenuList(),"typemenu",$tmenu))
+                ->set("titlest",html_::select($lang,"mtitel",1))
+                ->set("modullist",html_::select($this->model->pageList(),"pagesList",-1,"onchange='getlink();'"))
                 ->out("addPosition","aaddmenu");
         }
     }

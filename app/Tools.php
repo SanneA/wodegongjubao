@@ -48,47 +48,6 @@ class Tools
         }
     }
 
-    /**
-     * @param array $args - массив с данными для заполнения элемента
-     * @param mixed $chosen - какой элемент должен быть выбран по умолчанию
-     * @param string $name - название и id элемента
-     * @param array|string $others - любые html-атрибуты элемента.
-     * либо в виде строки: "style='width:12px;' onchange='alert(123);'",
-     * либо в виде ассоциативного массива: array("style"=>"width:12px;","onchange"=>"alert(123);")
-     * @return string - html код элемента select
-     */
-    public static function htmlSelect($args,$name,$chosen=-1,$others="")
-    {
-        if(is_array($others))
-        {
-            $htmAttr="";
-            foreach ($others as $id => $val)
-            {
-                $htmAttr.=" $id=\"$val\"";
-            }
-        }
-        else
-            $htmAttr = $others;
-
-        $text = "<select name=\"{$name}\" id=\"{$name}\" {$htmAttr}>";
-        $wassel = 0;
-
-        if(!empty($args) && is_array($args))
-        {
-            foreach ($args as $id=>$val)
-            {
-                $text.="<option value=\"$id\"";
-                if ($chosen == $id && $wassel == 0)
-                {
-                    $text.=" SELECTED ";
-                    $wassel=1;
-                }
-                $text.=">$val</option>";
-            }
-        }
-        $text.="</select>";
-        return $text;
-    }
 
     /**
      *
@@ -133,53 +92,6 @@ class Tools
         return strtr ($str, $trans_tbl);
     }
 
-    /**
-     * @param string $date
-     * @param bool|false $type
-     * @return bool|string
-     * конвертация даты из бд в человекопонятную дату
-     */
-    public static function transDate($date= "0000-00-00",$type=false)
-    {
-        if (trim($date) == "0000-00-00" or $date==NULL or $date=="1970-01-01 00:00:00" or $date=="1970-01-01")
-            return "-/-";
-        if (!$type)
-            return @date("d-m-Y",strtotime($date));
-        return @date("d-m-Y H:i",strtotime($date));
-    }
-
-    /**
-     * @param $date
-     * @param bool|false $type
-     * @return bool|string
-     * конвертация даты в дату, пригодную для бд(смена формата даты))
-     */
-    public static function intransDate($date,$type=false)
-    {
-        if ($date == NULL)
-            return "-/-";
-        if (!$type)
-            return @date("Y-m-d",strtotime($date));
-        return @date("Y-m-d H:i:s",strtotime($date));
-    }
-
-    /**
-     * @param datetime $a
-     * @param datetime $b - вычитаемое
-     * @param bool|false $type true - разница в днях, false - в часах
-     * @return int
-     * узнать разницу между датами
-     */
-    public static function dateDif($a,$b,$type=false)
-    {
-        $a = strtotime($a);
-        $b = strtotime($b);
-        if (!$type)
-            $c = floor(($a - $b)/86400);
-        else
-            $c = floor(($a - $b)/3600);
-        return (int)$c;
-    }
 
     /**
      * пагинатор, то есть возвращает значения для выборки,сколько страниц (min,max,count)

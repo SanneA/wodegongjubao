@@ -13,7 +13,7 @@ class ammanager extends aController
     public function action_index()
     {
         $this->view
-            ->set("folderlist",Tools::htmlSelect($this->model->getFolerList(),"selfolderc",0,"onchange='amfilter()'"))
+            ->set("folderlist",html_::select($this->model->getFolerList(),"selfolderc",0,"onchange='amfilter()'"))
             ->out("main","ammanager");
     }
 
@@ -69,7 +69,7 @@ class ammanager extends aController
             {
                 require $path;
 
-                $this->view->set("llist",Tools::htmlSelect($lang,"pagetitle",$pinfo["ptitle"],"style='width:182px;'"));
+                $this->view->set("llist",html_::select($lang,"pagetitle",$pinfo["ptitle"],"style='width:182px;'"));
             }
 
             $path = "build".DIRECTORY_SEPARATOR.$_SESSION["mwccfgread"].DIRECTORY_SEPARATOR."lang".DIRECTORY_SEPARATOR.$_SESSION["mwclang"].DIRECTORY_SEPARATOR."group.php";
@@ -96,8 +96,8 @@ class ammanager extends aController
 
             $this->view
                 ->add_dict($pinfo)
-                ->set("statelist",Tools::htmlSelect(array(0=>"Off",1=>"On"),"statepage",$pinfo["ison"]))
-                ->set("grplist",Tools::htmlSelect($argroup,"newgroup",0,"style='width:100px;' onchange=\"addToPage(this,$pid)\""))
+                ->set("statelist",html_::select(array(0=>"Off",1=>"On"),"statepage",$pinfo["ison"]))
+                ->set("grplist",html_::select($argroup,"newgroup",0,"style='width:100px;' onchange=\"addToPage(this,$pid)\""))
                 ->out("infoform","ammanager");
         }
     }
@@ -218,7 +218,7 @@ class ammanager extends aController
             {
                 $ar = $lang;
                 $ar[-1] = "...";
-                $this->view->set("llist",Tools::htmlSelect($ar,"pagetitle",-1,"style='width:100px;'"));
+                $this->view->set("llist",html_::select($ar,"pagetitle",-1,"style='width:100px;'"));
             }
         }
 
@@ -229,7 +229,7 @@ class ammanager extends aController
             unset($lang);
             require $path;
 
-            $this->view->set("groupsel",Tools::htmlSelect($lang,"groupz[]",-1,"multiple size='5'"));
+            $this->view->set("groupsel",html_::select($lang,"groupz[]",-1,"multiple size='5'"));
         }
         $this->view->out("step1","ammanager");
     }

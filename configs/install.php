@@ -65,7 +65,7 @@ else
             }
 
             $content
-                ->set("admlist",Tools::htmlSelect($list,"dirselect",3,"style='width:173px'"))
+                ->set("admlist",html_::select($list,"dirselect",3,"style='width:173px'"))
                 ->out("step1","public",false);
             break;
         //проверка коннекта

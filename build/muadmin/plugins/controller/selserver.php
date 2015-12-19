@@ -26,7 +26,7 @@ class selserver extends aPController
 
 
         $this->view
-            ->set("buildsList",Tools::htmlSelect(Tools::getAllBuilds(),"whosconfig",$selectted,"class='selectserv' onchange='document.getElementById(\"bselecter\").submit()'"))
+            ->set("buildsList",html_::select(Tools::getAllBuilds(),"whosconfig",$selectted,"class='selectserv' onchange='document.getElementById(\"bselecter\").submit()'"))
             ->out("selserver");
     }
 }

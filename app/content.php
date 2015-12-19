@@ -57,21 +57,16 @@ class content
         }
     }
 
+    /**
+     * контект из файла
+     * @param string $path
+     * @return string
+     */
     static public function gContent($path)
     {
         return @file_get_contents($path);
     }
 
-
-    /**
-     * выводит весь словарь
-     *
-     * @return array
-     */
- /*   public function getAbs()
-    {
-        return $this->lng;
-    }*/
 
     /**
      * Вывод отдельного слова по идентификатору
@@ -82,7 +77,6 @@ class content
     public function getVal($id)
     {
         return $this->vars[$id];
-       // return $this->lng[$id];
     }
 
     /**
@@ -105,7 +99,6 @@ class content
     {
         if(is_array($file))
         {
-            //$this->lng+=$file;
             foreach ($file as $d=>$v)
                 $this->vars[$d] = $v;
         }
@@ -124,7 +117,6 @@ class content
 
                 if (isset($lang) && is_array($lang))
                 {
-                    //$this->lng+=$lang;
                     foreach ($lang as $d=>$v)
                     {
                         $this->vars[$d] = $v;
@@ -177,7 +169,6 @@ class content
         if (!empty($this->vars[$what]))
         {
             $this->set($where,$this->vars[$what]);
-           // unset($this->vars[$what]);
         }
         return $this;
     }
@@ -327,6 +318,7 @@ class content
         {
             $this->errortext("file \"$path\" doesn't exists");
         }
+        return '';
     }
 
     /**
@@ -341,7 +333,6 @@ class content
     {
         $this->setFContainer($args); //суем из контенера в переменную
         $this->out($tpl,$folder,0,$gentime);
-        //$this->clearContainer();
     }
 
     /**
@@ -373,9 +364,11 @@ class content
      */
     public function error($erNum)
     {
-        $this->add_dict("errors");
-        $this->replace("err".$erNum,"msg_desc");
-        $this->out("error","public");
+        $this
+            ->add_dict("errors")
+            ->set("title","...")
+            ->replace("err".$erNum,"msg_desc")
+            ->out("error","public");
     }
 
     /**
@@ -388,7 +381,6 @@ class content
         $this->add_dict("errors");
         $this->set("msg_desc",$text);
         $this->out("error","public");
-
     }
 
 }

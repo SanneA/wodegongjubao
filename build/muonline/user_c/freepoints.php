@@ -17,7 +17,7 @@ class freepoints extends muController
 
             $this->view
                 ->add_dict("freepoints")
-                ->set("chlist",Tools::htmlSelect($characters,"charsChoose","0","class='selectbox' onchange=' genIn({element:\"getfreeptcontent\",address:\"".$this->view->getAdr()."pagebg/freepoints/choose/\"+this.value+\".html\"});'"))
+                ->set("chlist",html_::select($characters,"charsChoose","0","class='selectbox' onchange=' genIn({element:\"getfreeptcontent\",address:\"".$this->view->getAdr()."pagebg/freepoints/choose/\"+this.value+\".html\"});'"))
                 ->out("main","freePoints");
         }
     }
