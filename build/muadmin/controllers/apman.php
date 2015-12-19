@@ -13,7 +13,7 @@ class apman extends aController
     public function action_index()
     {
         $this->view
-            ->set("nrlist",Tools::htmlSelect($this->model->getNonRegPlugins(),"newplgns"))
+            ->set("nrlist",html_::select($this->model->getNonRegPlugins(),"newplgns"))
             ->out("main","apman");
     }
 
@@ -84,8 +84,8 @@ class apman extends aController
             $argroup[0] = "...";
             $this->view
                 ->add_dict($info)
-                ->set("grplist",Tools::htmlSelect($argroup,"newgroup",0,"style='width:100px;' onchange=\"addToPlugin(this,$idp)\""))
-                ->set("statelist",Tools::htmlSelect($stateAr,"chosedstate",$info["pstate"],"style='width:100px;'"))
+                ->set("grplist",html_::select($argroup,"newgroup",0,"style='width:100px;' onchange=\"addToPlugin(this,$idp)\""))
+                ->set("statelist",html_::select($stateAr,"chosedstate",$info["pstate"],"style='width:100px;'"))
                 ->out("editform","apman");
         }
     }

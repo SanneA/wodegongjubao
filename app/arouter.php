@@ -282,6 +282,9 @@ class arouter
         }
     }
 
+    /**
+     * точка входа singleton
+     */
     public static function start()
     {
         if(is_null(self::$instanse))

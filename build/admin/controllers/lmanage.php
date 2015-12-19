@@ -12,7 +12,7 @@ class lmanage extends aController
     public function action_index()
     {
         $this->view
-            ->set("langfileslist",Tools::htmlSelect($this->model->getFileList(),"selFolder",0,"onchange='lmanfilter();'"))
+            ->set("langfileslist",html_::select($this->model->getFileList(),"selFolder",0,"onchange='lmanfilter();'"))
             ->out("main","lmanage");
     }
 

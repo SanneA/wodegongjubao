@@ -64,7 +64,7 @@ class login extends muPController
             $money["mwc_credits"] = Tools::number($money["mwc_credits"]);
 
             $this->view
-                ->set("charlist",Tools::htmlSelect($characters,"chosedchar",$choosed,"class='selectbox' onchange='loginarea.submit()'"))
+                ->set("charlist",html_::select($characters,"chosedchar",$choosed,"class='selectbox' onchange='loginarea.submit()'"))
                 ->add_dict($this->model->aboutUser())
                 ->add_dict($money)
                 ->out("userPanel","login");

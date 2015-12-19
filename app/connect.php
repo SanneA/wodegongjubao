@@ -26,6 +26,15 @@ class connect
 
     private $suf="";
 
+    /**
+     * почти конструктор
+     * @param null|int|string $type
+     * @param null|string $host
+     * @param null|string $base
+     * @param null|string $user
+     * @param null|string $pwd
+     * @return connect|null
+     */
     static public function start($type = NULL,$host = NULL,$base = NULL,$user = NULL,$pwd = NULL)
     {
         if(self::$inst==null)
@@ -82,6 +91,7 @@ class connect
     }
 
     /**
+     * получение суффикса dbo для mssql когда это надо для кроссбазового запроса
      * @return string
      */
     public function getSuf()
@@ -156,7 +166,14 @@ class connect
         }
     }
 
-
+    /**
+     * mssql подключение (устаревшее)
+     * @param string $host
+     * @param string $base
+     * @param string $user
+     * @param string $pwd
+     * @throws Exception
+     */
     private function mmsql($host,$base,$user,$pwd)
     {
         if (function_exists("mssql_connect"))
@@ -172,6 +189,14 @@ class connect
             throw new Exception("mssql_connect is NOT supported!");
     }
 
+    /**
+     * mysql подключение (устаревшее)
+     * @param string $host
+     * @param string $base
+     * @param string $user
+     * @param string $pwd
+     * @throws Exception
+     */
     private function mysql($host,$base,$user,$pwd)
     {
         if (function_exists("mysql_connect"))
@@ -191,7 +216,13 @@ class connect
             throw new Exception("mysql_connect is NOT supported!");
     }
 
-
+    /**
+     * @param string $host
+     * @param string $base
+     * @param string $user
+     * @param string $pwd
+     * @throws Exception
+     */
     private function odbc_mmsql($host,$base,$user,$pwd)
     {
         if (function_exists("odbc_connect"))
@@ -210,6 +241,13 @@ class connect
             throw new Exception("odbc_connect is NOT supported!");
     }
 
+    /**
+     * @param string $host
+     * @param string $base
+     * @param string $user
+     * @param string $pwd
+     * @throws Exception
+     */
     private function pdo_mssql($host,$base,$user,$pwd)
     {
         $drivers = PDO::getAvailableDrivers();
@@ -226,6 +264,13 @@ class connect
             throw new Exception("PDO_mssql is NOT supported!");
     }
 
+    /**
+     * @param string $host
+     * @param string $base
+     * @param string $user
+     * @param string $pwd
+     * @throws Exception
+     */
     private function pdo_mysql($host,$base,$user,$pwd)
     {
         $drivers = PDO::getAvailableDrivers();
@@ -246,15 +291,30 @@ class connect
             throw new Exception("PDO_mysql is NOT supported!");
     }
 
+    /**
+     * сообщение от mssql сервера (в большинстве случаев не требуется)
+     * @return string
+     */
     public function getMsg()
     {
         return $this->resId->lastMessage;
     }
+
+    /**
+     * сообщение от mssql сервера (в большинстве случаев не требуется)
+     * @return string
+     */
     public function Msg()
     {
         return $this->resId->ErrorMsg();
     }
 
+    /**
+     * запрос в базу данных
+     * @param string $qtext
+     * @return mixed
+     * @throws Exception
+     */
     public function query($qtext)
     {
         try
@@ -275,11 +335,20 @@ class connect
         }
     }
 
+    /**
+     * получение текста последнего запроса
+     * @return mixed
+     */
     public function  getQuery()
     {
         return $this->lastq;
     }
 
+    /**
+     * возвращает инстанс adodb, что похволяет пользоваться неописанными
+     * в данном классе функциями напрямую
+     * @return mixed
+     */
     public function getADOInst()
     {
         return $this->resId;

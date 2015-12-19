@@ -30,17 +30,17 @@ class editchars extends aController
                     if($charInfo["ConnectStat"]<1)
                     {
                         $charInfo["ConnectStat"] = "<b style='color:red'>Offline</b>";
-                        $charInfo["ServerName"].=" ".Tools::transDate($charInfo["DisConnectTM"],true);
+                        $charInfo["ServerName"].=" ".date_::transDate($charInfo["DisConnectTM"],true);
                     }
                     else
                     {
                         $charInfo["ConnectStat"] = "<b style='color:green'>Online</b>";
-                        $charInfo["ServerName"].=" ".Tools::transDate($charInfo["ConnectTM"],true);
+                        $charInfo["ServerName"].=" ".date_::transDate($charInfo["ConnectTM"],true);
                     }
 
                     $this->view
                         ->add_dict($charInfo)
-                        ->set("classlist",Tools::htmlSelect($this->model->class,'Class',$charInfo['Class'],"style='width:100px;'"))
+                        ->set("classlist",html_::select($this->model->class,'Class',$charInfo['Class'],"style='width:100px;'"))
                         ->out("character","editchars");
                 }
             }

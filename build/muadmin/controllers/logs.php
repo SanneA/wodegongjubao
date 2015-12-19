@@ -20,10 +20,10 @@ class logs extends aController
 
         $this->view
             ->set(array(
-                "evlist" => Tools::htmlSelect($evList,"eventnum",0,'style="width:120px;"'),
-                "lilesc" => Tools::htmlSelect($filList,"lilesc",-1,'style="width:120px;"'),
-                "datefrom" => Tools::intransDate("-1 week"),
-                "dateto" => Tools::intransDate("+1 week")
+                "evlist" => html_::select($evList,"eventnum",0,'style="width:120px;"'),
+                "lilesc" => html_::select($filList,"lilesc",-1,'style="width:120px;"'),
+                "datefrom" => date_::intransDate("-1 week"),
+                "dateto" => date_::intransDate("+1 week")
             ))
             ->out("main","logs");
     }
@@ -40,8 +40,8 @@ class logs extends aController
 
         if(!empty($_POST["dbegin"]) && !empty($_POST["dend"]))
         {
-            $begin = Tools::intransDate($_POST["dbegin"]);
-            $end = Tools::intransDate($_POST["dend"]);
+            $begin = date_::intransDate($_POST["dbegin"]);
+            $end = date_::intransDate($_POST["dend"]);
 
             if($begin == "-/-" || $end == "-/-")
                 return;
@@ -55,7 +55,7 @@ class logs extends aController
 
         foreach ( $ai as $id=>$val )
         {
-            $val["col_createTime"] = Tools::transDate($val["col_createTime"],true);
+            $val["col_createTime"] = date_::transDate($val["col_createTime"],true);
 
             $this->view
                 ->add_dict($val)
@@ -73,7 +73,7 @@ class logs extends aController
         $files = $this->model->getFilelist();
         $files[0] = "...";
         $this->view
-            ->set("filelist",Tools::htmlSelect($files,"chosfile",0,"style='width:100px;' onchange='setfile(this.value);'"))
+            ->set("filelist",html_::select($files,"chosfile",0,"style='width:100px;' onchange='setfile(this.value);'"))
             ->out("filemain","logs");
     }
 

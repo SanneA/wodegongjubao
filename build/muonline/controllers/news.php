@@ -22,7 +22,7 @@ class news extends muController
 
             foreach ($ai as $i_=> $values)
             {
-                $values["indate"] = Tools::transDate($values["indate"]);
+                $values["indate"] = date_::transDate($values["indate"]);
                 $values["news"] = Tools::unhtmlentities($values["news"]);
                 $this->view
                     ->add_dict($values)

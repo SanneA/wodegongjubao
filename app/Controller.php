@@ -20,7 +20,13 @@ class Controller
     protected $getField; //поля для валидации из GET - массива
     protected $needValid = true; //проверять или нет пост и гет
 
-
+    /**
+     * Controller constructor.
+     * @param Model $model
+     * @param content $view
+     * @param string $pages
+     * @param int $server
+     */
     public function __construct(Model $model,content $view,$pages,$server)
     {
         $this->view = $view;
@@ -44,8 +50,19 @@ class Controller
         self::validate();
     }
 
+    /**
+     * метод, что запускается срау после констуктора
+     */
     public function init(){}
+
+    /**
+     * метод по умолчанию
+     */
     public function action_index(){}
+
+    /**
+     * метод по умолчанию
+     */
     public function action_title(){}
 
     /**
@@ -84,13 +101,17 @@ class Controller
             $this->doCache(basename($mpath,".php")."_".__FUNCTION__);
     }
 
+    /**
+     * показывает ошибку
+     * @param int $er номер ошибки
+     */
     public function showError($er = 2)
     {
         $this->view->error($er);
     }
 
     /**
-     * глобальное отображение всей собранной страницы
+     * глобальное отображение всей "собранной" страницы
      */
     public function parentOut($bg=null)
     {
@@ -139,6 +160,7 @@ class Controller
 
     /**
      * удаляем файлик кеша
+     * @param string $fname название файлика(функции)
      */
     protected function cacheDelete($fname)
     {
@@ -259,6 +281,9 @@ class Controller
             self::customGetValid();
     }
 
+    /**
+     * GET массив. валидация
+     */
     protected function clearGet()
     {
         $ai = new ArrayIterator($_GET);
@@ -280,7 +305,7 @@ class Controller
     }
 
     /**
-     * очистка от нежелательных символов POST массива
+     * POST массив. валидация
      */
     protected function clearPost()
     {

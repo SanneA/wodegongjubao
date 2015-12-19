@@ -21,6 +21,13 @@ class builder
     private $server;
     private $mwcedb; //база данных с настройками cms
 
+    /**
+     * builder constructor.
+     * @param string $tbuild
+     * @param string $lang
+     * @param int $server
+     * @param string $mwcedb
+     */
     public function __construct($tbuild,$lang,$server,$mwcedb="mwce_settings")
     {
         $this->DB = connect::start();
@@ -177,6 +184,9 @@ class builder
         fclose($fh);
     }
 
+    /**
+     * проверка файлов на наличие
+     */
     public function checkBase()
     {
         if(!file_exists("build".DIRECTORY_SEPARATOR.$this->build.DIRECTORY_SEPARATOR."_dat".DIRECTORY_SEPARATOR.$this->server."_".$this->lang."_pages.php"))
