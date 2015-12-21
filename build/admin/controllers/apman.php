@@ -58,7 +58,6 @@ class apman extends aController
                 0 => $this->view->getVal("state0"),
                 1 => $this->view->getVal("state1"),
                 2 => $this->view->getVal("state2"),
-                3 => $this->view->getVal("state3"),
             );
 
             $path = "build".DIRECTORY_SEPARATOR.$_SESSION["mwccfgread"].DIRECTORY_SEPARATOR."lang".DIRECTORY_SEPARATOR.$_SESSION["mwclang"].DIRECTORY_SEPARATOR."group.php";
