@@ -72,7 +72,7 @@ class arouter
                 $aplugin = new ArrayIterator($plugin);
                 foreach ($aplugin as $name=>$param)
                 {
-                    if($param["pstate"] ==2 || $param["pstate"] ==3)//если плагин включен и для админки
+                    if($param["pstate"] == 2)//если плагин включен и для админки
                     {
                         $contoller_path = "build".DIRECTORY_SEPARATOR.tbuild.DIRECTORY_SEPARATOR."plugins".DIRECTORY_SEPARATOR."controller".DIRECTORY_SEPARATOR.$name.".php";
                         if(file_exists($contoller_path) && !empty($param["groups"]))

@@ -15,15 +15,16 @@ class langselector extends muPController
         if(count($Langs)<=1) //если для билда только 1 папка с языком, зачем ее показывать?
             return;
 
+        $_REQUEST["langchooses"] = substr(trim($_REQUEST["langchooses"]),0,2);
+
         if(!empty($_REQUEST["langchooses"]) && !empty($Langs[$_REQUEST["langchooses"]]))
         {
-           $_SESSION["mwclang"] = substr($_REQUEST["langchooses"],0,2);
-            Tools::go();
+           $_SESSION["mwclang"] = $_REQUEST["langchooses"];
+           Tools::go();
         }
 
         $this->view
             ->set("langdirlist",html_::select($Langs,"langchooses",$_SESSION["mwclang"]," class='selectbox' onchange='document.getElementById(\"langmenuform\").submit()'"))
             ->out("plugin_langselector");
     }
-
 }

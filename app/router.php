@@ -73,7 +73,7 @@ class router
             {
                 foreach ($plugin as $name=>$param)
                 {
-                    if($param["pstate"] == 1 || $param["pstate"] == 3)//если плагин включен
+                    if($param["pstate"] == 1)//если плагин включен
                     {
                         $contoller_path = "build".DIRECTORY_SEPARATOR.tbuild.DIRECTORY_SEPARATOR."plugins".DIRECTORY_SEPARATOR."controller".DIRECTORY_SEPARATOR.$name.".php";
 

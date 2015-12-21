@@ -213,8 +213,8 @@ class PController
         if($this->cacheDif($fname) <= $prop["pcache"]) //если модуль кешируется и кеш еще актуален, вместо работы модуля берем кеш
         {
             $cache = $this->cacheGive($fname);
-            //if(empty($cache))
-            //    return false;
+            if(empty($cache))
+                return false;
 
             $this->view->setFromCache($this->cacheGive($fname)); //суем в контейнер данные
             return true;
@@ -233,7 +233,7 @@ class PController
         $cache = $this->view->getContainer();
 
         if(empty($cache))
-            $cache="";
+            $cache="&nbsp;";
 
         $this->cacheWrite($fname, $cache); //пишем кеш
     }
