@@ -61,7 +61,7 @@ class m_anews extends Model
     {
         if(!empty($news["ntag"]))
         {
-            $news["ntag"] = "N'{$news["ntag"]}',";
+            $news["ntag"] = "N'{$news["ntag"]}'";
         }
         else
             $news["ntag"]="' '";

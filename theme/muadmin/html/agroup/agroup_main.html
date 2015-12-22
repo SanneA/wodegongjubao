@@ -72,6 +72,9 @@
                 "|l_n|": function() {
                     $( this ).dialog( "close" );
                 }
+            },
+            close:function(){
+                $(this).dialog('close');
             }
         });
     }
@@ -95,7 +98,10 @@
                 }
             },
             width:400,
-            height:140
+            height:140,
+            close:function(){
+                $(this).dialog('close');
+            }
         });
     }
 
@@ -114,6 +120,9 @@
             height:400,
             open:function(){
                 genIn({element:'groupBox',address:'|site|control.php?p=agroup&a=groupinfo&bg=1&id='+id});
+            },
+            close:function(){
+                $(this).dialog('close');
             }
         });
         cgroup = id;
@@ -132,22 +141,5 @@
                 document.getElementById("newpage").removeChild(seler);
             }
         });
-     /*   $.ajax({
-            url: "|site|control.php?p=agroup&a=addpage&id="+id,
-            cache: false,
-            type:'POST',
-            data : $("#aboutgrp"+id).serialize(),
-            success: function(response){
-                refreshlist(id);
-                var seler  = document.getElementById("newpage").options[document.getElementById('newpage').selectedIndex];
-                document.getElementById("newpage").removeChild(seler);
-
-              //  $('#newpage option[value='+id+']').remove();
-
-               // $("#groupBox").dialog('close');
-            }
-        });
-*/
-
     }
 </script>

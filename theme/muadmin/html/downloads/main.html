@@ -37,15 +37,13 @@
     </tr>
 </table>
 <script type="text/javascript">
-    var edit;
     $(document).ready( function(){
+        currentNews = 0;
                 edit=CKEDITOR.replace('newsinput',{
                     fillEmptyBlocks: false,
                     fullPage: false
                 })
     });
-    currentNews = 0;
-
 
     function getNews(id)
     {
