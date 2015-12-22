@@ -18,7 +18,6 @@
     <script type="text/javascript" language="javascript" src="|site|theme/scripts/jquery-ui.min.js"></script>
     <script type="text/javascript" language="javascript" src="|site|theme/scripts/ckeditor/ckeditor.js"></script>
     <script type="text/javascript" language="javascript" src="|site|theme/scripts/jquery.qtip.js"></script>
-    <!--<script type="text/javascript" language="javascript" src="|site|theme/scripts/jquery.qtip.min.js.map"></script>-->
     <script type="text/javascript" language="javascript" src="|site|theme/scripts/mwcapi.js"></script>
 
     <link rel="stylesheet" type="text/css" href="|site|theme/|theme|/css/normalize.css">
@@ -34,16 +33,6 @@
         |global_css|
 
     </style>
-
-    <script>
-        WebFont.load({
-            google: {
-                families: ["Exo:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic"]
-            }
-        });
-
-        |global_js|
-    </script>
 </head>
 <body>
 <div class="w-row bg">
@@ -108,9 +97,16 @@
 </div>
 <div id="alldialogbox" style="display: none;"></div>
 
-<script type="text/javascript" src="|site|/theme/|theme|/js/webflow.js"></script>
+<script type="text/javascript" src="|site|theme/|theme|/js/webflow.js"></script>
 <!--[if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
 <script type="text/javascript">
+
+    $(document).ready(function(){
+        if(window.location.hash!='')
+        {
+            gpage(window.location.hash.substr(1));
+        }
+    });
 
     function gpage(pname,params)
     {
@@ -119,26 +115,81 @@
         {
              location.href = "|site|";
         }
+        else
+        {
+            window.location.hash = pname;
+        }
 
 
         if(params == undefined)
             genIn({
                 element:"modules",
                 address:"|site|control.php?p="+pname+"&bg=1",
-                loadicon:'<img src="theme/imgs/likewin.gif" style="position: fixed;left: 50%;margin-left: -100px;" border="0" alt="0" align="center"/>'
+                callback:function(){
+                    genIn({
+                        element:"titleZ",
+                        address:"|site|control.php?p="+pname+"&bg=1&a=title"
+                    });
+                }
             });
         else
             genIn({
                 element:"modules",
                 address:"|site|control.php?p="+pname+"&bg=1&a="+params,
-                loadicon:'<img src="theme/imgs/likewin.gif" style="position: fixed;left: 50%;margin-left: -100px;" border="0" alt="0" align="center"/>'
+                callback:function(){
+                    genIn({
+                        element:"titleZ",
+                        address:"|site|control.php?p="+pname+"&bg=1&a=title"
+                    });
+                }
             });
+    }
+
+    WebFont.load({
+        google: {
+            families: ["Exo:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic"]
+        }
+    });
+
+    |global_js|
+
+    var currentmenu;
+    function filter(id)
+    {
+        if(id != undefined)
+        {
+            cur_id = id;
+        }
+        else
+        {
+            cur_id = currentmenu;
+        }
 
         genIn({
-            element:"titleZ",
-            address:"|site|control.php?p="+pname+"&bg=1&a=title"
+            element:"mmenucontent",
+            address:"|site|control.php?p=aaddmenu&a=getinmenu&bg=1&id="+ cur_id
         });
     }
+    function getlink()
+    {
+        check = document.getElementById("cptype").checked;
+        textbx = document.getElementById("linkadr");
+
+        if(textbx.value.indexOf("http",0)==-1)
+        {
+            if (check)
+                textbx.value =  'page/'+ $("#pagesList").val() + '.html';
+            //textbx.value =  'page/'+document.getElementById("pagesList").value + '.html';
+            else
+                textbx.value =  '?p=' + $("#pagesList").val();
+            // textbx.value =  '?p='+document.getElementById("pagesList").value ;
+        }
+
+    }
+
+    var edit;
+    var cfgNum;
+    currentNews = 0;
 </script>
 </body>
 </html>

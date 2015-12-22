@@ -20,24 +20,6 @@
 <div id="fdel" style="display: none;"></div>
 <script type="text/javascript">
 
-    var currentmenu;
-
-    function filter(id)
-    {
-        if(id != undefined)
-        {
-            cur_id = id;
-        }
-        else
-        {
-            cur_id = currentmenu;
-        }
-
-        genIn({
-            element:"mmenucontent",
-            address:"|site|control.php?p=aaddmenu&a=getinmenu&bg=1&id="+ cur_id
-        });
-    }
     $(document).ready(function(){
         currentmenu = $("#menutype").val();
         filter();
@@ -81,23 +63,6 @@
         Apprise('|l_del|', settings);
     }
 
-    function getlink()
-    {
-        check = document.getElementById("cptype").checked;
-        textbx = document.getElementById("linkadr");
-//http://forum.muwebclone.com
-        console.log(textbx.value.indexOf("http",0));
-        if(textbx.value.indexOf("http",0)==-1)
-        {
-            if (check)
-                textbx.value =  'page/'+ $("#pagesList").val() + '.html';
-            //textbx.value =  'page/'+document.getElementById("pagesList").value + '.html';
-            else
-                textbx.value =  '?p=' + $("#pagesList").val();
-            // textbx.value =  '?p='+document.getElementById("pagesList").value ;
-        }
-
-    }
 
     function addmenuForm()
     {
@@ -134,7 +99,9 @@
                 "|l_btclose|":function(){
                     $(this).dialog("close");
                 }
-
+            },
+            close:function(){
+                $(this).dialog('destroy');
             }
         });
     }
@@ -203,6 +170,9 @@
                     $(this).dialog("close");
                 }
 
+            },
+            close:function(){
+                $(this).dialog('destroy');
             }
         });
     }
@@ -239,6 +209,9 @@
                     $(this).dialog("close");
                 }
 
+            },
+            close:function(){
+                $(this).dialog('destroy');
             }
         });
 

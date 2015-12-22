@@ -37,14 +37,14 @@
     </tr>
 </table>
 <script type="text/javascript">
-    var edit;
+
     $(document).ready( function(){
-                edit=CKEDITOR.replace('newsinput',{
+        currentNews = 0;
+        edit = CKEDITOR.replace('newsinput',{
                     fillEmptyBlocks: false,
                     fullPage: false
                 })
     });
-    currentNews = 0;
 
 
     function getNews(id)
@@ -70,7 +70,7 @@
                     document.getElementById("ntag").value = answer[6];
                 }
                 else
-                    Apprise('|l_errs|');
+                    Apprise('|l_errs|',{animation:0});
             }
         });
     }
@@ -92,35 +92,33 @@
 
         if(currentNews>0)
         {
-            $.ajax({
-                url: "|site|control.php?p=anews&bg=1&a=apply",
-                type: 'POST',
-                data: $("#newsform_").serialize() + "&id=" + currentNews,
-                cache: false,
-                success: function () {
+            genIn({
+                noresponse:true,
+                address:"|site|control.php?p=anews&bg=1&a=apply",
+                type:'POST',
+                data:$("#newsform_").serialize() + "&id=" + currentNews,
+                callback: function(){
                     clearnews();
                     getnList();
-
                 },
-                error: function () {
-                    Apprise("|l_errs|");
+                errcallback:function(){
+                    Apprise("|l_errs|",{animation:0});
                 }
             });
         }
         else
         {
-            $.ajax({
-                url: "|site|control.php?p=anews&bg=1&a=newnews",
-                type: 'POST',
-                data: $("#newsform_").serialize(),
-                cache: false,
-                success: function () {
+            genIn({
+                noresponse:true,
+                address:"|site|control.php?p=anews&bg=1&a=newnews",
+                type:'POST',
+                data:$("#newsform_").serialize(),
+                callback: function(){
                     clearnews();
                     getnList();
-
                 },
-                error: function () {
-                    Apprise("|l_errs|");
+                errcallback:function(){
+                    Apprise("|l_errs|",{animation:0});
                 }
             });
         }
@@ -129,23 +127,20 @@
 
     function delnews(id)
     {
-
-            $.ajax({
-                url: "|site|control.php?p=anews&bg=1&a=delnews",
-                type: 'POST',
-                data: "&id=" + id,
-                cache: false,
-                success: function () {
-                    clearnews();
-                    getnList();
-                    Apprise("|l_delnew|",{animation:0});
-                },
-                error: function () {
-                    Apprise("|l_errs|");
-                }
-            });
-
-
+        genIn({
+            noresponse:true,
+            address:"|site|control.php?p=anews&bg=1&a=delnews",
+            type:'POST',
+            data:"&id=" + id,
+            callback: function(){
+                clearnews();
+                getnList();
+                Apprise("|l_delnew|",{animation:0});
+            },
+            errcallback:function(){
+                Apprise("|l_errs|",{animation:0});
+            }
+        });
     }
 
     function getnList()

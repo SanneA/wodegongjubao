@@ -12,24 +12,6 @@
 
 <script type="text/javascript">
     $(document).ready(genIn({element:"configbody", address:"|site|control.php?p=cconfigs&a=getlist&bg=1"}));
-    var cfgNum;
-
-    function applyChanges(id)
-    {
-        genIn({
-            noresponse:true,
-            address:"|site|control.php?p=cconfigs&bg=1&a=apply",
-            type: 'POST',
-            data: $("#cfgforim_"+id).serialize() + "&id=" + id,
-            callback: function(response){
-                Apprise("|l_alldone|",{animation:0});
-            },
-            errcallback: function(){
-                Apprise("|l_errs|",{animation:0});
-            }
-        });
-
-    }
 
     function addCfg()
     {
@@ -114,38 +96,55 @@
     {
         var settings = {
             animation: 0,
-          buttons:{
-              confirm:{
-                  action: function(){
-                      genIn({
-                          noresponse:true,
-                          address:"|site|control.php?p=cconfigs&bg=1&a=delpos&c="+c+"&pos="+p,
-                          callback: function(){
-                              genIn({
-                                  element:"configbody",
-                                  address:'|site|control.php?p=cconfigs&a=showcfg&bg=1&get='+cfgNum
-                              });
-                          }
-                      });
-                      Apprise('close',{animation:0});
-                  },
-                  className: null,
-                  id:'confirm',
-                  text: '|l_y|'
-              },
-              cansel:{
-                  action: function(){
-                      Apprise('close',{animation:0});
-                  },
-                  className: null,
-                  id:'cns',
-                  text: '|l_n|'
-              }
-          },
+            buttons:{
+                confirm:{
+                    action: function(){
+                        genIn({
+                            noresponse:true,
+                            address:"|site|control.php?p=cconfigs&bg=1&a=delpos&c="+c+"&pos="+p,
+                            callback: function(){
+                                genIn({
+                                    element:"configbody",
+                                    address:'|site|control.php?p=cconfigs&a=showcfg&bg=1&get='+cfgNum
+                                });
+                            }
+                        });
+                        Apprise('close',{animation:0});
+                    },
+                    className: null,
+                    id:'confirm',
+                    text: '|l_y|'
+                },
+                cansel:{
+                    action: function(){
+                        Apprise('close',{animation:0});
+                    },
+                    className: null,
+                    id:'cns',
+                    text: '|l_n|'
+                }
+            },
             input:false,
             overrid:true
         };
         Apprise('|l_ydel|', settings);
+    }
+
+    function applyChanges(id)
+    {
+        genIn({
+            noresponse:true,
+            address:"|site|control.php?p=cconfigs&bg=1&a=apply",
+            type: 'POST',
+            data: $("#cfgforim_"+id).serialize() + "&id=" + id,
+            callback: function(response){
+                Apprise("|l_alldone|",{animation:0});
+            },
+            errcallback: function(){
+                Apprise("|l_errs|",{animation:0});
+            }
+        });
+
     }
 
 </script>
