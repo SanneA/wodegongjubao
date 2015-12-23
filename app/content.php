@@ -272,31 +272,9 @@ class content
 
         $path = "theme". DIRECTORY_SEPARATOR .$this->themName. DIRECTORY_SEPARATOR ."html". DIRECTORY_SEPARATOR .$folder. DIRECTORY_SEPARATOR .$tpl.".html";
 
-
         if(file_exists($path))
         {
-            $jspath = "theme". DIRECTORY_SEPARATOR .$this->themName. DIRECTORY_SEPARATOR ."js". DIRECTORY_SEPARATOR .$folder.".".$tpl.".js";
-            if(file_exists($jspath))
-            {
-                if(empty($this->connectjs[$folder.".".$tpl.".js"]))
-                {
-                    $this->vars["global_js"].= "/*imputed $tpl*/ ".trim(@file_get_contents($jspath));
-                    $this->connectjs[$folder.".".$tpl.".js"] = 1;
-                }
-            }
-
-
-            $csspath = "theme". DIRECTORY_SEPARATOR .$this->themName. DIRECTORY_SEPARATOR ."css".DIRECTORY_SEPARATOR .$folder.".".$tpl.".css";
-
-            if(file_exists($csspath))
-            {
-                if(empty($this->connectCss[$folder.".".$tpl.".css"]))
-                {
-                    $this->vars["global_css"].= "{/*imputed $tpl*/}  ".trim(@file_get_contents($csspath));
-                    $this->connectCss[$folder.".".$tpl.".css"] = 1;
-                }
-
-            }
+            $this->inputScripts($folder,$tpl); //подключаемые css, js скрипты
 
             if ($gentime!=0)
             {
@@ -319,6 +297,34 @@ class content
             $this->errortext("file \"$path\" doesn't exists");
         }
         return '';
+    }
+
+    /**
+     * добавляем подключаемые скрипты
+     * @param string $folder папка
+     * @param string $tpl название шаблона (без расширения)
+     */
+    public function inputScripts($folder,$tpl)
+    {
+            $jspath = "theme" . DIRECTORY_SEPARATOR . $this->themName . DIRECTORY_SEPARATOR . "js" . DIRECTORY_SEPARATOR . $folder . "." . $tpl . ".js";
+            if (file_exists($jspath)) {
+                if (empty($this->connectjs[$folder . "." . $tpl . ".js"])) {
+                    $this->vars["global_js"] .= "/*imputed $tpl*/ " . trim(@file_get_contents($jspath));
+                    $this->connectjs[$folder . "." . $tpl . ".js"] = 1;
+                }
+            }
+
+
+            $csspath = "theme" . DIRECTORY_SEPARATOR . $this->themName . DIRECTORY_SEPARATOR . "css" . DIRECTORY_SEPARATOR . $folder . "." . $tpl . ".css";
+
+            if (file_exists($csspath)) {
+                if (empty($this->connectCss[$folder . "." . $tpl . ".css"])) {
+                    $this->vars["global_css"] .= "{/*imputed $tpl*/}  " . trim(@file_get_contents($csspath));
+                    $this->connectCss[$folder . "." . $tpl . ".css"] = 1;
+                }
+
+            }
+
     }
 
     /**
