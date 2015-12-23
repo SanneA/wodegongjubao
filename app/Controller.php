@@ -72,11 +72,20 @@ class Controller
      */
     public function genNonMVC($mpath)
     {
-        if($this->isCached(__FUNCTION__,basename($mpath,".php"))) //кешик
+        $modulename = basename($mpath,".php");
+        $this->view->showOnly(true);
+        require "build".DIRECTORY_SEPARATOR.tbuild.DIRECTORY_SEPARATOR."_dat".DIRECTORY_SEPARATOR.$_SESSION["mwcserver"]."_".$_SESSION["mwclang"]."_pages.php";
+
+        if(!empty($page[$modulename]["title"])) // полезно для кеширования
+        {
+            $this->view->replace($page[$modulename]["title"],"title");
+        }
+
+        if($this->isCached(__FUNCTION__,$modulename)) //кешик
             return;
 
         try{
-            $this->view->showOnly(true);
+
             $muuser = $this->model;
             $content = $this->view;
             $page = $this;
@@ -97,8 +106,8 @@ class Controller
             $this->view->showOnly(false);
         }
 
-        if($this->cacheNeed(basename($mpath,".php"))) //если нужен кеш
-            $this->doCache(basename($mpath,".php")."_".__FUNCTION__);
+        if($this->cacheNeed($modulename)) //если нужен кеш
+            $this->doCache($modulename."_".__FUNCTION__);
     }
 
     /**
