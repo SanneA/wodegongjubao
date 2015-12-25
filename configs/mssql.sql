@@ -303,7 +303,7 @@ INSERT INTO mwc_plugins (pid, pname, pstate, pcache, pserver, mname,tbuild,seq) 
 (6, 'admgroup', 2, 0, 0,'m_admgroup','muadmin',0),
 (7, 'adminmenu', 2, 600, 0,'m_menu','muadmin',0),
 (8, 'mainmenu', 1, 600, 0,'muonlineMenu','muonline',0),
-(9, 'login', 1, 0, 0,'m_login','muonline',0),
+(9, 'login', 1, 0, 0,'m_login','muonline',1),
 (10, 'qinfo', 1, 0, 0,'m_qinfo','muonline',2),
 (11, 'acblock', 0, 0, 0,'m_acblock','muonline',0),
 (12, 'eventblock', 0, 0, 0,'m_eventblock','muonline',0),
