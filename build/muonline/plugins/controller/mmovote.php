@@ -14,10 +14,14 @@ class mmovote extends muPController
         if($this->isCached("mmovote")) //кешик
             return;
 
-        require "build/".tbuild."/inc/parse.php";
+        $obj = new TopParse(Tools::unhtmlentities($this->configs["mmo_adress"]),'	', array(
+            "fields"=>array(
+                "acc" => 3,
+                "vote" => 4,
+                "date" => 1,
+                )));
 
-        $obj = new TopParse(Tools::unhtmlentities($this->configs["mmo_adress"]),'	');//,array('static'=>'true',"onlyone"=>"false"));
-        $array = $obj->parce();
+        $array = $obj->getResult();
 
         if(!empty($array))
         {
