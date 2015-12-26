@@ -62,7 +62,6 @@ class cconfigs extends aController
         {
             if(!empty($_POST["necfgname"]))
             {
-                Tools::debug($_POST);
                 $dirInfo = scandir("build".DIRECTORY_SEPARATOR.$_SESSION["mwccfgread"].DIRECTORY_SEPARATOR."configs");
                 if(!in_array($_POST["necfgname"],$dirInfo))
                 {
@@ -70,6 +69,30 @@ class cconfigs extends aController
                     fclose($h);
                     $h = fopen("build".DIRECTORY_SEPARATOR.$_SESSION["mwccfgread"].DIRECTORY_SEPARATOR."lang".DIRECTORY_SEPARATOR.$_SESSION["mwclang"].DIRECTORY_SEPARATOR."cfg_".$_POST["necfgname"].".php","w");
                     fclose($h);
+
+                    if(!empty($_POST["cfgDesc"]))
+                    {
+                        $path = "build".DIRECTORY_SEPARATOR.$_SESSION["mwccfgread"].DIRECTORY_SEPARATOR."lang".DIRECTORY_SEPARATOR.$_SESSION["mwclang"].DIRECTORY_SEPARATOR."cconfigsdesc.php";
+
+                        if(file_exists($path))
+                        {
+                            require $path;
+
+                            $lang[$_POST["necfgname"]] = $_POST["cfgDesc"];
+
+                            $ai = new ArrayIterator($lang);
+                            $content='<?php ';
+
+                            foreach ($ai as $id => $val)
+                            {
+                                $content.='$lang["'.$id.'"]="'.$val.'"; ';
+                            }
+
+                            $fh = fopen($path,"w");
+                            fwrite($fh,$content);
+                            fclose($fh);
+                        }
+                    }
                 }
             }
         }
