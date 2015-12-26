@@ -11,6 +11,8 @@
 <div><input type="button" class="button add" value="|l_ncfgbtn|" onclick="addCfg();"></div>
 
 <script type="text/javascript">
+    var curcfg;
+
     $(document).ready(genIn({element:"configbody", address:"|site|control.php?p=cconfigs&a=getlist&bg=1"}));
 
     function addCfg()
@@ -61,7 +63,12 @@
                     modal:true,
                     width:450,
                     height:200,
-                    title:"|l_addnewp|"
+                    title:"|l_addnewp|",
+                    buttons:{
+                        "|l_addnew|":function(){
+                            applynp(curcfg);
+                        }
+                    },
                 });
             },
             errcallback: function(){
@@ -77,7 +84,7 @@
             address:"|site|control.php?p=cconfigs&bg=1&a=addparam&cid="+cfgNum,
             type: 'POST',
             data: $("#newvalfor_"+id).serialize() + "&id=" + id,
-            callback:function(){
+            callback:function(r){
                 genIn({
                     element:"configbody",
                     address:"|site|control.php?p=cconfigs&a=showcfg&bg=1&get="+cfgNum

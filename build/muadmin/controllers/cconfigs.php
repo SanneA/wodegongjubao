@@ -7,7 +7,7 @@
  * 05.09.2015
  *
  **/
-class cconfigs  extends aController
+class cconfigs extends aController
 {
     public function action_index()
     {
@@ -274,6 +274,30 @@ class cconfigs  extends aController
 
                 $cfg[$name]=$val;
                 Configs::writeCfg($cfg,$tm_,$_SESSION["mwccfgread"]);
+
+                if(!empty($_POST["ldesc"]))
+                {
+                    $path = "build".DIRECTORY_SEPARATOR.$_SESSION["mwccfgread"].DIRECTORY_SEPARATOR."lang".DIRECTORY_SEPARATOR.$_SESSION["mwclang"].DIRECTORY_SEPARATOR."cfg_$cid.php";
+
+                    if(file_exists($path))
+                    {
+                        require $path;
+
+                        $lang[$name] = $_POST["ldesc"];
+
+                        $ai = new ArrayIterator($lang);
+                        $content='<?php ';
+
+                        foreach ($ai as $id => $val)
+                        {
+                            $content.='$lang["'.$id.'"]="'.$val.'"; ';
+                        }
+
+                        $fh = fopen($path,"w");
+                        fwrite($fh,$content);
+                        fclose($fh);
+                    }
+                }
             }
         }
     }
