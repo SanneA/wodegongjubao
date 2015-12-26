@@ -69,6 +69,9 @@
                             applynp(curcfg);
                         }
                     },
+                    close:function(){
+                        $(this).dialog('destroy');
+                    }
                 });
             },
             errcallback: function(){
@@ -84,7 +87,7 @@
             address:"|site|control.php?p=cconfigs&bg=1&a=addparam&cid="+cfgNum,
             type: 'POST',
             data: $("#newvalfor_"+id).serialize() + "&id=" + id,
-            callback:function(r){
+            callback:function(){
                 genIn({
                     element:"configbody",
                     address:"|site|control.php?p=cconfigs&a=showcfg&bg=1&get="+cfgNum
