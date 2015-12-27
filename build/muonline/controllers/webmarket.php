@@ -195,7 +195,7 @@ class webmarket extends muController
 
                     $vals["col_Name"] = "<span class='$cls'>{$vals["col_Name"]}</span>";
 
-                    $vals["col_prise"] = Tools::number($vals["col_prise"]," Zen");
+                    $vals["col_prise"] = Tools::number($vals["col_prise"])." Zen";
                     $this->view
                         ->add_dict($vals)
                         ->set("img",itemShow($vals["col_hex"],$harm,2,0,array("address"=>$this->view->getAdr(),"theme"=>$this->view->getVal("theme"))))

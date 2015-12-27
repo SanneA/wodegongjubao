@@ -140,13 +140,13 @@ class Tools
 
     /**
      * форматирует числа с отступами по английской манере
-     * @param  int   $num
-     * @param string $pos
+     * @param int $num число
+     * @param int $nums кол-во символов после запятой
      * @return string
      */
-    public static function number($num,$pos="")
+    public static function number($num,$nums=2)
     {
-        return number_format($num, 2, ',', ' ')." ".$pos;
+        return number_format($num, $nums, ',', ' ');
     }
 
     static public function linkDec($link)
