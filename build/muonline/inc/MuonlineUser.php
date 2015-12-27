@@ -137,6 +137,8 @@ WHERE mi.memb___id='{$login}'")->FetchRow();
             $user = $this->user["login"];
 
         $result = $this->db->query("SELECT ConnectStat FROM MEMB_STAT WHERE memb___id='$user'")->FetchRow();
+        if(empty($result))
+            $result["ConnectStat"] = 1;
         return $result["ConnectStat"];
     }
 

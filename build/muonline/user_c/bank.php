@@ -14,8 +14,8 @@ class bank extends muController
         {
             $data = $this->model->aboutUser();
             $this->view
-                ->set(array("webbank"=>Tools::number($data["mwc_bankZ"]),
-                    "whmoney"=>Tools::number($data["Money"])))
+                ->set(array("webbank"=>Tools::number($data["mwc_bankZ"],0),
+                    "whmoney"=>Tools::number($data["Money"],0)))
                 ->out("main","bank");
         }
         else
@@ -63,6 +63,6 @@ class bank extends muController
     public function action_knowmoney()
     {
         $data = $this->model->aboutUser();//получаем данные по состоянию акка вообще
-        echo Tools::number($data["mwc_bankZ"])."::".Tools::number($data["Money"]);
+        echo Tools::number($data["mwc_bankZ"],0)."::".Tools::number($data["Money"],0);
     }
 }
