@@ -56,33 +56,32 @@ class MuonlineUser extends Model
 
         $login = substr($login,0,10);
         $result = $this->db->query("SELECT bloc_code FROM MEMB_INFO WHERE memb___id='{$login}' AND memb__pwd = $r_password")->FetchRow();
-
         $about = self::aboutUser($login);//узнаем все о пользователе в любом случае
 
         if(!empty($result)) // если аунтификация удалась
         {
             if((int)$result["bloc_code"]>0 && $about["mwc_timeban"] != "0" && strtotime($about["mwc_timeban"])>time()) //если юзверь забаненный и время бана не истекло и бан не был навсегда
-            {
                 return false;
-                //todo: продумать момент, тот неловкий, как передать сообщение в контроллер, чтобы адекватно и на нужном языке выдать сообщение
-            }
-            $this->db->query("UPDATE MEMB_INFO SET mwc_tryes =0, mwc_timeban = NULL WHERE memb___id='{$login}'");//раз есть логин удачный, снимаем усе и сразу
+
+            $this->db->query("UPDATE MEMB_INFO SET mwc_tryes = 0, mwc_timeban = NULL WHERE memb___id='{$login}'");//раз есть логин удачный, снимаем усе и сразу
+
             $this->user["login"] = $_SESSION["mwcuser"] = $login;
             $this->user["pwd"]  = $_SESSION["mwcpwd"] = $password;
-            $this->user += $about;//добавляем данные как положено.
-            $_SESSION["mwcpoints"] = $this->user["MWCpoints"];//делаем пользователя пользователем
+
+            $_SESSION["mwcpoints"] = $about["MWCpoints"];//делаем пользователя пользователем
 
             $this->isLoged = true;
             return true;
         }
-        elseif (!empty($about) && (int)$result["bloc_code"] = 0) //если пользователь есть, но пароль был явно неверный и нету бана ы...
+        elseif (!empty($about) && (int)$about["bloc_code"] == 0) //если пользователь есть, но пароль был явно неверный и нету бана ы...
         {
-            if($about["mwc_tryes"]>=$maincfg["tryCount"] ) //если кол-во попыток слишком большое, то временно даем банан юзверю ..пускай кушает
+            if($about["mwc_tryes"] >= $maincfg["tryCount"] ) //если кол-во попыток слишком большое, то временно даем банан юзверю ..пускай кушает
             {
                 $this->db->query("UPDATE MEMB_INFO SET mwc_tryes =0,mwc_timeban =DATEADD(HOUR,{$maincfg["banMin"]},GETDATE()) WHERE memb___id='{$login}'");
                 $this->db->SQLog("Account $login baned for {$maincfg["banMin"]} min for wrong password",'muonlineUser',6);//сообщаем одминчегам ^_^
             }
-
+            else
+                $this->db->query("UPDATE MEMB_INFO SET mwc_tryes +=1 WHERE memb___id='{$login}'");
         }
         return false;
     }
@@ -97,14 +96,30 @@ class MuonlineUser extends Model
     public function aboutUser($login = null)
     {
         if(is_null($login))
-        {
             $login = $this->user["login"];
-            $info = $this->db->query("SELECT mi.memb_name,mi.mail_addr,mi.mwc_bankZ,mi.MWCpoints,mi.mwc_timeban,mi.mwc_tryes,mi.mwc_credits,wh.Money FROM MEMB_INFO mi LEFT JOIN warehouse wh ON wh.AccountID COLLATE DATABASE_DEFAULT = mi.memb___id COLLATE DATABASE_DEFAULT WHERE mi.memb___id='{$login}'")->FetchRow();
+
+        $info = $this->db->query("SELECT
+ mi.memb_name,
+ mi.mail_addr,
+ mi.mwc_bankZ,
+ mi.MWCpoints,
+ mi.bloc_code,
+ mi.mwc_timeban,
+ mi.mwc_tryes,
+ mi.mwc_credits,
+ wh.Money
+FROM
+ MEMB_INFO mi
+ LEFT JOIN warehouse wh ON wh.AccountID COLLATE DATABASE_DEFAULT = mi.memb___id COLLATE DATABASE_DEFAULT
+WHERE mi.memb___id='{$login}'")->FetchRow();
+
+        if($login == $this->user["login"]) //если текущий пользователь, то возвращаем полную инфу
+        {
             $this->user += $info;
             return $this->user;
         }
-        $info = $this->db->query("SELECT mi.memb_name,mi.mail_addr,mi.mwc_bankZ,mi.MWCpoints,mi.mwc_timeban,mi.mwc_tryes,mi.mwc_credits,wh.Money FROM MEMB_INFO mi LEFT JOIN warehouse wh ON wh.AccountID COLLATE DATABASE_DEFAULT = mi.memb___id COLLATE DATABASE_DEFAULT WHERE mi.memb___id='{$login}'")->FetchRow();
-        return $info;
+
+        return $info; //если нет, то только ту, что в запросе
     }
 
     /**
