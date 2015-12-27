@@ -60,8 +60,8 @@ class login extends muPController
                 $choosed = -1;
 
             $money = $this->model->getMoney();
-            $money["mwc_bankZ"] = Tools::number($money["mwc_bankZ"]);
-            $money["mwc_credits"] = Tools::number($money["mwc_credits"]);
+            $money["mwc_bankZ"] = Tools::number($money["mwc_bankZ"],0);
+            $money["mwc_credits"] = Tools::number($money["mwc_credits"],0);
 
             $this->view
                 ->set("charlist",html_::select($characters,"chosedchar",$choosed,"class='selectbox' onchange='loginarea.submit()'"))
