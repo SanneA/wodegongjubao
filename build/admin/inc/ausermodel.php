@@ -17,9 +17,9 @@ class ausermodel extends Model
     private $user = array();
     private $islogin;
 
-    public function __construct($db)
+    public function __construct()
     {
-        parent::__construct($db); //инициализируем сначала перента
+        parent::__construct(); //инициализируем сначала перента
 
         if(!empty($_SESSION["mwcauser"]) && !empty($_SESSION["mwcapwd"]) && !empty($_SESSION["mwcapoints"]))
         {
