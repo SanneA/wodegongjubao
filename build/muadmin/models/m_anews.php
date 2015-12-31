@@ -17,8 +17,10 @@ class m_anews extends Model
      */
     public function getNhistory($num = 20)
     {
-        if($this->db->ConType()<4) //ms sql
+        if($this->db->ConType()==3) //ms sql
             return $this->db->query("SELECT TOP $num ntitle,indate,nid,autothor FROM mwc_news order by indate desc")->GetArray();
+        elseif($this->db->ConType()<3) //ms sql
+            return $this->db->query("SELECT TOP $num CAST(ntitle as TEXT) as ntitle,indate,nid,autothor FROM mwc_news order by indate desc")->GetArray();
         else
             return $this->db->query("SELECT ntitle,indate,nid,autothor FROM mwc_news order by indate desc limit $num")->GetArray();
     }
@@ -30,9 +32,11 @@ class m_anews extends Model
      */
     public function ninfo($nuwsNum)
     {
-        if($this->db->ConType()<4) //ms sql
+
+        if($this->db->ConType()==3) //ms sql
             return $this->db->query("SELECT nid,autothor, convert(date, indate,120) as indate,  ntitle,ntype,  news,  ntags FROM mwc_news WHERE nid=$nuwsNum")->FetchRow();
-            //return $this->db->query("SELECT nid,autothor, convert(date, indate,120) as indate, CAST(ntitle as TEXT) as ntitle,ntype, CAST(news as TEXT) as news, CAST(ntags as TEXT) as ntags FROM mwc_news WHERE nid=$nuwsNum")->FetchRow();
+        elseif($this->db->ConType()<3) //ms sql
+            return $this->db->query("SELECT nid,autothor, convert(date, indate,120) as indate, CAST(ntitle as TEXT) as ntitle,ntype, CAST(news as TEXT) as news, CAST(ntags as TEXT) as ntags FROM mwc_news WHERE nid=$nuwsNum")->FetchRow();
         else
             return $this->db->query("SELECT nid,autothor,indate,ntitle,ntype,news,ntags FROM mwc_news WHERE nid=$nuwsNum")->FetchRow();
 
