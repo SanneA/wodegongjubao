@@ -233,7 +233,7 @@ class PController
         $cache = $this->view->getContainer();
 
         if(empty($cache))
-            $cache="&nbsp;";
+            $cache=" &nbsp; ";
 
         $this->cacheWrite($fname, $cache); //пишем кеш
     }

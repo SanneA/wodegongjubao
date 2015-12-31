@@ -268,7 +268,8 @@ WHERE mi.memb___id='{$login}'")->FetchRow();
      */
     public function getWH($user,$len)
     {
-        $r = $this->db->query("SELECT CONVERT(VARCHAR(".(120*$len)."), Items, 2) as Items FROM warehouse WHERE AccountID='$user'")->FetchRow();
+       // $r = $this->db->query("SELECT CONVERT(VARCHAR(".(120*$len)."), Items, 2) as Items FROM warehouse WHERE AccountID='$user'")->FetchRow();
+        $r = $this->db->query("SELECT CONVERT(VARCHAR(MAX), Items, 2) as Items FROM warehouse WHERE AccountID='$user'")->FetchRow();
         return strtoupper($r["Items"]);
     }
 
