@@ -19,13 +19,15 @@ class router
             die("main cfg error!");
         }
 
-        define("tbuild",$cfg["defaultbuild"]);
+
 
 
         if(empty($_SESSION["mwcbuild"]))
         {
             $_SESSION["mwcbuild"] = $cfg["defaultbuild"];
         }
+
+        define("tbuild",$_SESSION["mwcbuild"]);
 
         $globalcfg = Configs::readCfg("main",$_SESSION["mwcbuild"]);
 
