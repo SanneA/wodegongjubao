@@ -142,7 +142,7 @@ class arouter
 
             if(isset($_GET["a"]))
             {
-                $action_name = "action_".strtolower($_GET["a"]);
+                $action_name = "action_".$_GET["a"];
             }
             //endregion
 
