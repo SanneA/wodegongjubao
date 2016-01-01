@@ -49,6 +49,7 @@ class content
         $this->vars["theme"]=$this->themName;
         $this->vars["global_js"]="";
         $this->vars["global_css"]="";
+        $this->add_dict("site"); //если есть общий словарь, то подгружаем
 
         $path = "theme". DIRECTORY_SEPARATOR .$this->themName. DIRECTORY_SEPARATOR ."html". DIRECTORY_SEPARATOR ."public". DIRECTORY_SEPARATOR ."index.html";
         if(!file_exists($path))
