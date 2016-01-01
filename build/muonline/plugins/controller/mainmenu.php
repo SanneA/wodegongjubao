@@ -27,7 +27,7 @@ class mainmenu extends muPController
 
 
                 $this->view
-                    ->set(array("mtitle"=>strtoupper($res["mtitle"]),"link"=>$res["link"]))
+                    ->set(array("mtitle"=>$res["mtitle"],"link"=>$res["link"]))
                     ->out("mainmenu");
             }
         }
