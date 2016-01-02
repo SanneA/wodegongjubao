@@ -201,6 +201,7 @@ WHERE mi.memb___id='{$login}'")->FetchRow();
     function GuildLogo($hex,$name,$size=64,$livetime)
     {
         $path="theme/imgs/guilds/";
+        $name = str_replace(array("'",'"'),' ',$name);
         $ftime = @filemtime($path.$name."-".$size.".png");
         if(file_exists($path.$name."-".$size.".png") && (time() - $ftime <= $livetime))
         {

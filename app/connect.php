@@ -56,12 +56,17 @@ class connect
     {
         if(is_null($type) && is_null($host) && is_null($base) && is_null($user) && is_null($pwd))
         {
+            if(empty($_SESSION["mwcserver"]))
+                $srv = 0;
+            else
+                $srv = $_SESSION["mwcserver"];
+
             $cfg = Configs::readCfg("main",tbuild);
             $type = $cfg["ctype"];
-            $host = $cfg["db_host"][$_SESSION["mwcserver"]];
-            $base = $cfg["db_name"][$_SESSION["mwcserver"]];
-            $user = $cfg["db_user"][$_SESSION["mwcserver"]];
-            $pwd = $cfg["db_upwd"][$_SESSION["mwcserver"]];
+            $host = $cfg["db_host"][$srv];
+            $base = $cfg["db_name"][$srv];
+            $user = $cfg["db_user"][$srv];
+            $pwd = $cfg["db_upwd"][$srv];
         }
 
         $this->iserror=false;
