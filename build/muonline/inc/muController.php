@@ -14,9 +14,12 @@ class muController extends Controller
         parent::__construct($model,$view,$pages,$server);
 
         $cfg = Configs::readCfg("main",tbuild);
+
+        if(!empty($cfg["snames"][0]))
+            $this->view->set("sname",$cfg["snames"][0]);
+
         $this->view
             ->add_dict(get_class($this)) //подключаем словарь к модулю (если он, конечно, есть)
-            ->set("sname",$cfg["snames"][0])
             ->add_dict("titles") //словарь тайтлов для страничек
             ->replace($this->pages[get_class($this)]["title"],"title"); //выставляем заголовок текущего модуля заместо |title|
     }
