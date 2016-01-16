@@ -19,9 +19,6 @@ class router
             die("main cfg error!");
         }
 
-
-
-
         if(empty($_SESSION["mwcbuild"]))
         {
             $_SESSION["mwcbuild"] = $cfg["defaultbuild"];
@@ -196,63 +193,74 @@ class router
                         $err = 2;
                     //endregion
 
-                    if(in_array($_SESSION["mwcpoints"],$access) ||  in_array(4,$access) || $err == 0 )//если пользователю дозволен вход и нет проблем с allowedUsrs
-                    {
-
-                        if(!empty($page[$controller]["mname"]) && !empty($page[$controller]["mpath"])) //если модуль является православным MVC
+                    try{
+                        if(in_array($_SESSION["mwcpoints"],$access) ||  in_array(4,$access) || $err == 0 )//если пользователю дозволен вход и нет проблем с allowedUsrs
                         {
-                            $modelpath = "build".DIRECTORY_SEPARATOR.tbuild.DIRECTORY_SEPARATOR.$page[$controller]["mpath"].DIRECTORY_SEPARATOR.$page[$controller]["mname"].".php";
-                            require_once $path;
 
-                            if(file_exists($modelpath))
+                            if(!empty($page[$controller]["mname"]) && !empty($page[$controller]["mpath"])) //если модуль является православным MVC
                             {
-                                require_once $modelpath;
-                                $modelname = $page[$controller]["mname"];
-                            }
-                            else //если нет модели, то назначаем модель по умолчанию, пишем в лог что нету нифига, и плавно вываливаемся в ошибку
-                            {
-                                $modelname="Model";
-                                $action_name = "showError";
-                                $db->SQLog("model $modelpath wasn't found","router",2);
-                            }
+                                $modelpath = "build".DIRECTORY_SEPARATOR.tbuild.DIRECTORY_SEPARATOR.$page[$controller]["mpath"].DIRECTORY_SEPARATOR.$page[$controller]["mname"].".php";
+                                require_once $path;
 
-                            $model = new $modelname($db);
-                            $contolinst = new $controller($model,$content,$page,$_SESSION["mwcserver"]);
-                            $contolinst->init();
-                            if (method_exists($controller, $action_name))
-                            {
-                                $contolinst->$action_name();
+                                if(file_exists($modelpath))
+                                {
+                                    require_once $modelpath;
+                                    $modelname = $page[$controller]["mname"];
+                                }
+                                else //если нет модели, то назначаем модель по умолчанию, пишем в лог что нету нифига, и плавно вываливаемся в ошибку
+                                {
+                                    $modelname="Model";
+                                    $action_name = "showError";
+                                    $db->SQLog("model $modelpath wasn't found","router",2);
+                                }
+
+                                $model = new $modelname($db);
+                                $contolinst = new $controller($model,$content,$page,$_SESSION["mwcserver"]);
+                                $contolinst->init();
+                                if (method_exists($controller, $action_name))
+                                {
+                                    $contolinst->$action_name();
+                                }
+                                else //ежели нету действий, вызываем действие по умолчанию
+                                {
+                                    $contolinst->action_index();
+                                    $db->SQLog("$controller hasn't action $action_name", "router", 3);
+                                }
+                                $contolinst->parentOut($isBackground);
                             }
-                            else //ежели нету действий, вызываем действие по умолчанию
+                            else //если написан без ооп
                             {
-                                $contolinst->action_index();
-                                $db->SQLog("$controller hasn't action $action_name", "router", 3);
+
+                                $model = new $globalcfg["defModel"]();
+                                $contolinst = new $globalcfg["defController"]($model,$content,$page,$_SESSION["mwcserver"]);
+                                $contolinst->genNonMVC($path);
+                                $contolinst->parentOut($isBackground);
                             }
-                            $contolinst->parentOut($isBackground);
                         }
-                        else //если написан без ооп
+                        else
                         {
-
-                            $model = new $globalcfg["defModel"]();
-                            $contolinst = new $globalcfg["defController"]($model,$content,$page,$_SESSION["mwcserver"]);
-                            $contolinst->genNonMVC($path);
+                            $model = new Model($db);
+                            $contolinst = new Controller($model,$content,$page,$_SESSION["mwcserver"]);
+                            $contolinst->init();
+                            $contolinst->showError(2);
                             $contolinst->parentOut($isBackground);
+                            if(!empty($_SESSION["mwcuid"]))
+                                $theGuy = $_SESSION["mwcuid"];
+                            else
+                                $theGuy = "?";
+
+                            $db->SQLog("user($theGuy) try access to $controller but he hasn't access","router",6);
                         }
                     }
-                    else
+                    catch (Exception $e)
                     {
                         $model = new Model($db);
                         $contolinst = new Controller($model,$content,$page,$_SESSION["mwcserver"]);
                         $contolinst->init();
-                        $contolinst->showError(2);
+                        $contolinst->showErrorText($e->getMessage());
                         $contolinst->parentOut($isBackground);
-                        if(!empty($_SESSION["mwcuid"]))
-                            $theGuy = $_SESSION["mwcuid"];
-                        else
-                            $theGuy = "?";
-
-                        $db->SQLog("user($theGuy) try access to $controller but he hasn't access","router",6);
                     }
+
                 }
                 else //нет нужной страницы
                 {
