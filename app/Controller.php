@@ -111,12 +111,21 @@ class Controller
     }
 
     /**
-     * показывает ошибку
+     * показывает ошибку по номеру
      * @param int $er номер ошибки
      */
     public function showError($er = 2)
     {
         $this->view->error($er);
+    }
+
+    /**
+     * показать ошибку по тексту
+     * @param string $text
+     */
+    public function showErrorText($text)
+    {
+        $this->view->errortext($text);
     }
 
     /**
