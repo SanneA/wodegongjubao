@@ -126,7 +126,14 @@ class connect
         else
             $dt = "NOW()";
 
-        self::query("INSERT INTO mwce_settings.{$this->suf}mwc_logs(col_ErrNum,col_msg,col_mname,col_createTime,tbuild) VALUES($errNo,'$msg','{$file}',$dt,'".tbuild."')");
+        try{
+            self::query("INSERT INTO mwce_settings.{$this->suf}mwc_logs(col_ErrNum,col_msg,col_mname,col_createTime,tbuild) VALUES($errNo,'$msg','{$file}',$dt,'".tbuild."')");
+        }
+        catch(Exception $e)
+        {
+            @file_put_contents("log/[".@date("d_m_Y", time())."]SQL_".tbuild."_error.txt",$msg,FILE_APPEND);
+        }
+
     }
 
     /**
@@ -336,7 +343,7 @@ class connect
             $agr[3]["file"] = basename($agr[3]["file"],'.php');
             $agr[3]["line"] = htmlspecialchars($agr[3]["line"],ENT_QUOTES);
             self::SQLog("<b>Error:</b> {$agr[0]["args"][3]}<br> <b>Query:</b> {$agr[0]["args"][4]} <br> <b>File: </b>{$agr[3]["file"]}<BR><b>Line: </b>{$agr[3]["line"]}",$agr[3]["file"],1,false);
-            throw $ex;
+            throw new Exception("Error in database.");
         }
     }
 
