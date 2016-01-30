@@ -392,7 +392,8 @@ INSERT INTO mwc_pages (id,pname,ptitle,ppath,caching,ison,server,mname,mpath,tbu
 (35, 'downloads', 'auto_title12','controllers',0,1,0,'m_downloads','models','muadmin'),
 (36, 'downloads', 'auto_title23','controllers',0,1,0,'m_downloads','models','muonline'),
 (37, 'castle', 'auto_title24','controllers',0,1,0,'m_castle','models','muonline'),
-(38, 'forgotpwd', 'auto_title25','controllers',0,1,0,'m_forgotpwd','models','muonline');
+(38, 'forgotpwd', 'auto_title25','controllers',0,1,0,'m_forgotpwd','models','muonline'),
+(39, 'reset', 'auto_title27','user_c',0,1,0,'m_reset','user_m','muonline');
 
 SET IDENTITY_INSERT [mwc_pages] OFF;
 
@@ -436,5 +437,6 @@ INSERT INTO mwc_access (aid,pageId,goupId,server) VALUES
 (57,36,4,0),
 (58,35,1,0),
 (59,35,3,0),
-(60,37,4,0);
+(60,37,4,0),
+(61,39,5,0);
 SET IDENTITY_INSERT [mwc_access] OFF;

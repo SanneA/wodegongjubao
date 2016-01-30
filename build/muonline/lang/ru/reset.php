@@ -1,0 +1,1 @@
+<?php $lang["l_res_lvl"]="Уровень для ресета"; $lang["l_res_max"]="Максимум ресетов"; $lang["bt_resval"]="Сделать ресет"; $lang["l_needZen"]="Нужно зен"; $lang["l_err_nochar"]="Сначала выберите персонажа"; $lang["l_accisonline"]="Аккаунт в игре"; $lang["l_err_nolevel"]="У персонажа недостаточный уровень"; $lang["l_err_nozen"]="На персонаже недостаточно зен"; 
