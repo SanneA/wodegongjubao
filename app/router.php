@@ -100,40 +100,46 @@ class router
                             else
                                 $paccess = explode(",",$param["groups"]);
 
-                            if(!empty($param["mname"])) //если это MVC плагин
+
+                            try
                             {
-                                $model_path = "build".DIRECTORY_SEPARATOR.tbuild.DIRECTORY_SEPARATOR."plugins".DIRECTORY_SEPARATOR."model".DIRECTORY_SEPARATOR.$param["mname"].".php";
-
-                                if(file_exists($model_path)) //модель может и не лежать в папке, а быть стандартным для сборки классом в папке Inc.
+                                if (!empty($param["mname"])) //если это MVC плагин
                                 {
-                                    require $model_path;
-                                }
+                                    $model_path = "build" . DIRECTORY_SEPARATOR . tbuild . DIRECTORY_SEPARATOR . "plugins" . DIRECTORY_SEPARATOR . "model" . DIRECTORY_SEPARATOR . $param["mname"] . ".php";
 
-                                require $contoller_path;
-
-                                if((in_array($_SESSION["mwcpoints"],$paccess) || in_array(4,$paccess) || $err==0) && class_exists($param["mname"])) //если есть доступ к плагинам показываем
-                                {
-                                    $tmp = $param["mname"];
-                                    $model = new $tmp();
-                                    $pcontoller = new $name($model, $content, $plugin, $_SESSION["mwcserver"]);
-
-                                    if (method_exists($name, "action_index"))
+                                    if (file_exists($model_path)) //модель может и не лежать в папке, а быть стандартным для сборки классом в папке Inc.
                                     {
-                                        $pcontoller->init();
-                                        $pcontoller->action_index();
-                                        $pcontoller->parentOut();
+                                        require $model_path;
+                                    }
+
+                                    require $contoller_path;
+
+                                    if ((in_array($_SESSION["mwcpoints"], $paccess) || in_array(4, $paccess) || $err == 0) && class_exists($param["mname"])) //если есть доступ к плагинам показываем
+                                    {
+                                        $tmp = $param["mname"];
+                                        $model = new $tmp();
+                                        $pcontoller = new $name($model, $content, $plugin, $_SESSION["mwcserver"]);
+
+                                        if (method_exists($name, "action_index")) {
+                                            $pcontoller->init();
+                                            $pcontoller->action_index();
+                                            $pcontoller->parentOut();
+                                        }
+                                    }
+                                } else {
+                                    if (in_array($_SESSION["mwcpoints"], $paccess) || in_array(4, $paccess)) //если есть доступ к плагинам показываем
+                                    {
+                                        $model = new $globalcfg["defModel"]();
+                                        $pcontoller = new PController($model, $content, $plugin, $_SESSION["mwcserver"]);
+                                        $pcontoller->genNonMVC($contoller_path);
+                                        $pcontoller->parentOut($name);
                                     }
                                 }
                             }
-                            else
+                            catch (Exception $e)
                             {
-                                if(in_array($_SESSION["mwcpoints"],$paccess) || in_array(4,$paccess)) //если есть доступ к плагинам показываем
-                                {
-                                    $model = new $globalcfg["defModel"]();
-                                    $pcontoller = new PController($model,$content,$plugin,$_SESSION["mwcserver"]);
-                                    $pcontoller->genNonMVC($contoller_path);
-                                    $pcontoller->parentOut($name);
-                                }
+                                $content->error(1);
+                                $content->setFContainer("plugin_$name",true);
                             }
                         }
                     }
