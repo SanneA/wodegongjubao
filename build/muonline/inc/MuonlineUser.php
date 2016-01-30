@@ -184,7 +184,7 @@ WHERE mi.memb___id='{$login}'")->FetchRow();
             return $this->character[$name.$login];
 
 
-        $info = $this->db->query("Select Leadership,Energy,Vitality,Dexterity,Strength,Class,LevelUpPoint,cLevel,{$this->unicCfg["rescolumn"]},{$this->unicCfg["grescolumn"]} FROM Character WHERE Name='$name' AND AccountID='$login'")->FetchRow();
+        $info = $this->db->query("Select Leadership,Energy,Vitality,Dexterity,Strength,Class,LevelUpPoint,cLevel,Money,{$this->unicCfg["rescolumn"]},{$this->unicCfg["grescolumn"]} FROM Character WHERE Name='$name' AND AccountID='$login'")->FetchRow();
         $this->character[$name.$login] = $info;
 
         return $info;
